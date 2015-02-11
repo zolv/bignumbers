@@ -1,24 +1,19 @@
 package net.turtle.math;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 
 public class BigRationalUtil {
 
-	public static BigRational reduce(BigRational br) {
-		return br.reduce(PRIMES_1000);
+	private BigRationalUtil() {
+		super();
 	}
 
-	public static BigRational reduce(BigRational br, int primesCount) {
-		return br.reduce(Arrays.copyOf(PRIMES_1000, Math.min(PRIMES_1000.length, Math.max(primesCount, 0))));
-	}
-
-	public static String toStringNormalized(BigRational number) {
+	public static String toStringNormalized( BigRational number ) {
 		final BigRational signumNormalized = number.normalizeSignum();
 		final StringBuilder result = new StringBuilder();
-		result.append(signumNormalized.getNumerator());
-		if(!signumNormalized.getDenominator().equals(BigInteger.ONE)) {
-			result.append("/").append(signumNormalized.getDenominator().toString());
+		result.append( signumNormalized.getNumerator() );
+		if ( !signumNormalized.getDenominator().equals( BigInteger.ONE ) ) {
+			result.append( "/" ).append( signumNormalized.getDenominator().toString() );
 		}
 		return result.toString();
 	}
@@ -27,1031 +22,126 @@ public class BigRationalUtil {
 
 	public static final BigRational ONE = BigRational.ONE;
 
-	public static final BigRational TWO = new BigRational(BigInteger.valueOf(2));
+	public static final BigRational TWO = new BigRational( BigInteger.valueOf( 2 ) );
 
-	public static final BigRational THREE = new BigRational(BigInteger.valueOf(3));
+	public static final BigRational THREE = new BigRational( BigInteger.valueOf( 3 ) );
 
-	public static final BigRational FOUR = new BigRational(BigInteger.valueOf(4));
+	public static final BigRational FOUR = new BigRational( BigInteger.valueOf( 4 ) );
 
-	public static final BigRational FIVE = new BigRational(BigInteger.valueOf(5));
+	public static final BigRational FIVE = new BigRational( BigInteger.valueOf( 5 ) );
 
-	public static final BigRational SIX = new BigRational(BigInteger.valueOf(6));
+	public static final BigRational SIX = new BigRational( BigInteger.valueOf( 6 ) );
 
-	public static final BigRational SEVEN = new BigRational(BigInteger.valueOf(7));
+	public static final BigRational SEVEN = new BigRational( BigInteger.valueOf( 7 ) );
 
-	public static final BigRational EIGHT = new BigRational(BigInteger.valueOf(8));
+	public static final BigRational EIGHT = new BigRational( BigInteger.valueOf( 8 ) );
 
-	public static final BigRational NINE = new BigRational(BigInteger.valueOf(9));
+	public static final BigRational NINE = new BigRational( BigInteger.valueOf( 9 ) );
 
-	public static final BigRational TEN = new BigRational(BigInteger.valueOf(10));
-
-	public static final BigRational ONE_HUNDRED = new BigRational(BigInteger.valueOf(100));
+	public static final BigRational TEN = new BigRational( BigInteger.valueOf( 10 ) );
 
 	/**
-	 * First 1000 prime numbers.
-	 * Note: Table is sorted descending during static initialization.
+	 * <div>Value of Answer to the Ultimate Question of Life, The Universe, and
+	 * Everything.</div>
+	 *
+	 * @see <a href="https://en.wikipedia.org/wiki/42_(number)">42 on
+	 *      Wikipedia</a>
 	 */
-	private static final BigInteger[] PRIMES_1000 =  new BigInteger[] {
-		BigInteger.valueOf(2),	// 1
-		BigInteger.valueOf(3),	// 2
-		BigInteger.valueOf(5),	// 3
-		BigInteger.valueOf(7),	// 4
-		BigInteger.valueOf(11),	// 5
-		BigInteger.valueOf(13),	// 6
-		BigInteger.valueOf(17),	// 7
-		BigInteger.valueOf(19),	// 8
-		BigInteger.valueOf(23),	// 9
-		BigInteger.valueOf(29),	// 10
-		BigInteger.valueOf(31),	// 11
-		BigInteger.valueOf(37),	// 12
-		BigInteger.valueOf(41),	// 13
-		BigInteger.valueOf(43),	// 14
-		BigInteger.valueOf(47),	// 15
-		BigInteger.valueOf(53),	// 16
-		BigInteger.valueOf(59),	// 17
-		BigInteger.valueOf(61),	// 18
-		BigInteger.valueOf(67),	// 19
-		BigInteger.valueOf(71),	// 20
-		BigInteger.valueOf(73),	// 21
-		BigInteger.valueOf(79),	// 22
-		BigInteger.valueOf(83),	// 23
-		BigInteger.valueOf(89),	// 24
-		BigInteger.valueOf(97),	// 25
-		BigInteger.valueOf(101),	// 26
-		BigInteger.valueOf(103),	// 27
-		BigInteger.valueOf(107),	// 28
-		BigInteger.valueOf(109),	// 29
-		BigInteger.valueOf(113),	// 30
-		BigInteger.valueOf(127),	// 31
-		BigInteger.valueOf(131),	// 32
-		BigInteger.valueOf(137),	// 33
-		BigInteger.valueOf(139),	// 34
-		BigInteger.valueOf(149),	// 35
-		BigInteger.valueOf(151),	// 36
-		BigInteger.valueOf(157),	// 37
-		BigInteger.valueOf(163),	// 38
-		BigInteger.valueOf(167),	// 39
-		BigInteger.valueOf(173),	// 40
-		BigInteger.valueOf(179),	// 41
-		BigInteger.valueOf(181),	// 42
-		BigInteger.valueOf(191),	// 43
-		BigInteger.valueOf(193),	// 44
-		BigInteger.valueOf(197),	// 45
-		BigInteger.valueOf(199),	// 46
-		BigInteger.valueOf(211),	// 47
-		BigInteger.valueOf(223),	// 48
-		BigInteger.valueOf(227),	// 49
-		BigInteger.valueOf(229),	// 50
-		BigInteger.valueOf(233),	// 51
-		BigInteger.valueOf(239),	// 52
-		BigInteger.valueOf(241),	// 53
-		BigInteger.valueOf(251),	// 54
-		BigInteger.valueOf(257),	// 55
-		BigInteger.valueOf(263),	// 56
-		BigInteger.valueOf(269),	// 57
-		BigInteger.valueOf(271),	// 58
-		BigInteger.valueOf(277),	// 59
-		BigInteger.valueOf(281),	// 60
-		BigInteger.valueOf(283),	// 61
-		BigInteger.valueOf(293),	// 62
-		BigInteger.valueOf(307),	// 63
-		BigInteger.valueOf(311),	// 64
-		BigInteger.valueOf(313),	// 65
-		BigInteger.valueOf(317),	// 66
-		BigInteger.valueOf(331),	// 67
-		BigInteger.valueOf(337),	// 68
-		BigInteger.valueOf(347),	// 69
-		BigInteger.valueOf(349),	// 70
-		BigInteger.valueOf(353),	// 71
-		BigInteger.valueOf(359),	// 72
-		BigInteger.valueOf(367),	// 73
-		BigInteger.valueOf(373),	// 74
-		BigInteger.valueOf(379),	// 75
-		BigInteger.valueOf(383),	// 76
-		BigInteger.valueOf(389),	// 77
-		BigInteger.valueOf(397),	// 78
-		BigInteger.valueOf(401),	// 79
-		BigInteger.valueOf(409),	// 80
-		BigInteger.valueOf(419),	// 81
-		BigInteger.valueOf(421),	// 82
-		BigInteger.valueOf(431),	// 83
-		BigInteger.valueOf(433),	// 84
-		BigInteger.valueOf(439),	// 85
-		BigInteger.valueOf(443),	// 86
-		BigInteger.valueOf(449),	// 87
-		BigInteger.valueOf(457),	// 88
-		BigInteger.valueOf(461),	// 89
-		BigInteger.valueOf(463),	// 90
-		BigInteger.valueOf(467),	// 91
-		BigInteger.valueOf(479),	// 92
-		BigInteger.valueOf(487),	// 93
-		BigInteger.valueOf(491),	// 94
-		BigInteger.valueOf(499),	// 95
-		BigInteger.valueOf(503),	// 96
-		BigInteger.valueOf(509),	// 97
-		BigInteger.valueOf(521),	// 98
-		BigInteger.valueOf(523),	// 99
-		BigInteger.valueOf(541),	// 100
-		BigInteger.valueOf(547),	// 101
-		BigInteger.valueOf(557),	// 102
-		BigInteger.valueOf(563),	// 103
-		BigInteger.valueOf(569),	// 104
-		BigInteger.valueOf(571),	// 105
-		BigInteger.valueOf(577),	// 106
-		BigInteger.valueOf(587),	// 107
-		BigInteger.valueOf(593),	// 108
-		BigInteger.valueOf(599),	// 109
-		BigInteger.valueOf(601),	// 110
-		BigInteger.valueOf(607),	// 111
-		BigInteger.valueOf(613),	// 112
-		BigInteger.valueOf(617),	// 113
-		BigInteger.valueOf(619),	// 114
-		BigInteger.valueOf(631),	// 115
-		BigInteger.valueOf(641),	// 116
-		BigInteger.valueOf(643),	// 117
-		BigInteger.valueOf(647),	// 118
-		BigInteger.valueOf(653),	// 119
-		BigInteger.valueOf(659),	// 120
-		BigInteger.valueOf(661),	// 121
-		BigInteger.valueOf(673),	// 122
-		BigInteger.valueOf(677),	// 123
-		BigInteger.valueOf(683),	// 124
-		BigInteger.valueOf(691),	// 125
-		BigInteger.valueOf(701),	// 126
-		BigInteger.valueOf(709),	// 127
-		BigInteger.valueOf(719),	// 128
-		BigInteger.valueOf(727),	// 129
-		BigInteger.valueOf(733),	// 130
-		BigInteger.valueOf(739),	// 131
-		BigInteger.valueOf(743),	// 132
-		BigInteger.valueOf(751),	// 133
-		BigInteger.valueOf(757),	// 134
-		BigInteger.valueOf(761),	// 135
-		BigInteger.valueOf(769),	// 136
-		BigInteger.valueOf(773),	// 137
-		BigInteger.valueOf(787),	// 138
-		BigInteger.valueOf(797),	// 139
-		BigInteger.valueOf(809),	// 140
-		BigInteger.valueOf(811),	// 141
-		BigInteger.valueOf(821),	// 142
-		BigInteger.valueOf(823),	// 143
-		BigInteger.valueOf(827),	// 144
-		BigInteger.valueOf(829),	// 145
-		BigInteger.valueOf(839),	// 146
-		BigInteger.valueOf(853),	// 147
-		BigInteger.valueOf(857),	// 148
-		BigInteger.valueOf(859),	// 149
-		BigInteger.valueOf(863),	// 150
-		BigInteger.valueOf(877),	// 151
-		BigInteger.valueOf(881),	// 152
-		BigInteger.valueOf(883),	// 153
-		BigInteger.valueOf(887),	// 154
-		BigInteger.valueOf(907),	// 155
-		BigInteger.valueOf(911),	// 156
-		BigInteger.valueOf(919),	// 157
-		BigInteger.valueOf(929),	// 158
-		BigInteger.valueOf(937),	// 159
-		BigInteger.valueOf(941),	// 160
-		BigInteger.valueOf(947),	// 161
-		BigInteger.valueOf(953),	// 162
-		BigInteger.valueOf(967),	// 163
-		BigInteger.valueOf(971),	// 164
-		BigInteger.valueOf(977),	// 165
-		BigInteger.valueOf(983),	// 166
-		BigInteger.valueOf(991),	// 167
-		BigInteger.valueOf(997),	// 168
-		BigInteger.valueOf(1009),	// 169
-		BigInteger.valueOf(1013),	// 170
-		BigInteger.valueOf(1019),	// 171
-		BigInteger.valueOf(1021),	// 172
-		BigInteger.valueOf(1031),	// 173
-		BigInteger.valueOf(1033),	// 174
-		BigInteger.valueOf(1039),	// 175
-		BigInteger.valueOf(1049),	// 176
-		BigInteger.valueOf(1051),	// 177
-		BigInteger.valueOf(1061),	// 178
-		BigInteger.valueOf(1063),	// 179
-		BigInteger.valueOf(1069),	// 180
-		BigInteger.valueOf(1087),	// 181
-		BigInteger.valueOf(1091),	// 182
-		BigInteger.valueOf(1093),	// 183
-		BigInteger.valueOf(1097),	// 184
-		BigInteger.valueOf(1103),	// 185
-		BigInteger.valueOf(1109),	// 186
-		BigInteger.valueOf(1117),	// 187
-		BigInteger.valueOf(1123),	// 188
-		BigInteger.valueOf(1129),	// 189
-		BigInteger.valueOf(1151),	// 190
-		BigInteger.valueOf(1153),	// 191
-		BigInteger.valueOf(1163),	// 192
-		BigInteger.valueOf(1171),	// 193
-		BigInteger.valueOf(1181),	// 194
-		BigInteger.valueOf(1187),	// 195
-		BigInteger.valueOf(1193),	// 196
-		BigInteger.valueOf(1201),	// 197
-		BigInteger.valueOf(1213),	// 198
-		BigInteger.valueOf(1217),	// 199
-		BigInteger.valueOf(1223),	// 200
-		BigInteger.valueOf(1229),	// 201
-		BigInteger.valueOf(1231),	// 202
-		BigInteger.valueOf(1237),	// 203
-		BigInteger.valueOf(1249),	// 204
-		BigInteger.valueOf(1259),	// 205
-		BigInteger.valueOf(1277),	// 206
-		BigInteger.valueOf(1279),	// 207
-		BigInteger.valueOf(1283),	// 208
-		BigInteger.valueOf(1289),	// 209
-		BigInteger.valueOf(1291),	// 210
-		BigInteger.valueOf(1297),	// 211
-		BigInteger.valueOf(1301),	// 212
-		BigInteger.valueOf(1303),	// 213
-		BigInteger.valueOf(1307),	// 214
-		BigInteger.valueOf(1319),	// 215
-		BigInteger.valueOf(1321),	// 216
-		BigInteger.valueOf(1327),	// 217
-		BigInteger.valueOf(1361),	// 218
-		BigInteger.valueOf(1367),	// 219
-		BigInteger.valueOf(1373),	// 220
-		BigInteger.valueOf(1381),	// 221
-		BigInteger.valueOf(1399),	// 222
-		BigInteger.valueOf(1409),	// 223
-		BigInteger.valueOf(1423),	// 224
-		BigInteger.valueOf(1427),	// 225
-		BigInteger.valueOf(1429),	// 226
-		BigInteger.valueOf(1433),	// 227
-		BigInteger.valueOf(1439),	// 228
-		BigInteger.valueOf(1447),	// 229
-		BigInteger.valueOf(1451),	// 230
-		BigInteger.valueOf(1453),	// 231
-		BigInteger.valueOf(1459),	// 232
-		BigInteger.valueOf(1471),	// 233
-		BigInteger.valueOf(1481),	// 234
-		BigInteger.valueOf(1483),	// 235
-		BigInteger.valueOf(1487),	// 236
-		BigInteger.valueOf(1489),	// 237
-		BigInteger.valueOf(1493),	// 238
-		BigInteger.valueOf(1499),	// 239
-		BigInteger.valueOf(1511),	// 240
-		BigInteger.valueOf(1523),	// 241
-		BigInteger.valueOf(1531),	// 242
-		BigInteger.valueOf(1543),	// 243
-		BigInteger.valueOf(1549),	// 244
-		BigInteger.valueOf(1553),	// 245
-		BigInteger.valueOf(1559),	// 246
-		BigInteger.valueOf(1567),	// 247
-		BigInteger.valueOf(1571),	// 248
-		BigInteger.valueOf(1579),	// 249
-		BigInteger.valueOf(1583),	// 250
-		BigInteger.valueOf(1597),	// 251
-		BigInteger.valueOf(1601),	// 252
-		BigInteger.valueOf(1607),	// 253
-		BigInteger.valueOf(1609),	// 254
-		BigInteger.valueOf(1613),	// 255
-		BigInteger.valueOf(1619),	// 256
-		BigInteger.valueOf(1621),	// 257
-		BigInteger.valueOf(1627),	// 258
-		BigInteger.valueOf(1637),	// 259
-		BigInteger.valueOf(1657),	// 260
-		BigInteger.valueOf(1663),	// 261
-		BigInteger.valueOf(1667),	// 262
-		BigInteger.valueOf(1669),	// 263
-		BigInteger.valueOf(1693),	// 264
-		BigInteger.valueOf(1697),	// 265
-		BigInteger.valueOf(1699),	// 266
-		BigInteger.valueOf(1709),	// 267
-		BigInteger.valueOf(1721),	// 268
-		BigInteger.valueOf(1723),	// 269
-		BigInteger.valueOf(1733),	// 270
-		BigInteger.valueOf(1741),	// 271
-		BigInteger.valueOf(1747),	// 272
-		BigInteger.valueOf(1753),	// 273
-		BigInteger.valueOf(1759),	// 274
-		BigInteger.valueOf(1777),	// 275
-		BigInteger.valueOf(1783),	// 276
-		BigInteger.valueOf(1787),	// 277
-		BigInteger.valueOf(1789),	// 278
-		BigInteger.valueOf(1801),	// 279
-		BigInteger.valueOf(1811),	// 280
-		BigInteger.valueOf(1823),	// 281
-		BigInteger.valueOf(1831),	// 282
-		BigInteger.valueOf(1847),	// 283
-		BigInteger.valueOf(1861),	// 284
-		BigInteger.valueOf(1867),	// 285
-		BigInteger.valueOf(1871),	// 286
-		BigInteger.valueOf(1873),	// 287
-		BigInteger.valueOf(1877),	// 288
-		BigInteger.valueOf(1879),	// 289
-		BigInteger.valueOf(1889),	// 290
-		BigInteger.valueOf(1901),	// 291
-		BigInteger.valueOf(1907),	// 292
-		BigInteger.valueOf(1913),	// 293
-		BigInteger.valueOf(1931),	// 294
-		BigInteger.valueOf(1933),	// 295
-		BigInteger.valueOf(1949),	// 296
-		BigInteger.valueOf(1951),	// 297
-		BigInteger.valueOf(1973),	// 298
-		BigInteger.valueOf(1979),	// 299
-		BigInteger.valueOf(1987),	// 300
-		BigInteger.valueOf(1993),	// 301
-		BigInteger.valueOf(1997),	// 302
-		BigInteger.valueOf(1999),	// 303
-		BigInteger.valueOf(2003),	// 304
-		BigInteger.valueOf(2011),	// 305
-		BigInteger.valueOf(2017),	// 306
-		BigInteger.valueOf(2027),	// 307
-		BigInteger.valueOf(2029),	// 308
-		BigInteger.valueOf(2039),	// 309
-		BigInteger.valueOf(2053),	// 310
-		BigInteger.valueOf(2063),	// 311
-		BigInteger.valueOf(2069),	// 312
-		BigInteger.valueOf(2081),	// 313
-		BigInteger.valueOf(2083),	// 314
-		BigInteger.valueOf(2087),	// 315
-		BigInteger.valueOf(2089),	// 316
-		BigInteger.valueOf(2099),	// 317
-		BigInteger.valueOf(2111),	// 318
-		BigInteger.valueOf(2113),	// 319
-		BigInteger.valueOf(2129),	// 320
-		BigInteger.valueOf(2131),	// 321
-		BigInteger.valueOf(2137),	// 322
-		BigInteger.valueOf(2141),	// 323
-		BigInteger.valueOf(2143),	// 324
-		BigInteger.valueOf(2153),	// 325
-		BigInteger.valueOf(2161),	// 326
-		BigInteger.valueOf(2179),	// 327
-		BigInteger.valueOf(2203),	// 328
-		BigInteger.valueOf(2207),	// 329
-		BigInteger.valueOf(2213),	// 330
-		BigInteger.valueOf(2221),	// 331
-		BigInteger.valueOf(2237),	// 332
-		BigInteger.valueOf(2239),	// 333
-		BigInteger.valueOf(2243),	// 334
-		BigInteger.valueOf(2251),	// 335
-		BigInteger.valueOf(2267),	// 336
-		BigInteger.valueOf(2269),	// 337
-		BigInteger.valueOf(2273),	// 338
-		BigInteger.valueOf(2281),	// 339
-		BigInteger.valueOf(2287),	// 340
-		BigInteger.valueOf(2293),	// 341
-		BigInteger.valueOf(2297),	// 342
-		BigInteger.valueOf(2309),	// 343
-		BigInteger.valueOf(2311),	// 344
-		BigInteger.valueOf(2333),	// 345
-		BigInteger.valueOf(2339),	// 346
-		BigInteger.valueOf(2341),	// 347
-		BigInteger.valueOf(2347),	// 348
-		BigInteger.valueOf(2351),	// 349
-		BigInteger.valueOf(2357),	// 350
-		BigInteger.valueOf(2371),	// 351
-		BigInteger.valueOf(2377),	// 352
-		BigInteger.valueOf(2381),	// 353
-		BigInteger.valueOf(2383),	// 354
-		BigInteger.valueOf(2389),	// 355
-		BigInteger.valueOf(2393),	// 356
-		BigInteger.valueOf(2399),	// 357
-		BigInteger.valueOf(2411),	// 358
-		BigInteger.valueOf(2417),	// 359
-		BigInteger.valueOf(2423),	// 360
-		BigInteger.valueOf(2437),	// 361
-		BigInteger.valueOf(2441),	// 362
-		BigInteger.valueOf(2447),	// 363
-		BigInteger.valueOf(2459),	// 364
-		BigInteger.valueOf(2467),	// 365
-		BigInteger.valueOf(2473),	// 366
-		BigInteger.valueOf(2477),	// 367
-		BigInteger.valueOf(2503),	// 368
-		BigInteger.valueOf(2521),	// 369
-		BigInteger.valueOf(2531),	// 370
-		BigInteger.valueOf(2539),	// 371
-		BigInteger.valueOf(2543),	// 372
-		BigInteger.valueOf(2549),	// 373
-		BigInteger.valueOf(2551),	// 374
-		BigInteger.valueOf(2557),	// 375
-		BigInteger.valueOf(2579),	// 376
-		BigInteger.valueOf(2591),	// 377
-		BigInteger.valueOf(2593),	// 378
-		BigInteger.valueOf(2609),	// 379
-		BigInteger.valueOf(2617),	// 380
-		BigInteger.valueOf(2621),	// 381
-		BigInteger.valueOf(2633),	// 382
-		BigInteger.valueOf(2647),	// 383
-		BigInteger.valueOf(2657),	// 384
-		BigInteger.valueOf(2659),	// 385
-		BigInteger.valueOf(2663),	// 386
-		BigInteger.valueOf(2671),	// 387
-		BigInteger.valueOf(2677),	// 388
-		BigInteger.valueOf(2683),	// 389
-		BigInteger.valueOf(2687),	// 390
-		BigInteger.valueOf(2689),	// 391
-		BigInteger.valueOf(2693),	// 392
-		BigInteger.valueOf(2699),	// 393
-		BigInteger.valueOf(2707),	// 394
-		BigInteger.valueOf(2711),	// 395
-		BigInteger.valueOf(2713),	// 396
-		BigInteger.valueOf(2719),	// 397
-		BigInteger.valueOf(2729),	// 398
-		BigInteger.valueOf(2731),	// 399
-		BigInteger.valueOf(2741),	// 400
-		BigInteger.valueOf(2749),	// 401
-		BigInteger.valueOf(2753),	// 402
-		BigInteger.valueOf(2767),	// 403
-		BigInteger.valueOf(2777),	// 404
-		BigInteger.valueOf(2789),	// 405
-		BigInteger.valueOf(2791),	// 406
-		BigInteger.valueOf(2797),	// 407
-		BigInteger.valueOf(2801),	// 408
-		BigInteger.valueOf(2803),	// 409
-		BigInteger.valueOf(2819),	// 410
-		BigInteger.valueOf(2833),	// 411
-		BigInteger.valueOf(2837),	// 412
-		BigInteger.valueOf(2843),	// 413
-		BigInteger.valueOf(2851),	// 414
-		BigInteger.valueOf(2857),	// 415
-		BigInteger.valueOf(2861),	// 416
-		BigInteger.valueOf(2879),	// 417
-		BigInteger.valueOf(2887),	// 418
-		BigInteger.valueOf(2897),	// 419
-		BigInteger.valueOf(2903),	// 420
-		BigInteger.valueOf(2909),	// 421
-		BigInteger.valueOf(2917),	// 422
-		BigInteger.valueOf(2927),	// 423
-		BigInteger.valueOf(2939),	// 424
-		BigInteger.valueOf(2953),	// 425
-		BigInteger.valueOf(2957),	// 426
-		BigInteger.valueOf(2963),	// 427
-		BigInteger.valueOf(2969),	// 428
-		BigInteger.valueOf(2971),	// 429
-		BigInteger.valueOf(2999),	// 430
-		BigInteger.valueOf(3001),	// 431
-		BigInteger.valueOf(3011),	// 432
-		BigInteger.valueOf(3019),	// 433
-		BigInteger.valueOf(3023),	// 434
-		BigInteger.valueOf(3037),	// 435
-		BigInteger.valueOf(3041),	// 436
-		BigInteger.valueOf(3049),	// 437
-		BigInteger.valueOf(3061),	// 438
-		BigInteger.valueOf(3067),	// 439
-		BigInteger.valueOf(3079),	// 440
-		BigInteger.valueOf(3083),	// 441
-		BigInteger.valueOf(3089),	// 442
-		BigInteger.valueOf(3109),	// 443
-		BigInteger.valueOf(3119),	// 444
-		BigInteger.valueOf(3121),	// 445
-		BigInteger.valueOf(3137),	// 446
-		BigInteger.valueOf(3163),	// 447
-		BigInteger.valueOf(3167),	// 448
-		BigInteger.valueOf(3169),	// 449
-		BigInteger.valueOf(3181),	// 450
-		BigInteger.valueOf(3187),	// 451
-		BigInteger.valueOf(3191),	// 452
-		BigInteger.valueOf(3203),	// 453
-		BigInteger.valueOf(3209),	// 454
-		BigInteger.valueOf(3217),	// 455
-		BigInteger.valueOf(3221),	// 456
-		BigInteger.valueOf(3229),	// 457
-		BigInteger.valueOf(3251),	// 458
-		BigInteger.valueOf(3253),	// 459
-		BigInteger.valueOf(3257),	// 460
-		BigInteger.valueOf(3259),	// 461
-		BigInteger.valueOf(3271),	// 462
-		BigInteger.valueOf(3299),	// 463
-		BigInteger.valueOf(3301),	// 464
-		BigInteger.valueOf(3307),	// 465
-		BigInteger.valueOf(3313),	// 466
-		BigInteger.valueOf(3319),	// 467
-		BigInteger.valueOf(3323),	// 468
-		BigInteger.valueOf(3329),	// 469
-		BigInteger.valueOf(3331),	// 470
-		BigInteger.valueOf(3343),	// 471
-		BigInteger.valueOf(3347),	// 472
-		BigInteger.valueOf(3359),	// 473
-		BigInteger.valueOf(3361),	// 474
-		BigInteger.valueOf(3371),	// 475
-		BigInteger.valueOf(3373),	// 476
-		BigInteger.valueOf(3389),	// 477
-		BigInteger.valueOf(3391),	// 478
-		BigInteger.valueOf(3407),	// 479
-		BigInteger.valueOf(3413),	// 480
-		BigInteger.valueOf(3433),	// 481
-		BigInteger.valueOf(3449),	// 482
-		BigInteger.valueOf(3457),	// 483
-		BigInteger.valueOf(3461),	// 484
-		BigInteger.valueOf(3463),	// 485
-		BigInteger.valueOf(3467),	// 486
-		BigInteger.valueOf(3469),	// 487
-		BigInteger.valueOf(3491),	// 488
-		BigInteger.valueOf(3499),	// 489
-		BigInteger.valueOf(3511),	// 490
-		BigInteger.valueOf(3517),	// 491
-		BigInteger.valueOf(3527),	// 492
-		BigInteger.valueOf(3529),	// 493
-		BigInteger.valueOf(3533),	// 494
-		BigInteger.valueOf(3539),	// 495
-		BigInteger.valueOf(3541),	// 496
-		BigInteger.valueOf(3547),	// 497
-		BigInteger.valueOf(3557),	// 498
-		BigInteger.valueOf(3559),	// 499
-		BigInteger.valueOf(3571),	// 500
-		BigInteger.valueOf(3581),	// 501
-		BigInteger.valueOf(3583),	// 502
-		BigInteger.valueOf(3593),	// 503
-		BigInteger.valueOf(3607),	// 504
-		BigInteger.valueOf(3613),	// 505
-		BigInteger.valueOf(3617),	// 506
-		BigInteger.valueOf(3623),	// 507
-		BigInteger.valueOf(3631),	// 508
-		BigInteger.valueOf(3637),	// 509
-		BigInteger.valueOf(3643),	// 510
-		BigInteger.valueOf(3659),	// 511
-		BigInteger.valueOf(3671),	// 512
-		BigInteger.valueOf(3673),	// 513
-		BigInteger.valueOf(3677),	// 514
-		BigInteger.valueOf(3691),	// 515
-		BigInteger.valueOf(3697),	// 516
-		BigInteger.valueOf(3701),	// 517
-		BigInteger.valueOf(3709),	// 518
-		BigInteger.valueOf(3719),	// 519
-		BigInteger.valueOf(3727),	// 520
-		BigInteger.valueOf(3733),	// 521
-		BigInteger.valueOf(3739),	// 522
-		BigInteger.valueOf(3761),	// 523
-		BigInteger.valueOf(3767),	// 524
-		BigInteger.valueOf(3769),	// 525
-		BigInteger.valueOf(3779),	// 526
-		BigInteger.valueOf(3793),	// 527
-		BigInteger.valueOf(3797),	// 528
-		BigInteger.valueOf(3803),	// 529
-		BigInteger.valueOf(3821),	// 530
-		BigInteger.valueOf(3823),	// 531
-		BigInteger.valueOf(3833),	// 532
-		BigInteger.valueOf(3847),	// 533
-		BigInteger.valueOf(3851),	// 534
-		BigInteger.valueOf(3853),	// 535
-		BigInteger.valueOf(3863),	// 536
-		BigInteger.valueOf(3877),	// 537
-		BigInteger.valueOf(3881),	// 538
-		BigInteger.valueOf(3889),	// 539
-		BigInteger.valueOf(3907),	// 540
-		BigInteger.valueOf(3911),	// 541
-		BigInteger.valueOf(3917),	// 542
-		BigInteger.valueOf(3919),	// 543
-		BigInteger.valueOf(3923),	// 544
-		BigInteger.valueOf(3929),	// 545
-		BigInteger.valueOf(3931),	// 546
-		BigInteger.valueOf(3943),	// 547
-		BigInteger.valueOf(3947),	// 548
-		BigInteger.valueOf(3967),	// 549
-		BigInteger.valueOf(3989),	// 550
-		BigInteger.valueOf(4001),	// 551
-		BigInteger.valueOf(4003),	// 552
-		BigInteger.valueOf(4007),	// 553
-		BigInteger.valueOf(4013),	// 554
-		BigInteger.valueOf(4019),	// 555
-		BigInteger.valueOf(4021),	// 556
-		BigInteger.valueOf(4027),	// 557
-		BigInteger.valueOf(4049),	// 558
-		BigInteger.valueOf(4051),	// 559
-		BigInteger.valueOf(4057),	// 560
-		BigInteger.valueOf(4073),	// 561
-		BigInteger.valueOf(4079),	// 562
-		BigInteger.valueOf(4091),	// 563
-		BigInteger.valueOf(4093),	// 564
-		BigInteger.valueOf(4099),	// 565
-		BigInteger.valueOf(4111),	// 566
-		BigInteger.valueOf(4127),	// 567
-		BigInteger.valueOf(4129),	// 568
-		BigInteger.valueOf(4133),	// 569
-		BigInteger.valueOf(4139),	// 570
-		BigInteger.valueOf(4153),	// 571
-		BigInteger.valueOf(4157),	// 572
-		BigInteger.valueOf(4159),	// 573
-		BigInteger.valueOf(4177),	// 574
-		BigInteger.valueOf(4201),	// 575
-		BigInteger.valueOf(4211),	// 576
-		BigInteger.valueOf(4217),	// 577
-		BigInteger.valueOf(4219),	// 578
-		BigInteger.valueOf(4229),	// 579
-		BigInteger.valueOf(4231),	// 580
-		BigInteger.valueOf(4241),	// 581
-		BigInteger.valueOf(4243),	// 582
-		BigInteger.valueOf(4253),	// 583
-		BigInteger.valueOf(4259),	// 584
-		BigInteger.valueOf(4261),	// 585
-		BigInteger.valueOf(4271),	// 586
-		BigInteger.valueOf(4273),	// 587
-		BigInteger.valueOf(4283),	// 588
-		BigInteger.valueOf(4289),	// 589
-		BigInteger.valueOf(4297),	// 590
-		BigInteger.valueOf(4327),	// 591
-		BigInteger.valueOf(4337),	// 592
-		BigInteger.valueOf(4339),	// 593
-		BigInteger.valueOf(4349),	// 594
-		BigInteger.valueOf(4357),	// 595
-		BigInteger.valueOf(4363),	// 596
-		BigInteger.valueOf(4373),	// 597
-		BigInteger.valueOf(4391),	// 598
-		BigInteger.valueOf(4397),	// 599
-		BigInteger.valueOf(4409),	// 600
-		BigInteger.valueOf(4421),	// 601
-		BigInteger.valueOf(4423),	// 602
-		BigInteger.valueOf(4441),	// 603
-		BigInteger.valueOf(4447),	// 604
-		BigInteger.valueOf(4451),	// 605
-		BigInteger.valueOf(4457),	// 606
-		BigInteger.valueOf(4463),	// 607
-		BigInteger.valueOf(4481),	// 608
-		BigInteger.valueOf(4483),	// 609
-		BigInteger.valueOf(4493),	// 610
-		BigInteger.valueOf(4507),	// 611
-		BigInteger.valueOf(4513),	// 612
-		BigInteger.valueOf(4517),	// 613
-		BigInteger.valueOf(4519),	// 614
-		BigInteger.valueOf(4523),	// 615
-		BigInteger.valueOf(4547),	// 616
-		BigInteger.valueOf(4549),	// 617
-		BigInteger.valueOf(4561),	// 618
-		BigInteger.valueOf(4567),	// 619
-		BigInteger.valueOf(4583),	// 620
-		BigInteger.valueOf(4591),	// 621
-		BigInteger.valueOf(4597),	// 622
-		BigInteger.valueOf(4603),	// 623
-		BigInteger.valueOf(4621),	// 624
-		BigInteger.valueOf(4637),	// 625
-		BigInteger.valueOf(4639),	// 626
-		BigInteger.valueOf(4643),	// 627
-		BigInteger.valueOf(4649),	// 628
-		BigInteger.valueOf(4651),	// 629
-		BigInteger.valueOf(4657),	// 630
-		BigInteger.valueOf(4663),	// 631
-		BigInteger.valueOf(4673),	// 632
-		BigInteger.valueOf(4679),	// 633
-		BigInteger.valueOf(4691),	// 634
-		BigInteger.valueOf(4703),	// 635
-		BigInteger.valueOf(4721),	// 636
-		BigInteger.valueOf(4723),	// 637
-		BigInteger.valueOf(4729),	// 638
-		BigInteger.valueOf(4733),	// 639
-		BigInteger.valueOf(4751),	// 640
-		BigInteger.valueOf(4759),	// 641
-		BigInteger.valueOf(4783),	// 642
-		BigInteger.valueOf(4787),	// 643
-		BigInteger.valueOf(4789),	// 644
-		BigInteger.valueOf(4793),	// 645
-		BigInteger.valueOf(4799),	// 646
-		BigInteger.valueOf(4801),	// 647
-		BigInteger.valueOf(4813),	// 648
-		BigInteger.valueOf(4817),	// 649
-		BigInteger.valueOf(4831),	// 650
-		BigInteger.valueOf(4861),	// 651
-		BigInteger.valueOf(4871),	// 652
-		BigInteger.valueOf(4877),	// 653
-		BigInteger.valueOf(4889),	// 654
-		BigInteger.valueOf(4903),	// 655
-		BigInteger.valueOf(4909),	// 656
-		BigInteger.valueOf(4919),	// 657
-		BigInteger.valueOf(4931),	// 658
-		BigInteger.valueOf(4933),	// 659
-		BigInteger.valueOf(4937),	// 660
-		BigInteger.valueOf(4943),	// 661
-		BigInteger.valueOf(4951),	// 662
-		BigInteger.valueOf(4957),	// 663
-		BigInteger.valueOf(4967),	// 664
-		BigInteger.valueOf(4969),	// 665
-		BigInteger.valueOf(4973),	// 666
-		BigInteger.valueOf(4987),	// 667
-		BigInteger.valueOf(4993),	// 668
-		BigInteger.valueOf(4999),	// 669
-		BigInteger.valueOf(5003),	// 670
-		BigInteger.valueOf(5009),	// 671
-		BigInteger.valueOf(5011),	// 672
-		BigInteger.valueOf(5021),	// 673
-		BigInteger.valueOf(5023),	// 674
-		BigInteger.valueOf(5039),	// 675
-		BigInteger.valueOf(5051),	// 676
-		BigInteger.valueOf(5059),	// 677
-		BigInteger.valueOf(5077),	// 678
-		BigInteger.valueOf(5081),	// 679
-		BigInteger.valueOf(5087),	// 680
-		BigInteger.valueOf(5099),	// 681
-		BigInteger.valueOf(5101),	// 682
-		BigInteger.valueOf(5107),	// 683
-		BigInteger.valueOf(5113),	// 684
-		BigInteger.valueOf(5119),	// 685
-		BigInteger.valueOf(5147),	// 686
-		BigInteger.valueOf(5153),	// 687
-		BigInteger.valueOf(5167),	// 688
-		BigInteger.valueOf(5171),	// 689
-		BigInteger.valueOf(5179),	// 690
-		BigInteger.valueOf(5189),	// 691
-		BigInteger.valueOf(5197),	// 692
-		BigInteger.valueOf(5209),	// 693
-		BigInteger.valueOf(5227),	// 694
-		BigInteger.valueOf(5231),	// 695
-		BigInteger.valueOf(5233),	// 696
-		BigInteger.valueOf(5237),	// 697
-		BigInteger.valueOf(5261),	// 698
-		BigInteger.valueOf(5273),	// 699
-		BigInteger.valueOf(5279),	// 700
-		BigInteger.valueOf(5281),	// 701
-		BigInteger.valueOf(5297),	// 702
-		BigInteger.valueOf(5303),	// 703
-		BigInteger.valueOf(5309),	// 704
-		BigInteger.valueOf(5323),	// 705
-		BigInteger.valueOf(5333),	// 706
-		BigInteger.valueOf(5347),	// 707
-		BigInteger.valueOf(5351),	// 708
-		BigInteger.valueOf(5381),	// 709
-		BigInteger.valueOf(5387),	// 710
-		BigInteger.valueOf(5393),	// 711
-		BigInteger.valueOf(5399),	// 712
-		BigInteger.valueOf(5407),	// 713
-		BigInteger.valueOf(5413),	// 714
-		BigInteger.valueOf(5417),	// 715
-		BigInteger.valueOf(5419),	// 716
-		BigInteger.valueOf(5431),	// 717
-		BigInteger.valueOf(5437),	// 718
-		BigInteger.valueOf(5441),	// 719
-		BigInteger.valueOf(5443),	// 720
-		BigInteger.valueOf(5449),	// 721
-		BigInteger.valueOf(5471),	// 722
-		BigInteger.valueOf(5477),	// 723
-		BigInteger.valueOf(5479),	// 724
-		BigInteger.valueOf(5483),	// 725
-		BigInteger.valueOf(5501),	// 726
-		BigInteger.valueOf(5503),	// 727
-		BigInteger.valueOf(5507),	// 728
-		BigInteger.valueOf(5519),	// 729
-		BigInteger.valueOf(5521),	// 730
-		BigInteger.valueOf(5527),	// 731
-		BigInteger.valueOf(5531),	// 732
-		BigInteger.valueOf(5557),	// 733
-		BigInteger.valueOf(5563),	// 734
-		BigInteger.valueOf(5569),	// 735
-		BigInteger.valueOf(5573),	// 736
-		BigInteger.valueOf(5581),	// 737
-		BigInteger.valueOf(5591),	// 738
-		BigInteger.valueOf(5623),	// 739
-		BigInteger.valueOf(5639),	// 740
-		BigInteger.valueOf(5641),	// 741
-		BigInteger.valueOf(5647),	// 742
-		BigInteger.valueOf(5651),	// 743
-		BigInteger.valueOf(5653),	// 744
-		BigInteger.valueOf(5657),	// 745
-		BigInteger.valueOf(5659),	// 746
-		BigInteger.valueOf(5669),	// 747
-		BigInteger.valueOf(5683),	// 748
-		BigInteger.valueOf(5689),	// 749
-		BigInteger.valueOf(5693),	// 750
-		BigInteger.valueOf(5701),	// 751
-		BigInteger.valueOf(5711),	// 752
-		BigInteger.valueOf(5717),	// 753
-		BigInteger.valueOf(5737),	// 754
-		BigInteger.valueOf(5741),	// 755
-		BigInteger.valueOf(5743),	// 756
-		BigInteger.valueOf(5749),	// 757
-		BigInteger.valueOf(5779),	// 758
-		BigInteger.valueOf(5783),	// 759
-		BigInteger.valueOf(5791),	// 760
-		BigInteger.valueOf(5801),	// 761
-		BigInteger.valueOf(5807),	// 762
-		BigInteger.valueOf(5813),	// 763
-		BigInteger.valueOf(5821),	// 764
-		BigInteger.valueOf(5827),	// 765
-		BigInteger.valueOf(5839),	// 766
-		BigInteger.valueOf(5843),	// 767
-		BigInteger.valueOf(5849),	// 768
-		BigInteger.valueOf(5851),	// 769
-		BigInteger.valueOf(5857),	// 770
-		BigInteger.valueOf(5861),	// 771
-		BigInteger.valueOf(5867),	// 772
-		BigInteger.valueOf(5869),	// 773
-		BigInteger.valueOf(5879),	// 774
-		BigInteger.valueOf(5881),	// 775
-		BigInteger.valueOf(5897),	// 776
-		BigInteger.valueOf(5903),	// 777
-		BigInteger.valueOf(5923),	// 778
-		BigInteger.valueOf(5927),	// 779
-		BigInteger.valueOf(5939),	// 780
-		BigInteger.valueOf(5953),	// 781
-		BigInteger.valueOf(5981),	// 782
-		BigInteger.valueOf(5987),	// 783
-		BigInteger.valueOf(6007),	// 784
-		BigInteger.valueOf(6011),	// 785
-		BigInteger.valueOf(6029),	// 786
-		BigInteger.valueOf(6037),	// 787
-		BigInteger.valueOf(6043),	// 788
-		BigInteger.valueOf(6047),	// 789
-		BigInteger.valueOf(6053),	// 790
-		BigInteger.valueOf(6067),	// 791
-		BigInteger.valueOf(6073),	// 792
-		BigInteger.valueOf(6079),	// 793
-		BigInteger.valueOf(6089),	// 794
-		BigInteger.valueOf(6091),	// 795
-		BigInteger.valueOf(6101),	// 796
-		BigInteger.valueOf(6113),	// 797
-		BigInteger.valueOf(6121),	// 798
-		BigInteger.valueOf(6131),	// 799
-		BigInteger.valueOf(6133),	// 800
-		BigInteger.valueOf(6143),	// 801
-		BigInteger.valueOf(6151),	// 802
-		BigInteger.valueOf(6163),	// 803
-		BigInteger.valueOf(6173),	// 804
-		BigInteger.valueOf(6197),	// 805
-		BigInteger.valueOf(6199),	// 806
-		BigInteger.valueOf(6203),	// 807
-		BigInteger.valueOf(6211),	// 808
-		BigInteger.valueOf(6217),	// 809
-		BigInteger.valueOf(6221),	// 810
-		BigInteger.valueOf(6229),	// 811
-		BigInteger.valueOf(6247),	// 812
-		BigInteger.valueOf(6257),	// 813
-		BigInteger.valueOf(6263),	// 814
-		BigInteger.valueOf(6269),	// 815
-		BigInteger.valueOf(6271),	// 816
-		BigInteger.valueOf(6277),	// 817
-		BigInteger.valueOf(6287),	// 818
-		BigInteger.valueOf(6299),	// 819
-		BigInteger.valueOf(6301),	// 820
-		BigInteger.valueOf(6311),	// 821
-		BigInteger.valueOf(6317),	// 822
-		BigInteger.valueOf(6323),	// 823
-		BigInteger.valueOf(6329),	// 824
-		BigInteger.valueOf(6337),	// 825
-		BigInteger.valueOf(6343),	// 826
-		BigInteger.valueOf(6353),	// 827
-		BigInteger.valueOf(6359),	// 828
-		BigInteger.valueOf(6361),	// 829
-		BigInteger.valueOf(6367),	// 830
-		BigInteger.valueOf(6373),	// 831
-		BigInteger.valueOf(6379),	// 832
-		BigInteger.valueOf(6389),	// 833
-		BigInteger.valueOf(6397),	// 834
-		BigInteger.valueOf(6421),	// 835
-		BigInteger.valueOf(6427),	// 836
-		BigInteger.valueOf(6449),	// 837
-		BigInteger.valueOf(6451),	// 838
-		BigInteger.valueOf(6469),	// 839
-		BigInteger.valueOf(6473),	// 840
-		BigInteger.valueOf(6481),	// 841
-		BigInteger.valueOf(6491),	// 842
-		BigInteger.valueOf(6521),	// 843
-		BigInteger.valueOf(6529),	// 844
-		BigInteger.valueOf(6547),	// 845
-		BigInteger.valueOf(6551),	// 846
-		BigInteger.valueOf(6553),	// 847
-		BigInteger.valueOf(6563),	// 848
-		BigInteger.valueOf(6569),	// 849
-		BigInteger.valueOf(6571),	// 850
-		BigInteger.valueOf(6577),	// 851
-		BigInteger.valueOf(6581),	// 852
-		BigInteger.valueOf(6599),	// 853
-		BigInteger.valueOf(6607),	// 854
-		BigInteger.valueOf(6619),	// 855
-		BigInteger.valueOf(6637),	// 856
-		BigInteger.valueOf(6653),	// 857
-		BigInteger.valueOf(6659),	// 858
-		BigInteger.valueOf(6661),	// 859
-		BigInteger.valueOf(6673),	// 860
-		BigInteger.valueOf(6679),	// 861
-		BigInteger.valueOf(6689),	// 862
-		BigInteger.valueOf(6691),	// 863
-		BigInteger.valueOf(6701),	// 864
-		BigInteger.valueOf(6703),	// 865
-		BigInteger.valueOf(6709),	// 866
-		BigInteger.valueOf(6719),	// 867
-		BigInteger.valueOf(6733),	// 868
-		BigInteger.valueOf(6737),	// 869
-		BigInteger.valueOf(6761),	// 870
-		BigInteger.valueOf(6763),	// 871
-		BigInteger.valueOf(6779),	// 872
-		BigInteger.valueOf(6781),	// 873
-		BigInteger.valueOf(6791),	// 874
-		BigInteger.valueOf(6793),	// 875
-		BigInteger.valueOf(6803),	// 876
-		BigInteger.valueOf(6823),	// 877
-		BigInteger.valueOf(6827),	// 878
-		BigInteger.valueOf(6829),	// 879
-		BigInteger.valueOf(6833),	// 880
-		BigInteger.valueOf(6841),	// 881
-		BigInteger.valueOf(6857),	// 882
-		BigInteger.valueOf(6863),	// 883
-		BigInteger.valueOf(6869),	// 884
-		BigInteger.valueOf(6871),	// 885
-		BigInteger.valueOf(6883),	// 886
-		BigInteger.valueOf(6899),	// 887
-		BigInteger.valueOf(6907),	// 888
-		BigInteger.valueOf(6911),	// 889
-		BigInteger.valueOf(6917),	// 890
-		BigInteger.valueOf(6947),	// 891
-		BigInteger.valueOf(6949),	// 892
-		BigInteger.valueOf(6959),	// 893
-		BigInteger.valueOf(6961),	// 894
-		BigInteger.valueOf(6967),	// 895
-		BigInteger.valueOf(6971),	// 896
-		BigInteger.valueOf(6977),	// 897
-		BigInteger.valueOf(6983),	// 898
-		BigInteger.valueOf(6991),	// 899
-		BigInteger.valueOf(6997),	// 900
-		BigInteger.valueOf(7001),	// 901
-		BigInteger.valueOf(7013),	// 902
-		BigInteger.valueOf(7019),	// 903
-		BigInteger.valueOf(7027),	// 904
-		BigInteger.valueOf(7039),	// 905
-		BigInteger.valueOf(7043),	// 906
-		BigInteger.valueOf(7057),	// 907
-		BigInteger.valueOf(7069),	// 908
-		BigInteger.valueOf(7079),	// 909
-		BigInteger.valueOf(7103),	// 910
-		BigInteger.valueOf(7109),	// 911
-		BigInteger.valueOf(7121),	// 912
-		BigInteger.valueOf(7127),	// 913
-		BigInteger.valueOf(7129),	// 914
-		BigInteger.valueOf(7151),	// 915
-		BigInteger.valueOf(7159),	// 916
-		BigInteger.valueOf(7177),	// 917
-		BigInteger.valueOf(7187),	// 918
-		BigInteger.valueOf(7193),	// 919
-		BigInteger.valueOf(7207),	// 920
-		BigInteger.valueOf(7211),	// 921
-		BigInteger.valueOf(7213),	// 922
-		BigInteger.valueOf(7219),	// 923
-		BigInteger.valueOf(7229),	// 924
-		BigInteger.valueOf(7237),	// 925
-		BigInteger.valueOf(7243),	// 926
-		BigInteger.valueOf(7247),	// 927
-		BigInteger.valueOf(7253),	// 928
-		BigInteger.valueOf(7283),	// 929
-		BigInteger.valueOf(7297),	// 930
-		BigInteger.valueOf(7307),	// 931
-		BigInteger.valueOf(7309),	// 932
-		BigInteger.valueOf(7321),	// 933
-		BigInteger.valueOf(7331),	// 934
-		BigInteger.valueOf(7333),	// 935
-		BigInteger.valueOf(7349),	// 936
-		BigInteger.valueOf(7351),	// 937
-		BigInteger.valueOf(7369),	// 938
-		BigInteger.valueOf(7393),	// 939
-		BigInteger.valueOf(7411),	// 940
-		BigInteger.valueOf(7417),	// 941
-		BigInteger.valueOf(7433),	// 942
-		BigInteger.valueOf(7451),	// 943
-		BigInteger.valueOf(7457),	// 944
-		BigInteger.valueOf(7459),	// 945
-		BigInteger.valueOf(7477),	// 946
-		BigInteger.valueOf(7481),	// 947
-		BigInteger.valueOf(7487),	// 948
-		BigInteger.valueOf(7489),	// 949
-		BigInteger.valueOf(7499),	// 950
-		BigInteger.valueOf(7507),	// 951
-		BigInteger.valueOf(7517),	// 952
-		BigInteger.valueOf(7523),	// 953
-		BigInteger.valueOf(7529),	// 954
-		BigInteger.valueOf(7537),	// 955
-		BigInteger.valueOf(7541),	// 956
-		BigInteger.valueOf(7547),	// 957
-		BigInteger.valueOf(7549),	// 958
-		BigInteger.valueOf(7559),	// 959
-		BigInteger.valueOf(7561),	// 960
-		BigInteger.valueOf(7573),	// 961
-		BigInteger.valueOf(7577),	// 962
-		BigInteger.valueOf(7583),	// 963
-		BigInteger.valueOf(7589),	// 964
-		BigInteger.valueOf(7591),	// 965
-		BigInteger.valueOf(7603),	// 966
-		BigInteger.valueOf(7607),	// 967
-		BigInteger.valueOf(7621),	// 968
-		BigInteger.valueOf(7639),	// 969
-		BigInteger.valueOf(7643),	// 970
-		BigInteger.valueOf(7649),	// 971
-		BigInteger.valueOf(7669),	// 972
-		BigInteger.valueOf(7673),	// 973
-		BigInteger.valueOf(7681),	// 974
-		BigInteger.valueOf(7687),	// 975
-		BigInteger.valueOf(7691),	// 976
-		BigInteger.valueOf(7699),	// 977
-		BigInteger.valueOf(7703),	// 978
-		BigInteger.valueOf(7717),	// 979
-		BigInteger.valueOf(7723),	// 980
-		BigInteger.valueOf(7727),	// 981
-		BigInteger.valueOf(7741),	// 982
-		BigInteger.valueOf(7753),	// 983
-		BigInteger.valueOf(7757),	// 984
-		BigInteger.valueOf(7759),	// 985
-		BigInteger.valueOf(7789),	// 986
-		BigInteger.valueOf(7793),	// 987
-		BigInteger.valueOf(7817),	// 988
-		BigInteger.valueOf(7823),	// 989
-		BigInteger.valueOf(7829),	// 990
-		BigInteger.valueOf(7841),	// 991
-		BigInteger.valueOf(7853),	// 992
-		BigInteger.valueOf(7867),	// 993
-		BigInteger.valueOf(7873),	// 994
-		BigInteger.valueOf(7877),	// 995
-		BigInteger.valueOf(7879),	// 996
-		BigInteger.valueOf(7883),	// 997
-		BigInteger.valueOf(7901),	// 998
-		BigInteger.valueOf(7907),	// 999
-		BigInteger.valueOf(7919),	// 1000
-	};
+	public static final BigRational FORTY_TWO = new BigRational( BigInteger.valueOf( 42 ) );
+
+	/**
+	 * <div>Value of 100</div> <div>Mainly used for percentage
+	 * calculations.</div>
+	 */
+	public static final BigRational ONE_HUNDRED = new BigRational( BigInteger.valueOf( 100 ) );
+
+	public static final BigRational PI_10 = new BigRational( "3.1415926536" );
+
+	public static final BigRational PI_1000 = new BigRational(
+		"3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566430860213949463952247371907021798609437027705392171762931767523846748184676694051320005681271452635608277857713427577896091736371787214684409012249534301465495853710507922796892589235420199561121290219608640344181598136297747713099605187072113499999983729780499510597317328160963185950244594553469083026425223082533446850352619311881710100031378387528865875332083814206171776691473035982534904287554687311595628638823537875937519577818577805321712268066130019278766111959092164201989" );
+
+	/**
+	 * <div>Value of π</div>
+	 *
+	 * @see <a href="https://en.wikipedia.org/wiki/Pi">π on Wikipedia</a>
+	 */
+	public static final BigRational PI = PI_1000;
+
+	public static final BigRational E_10 = new BigRational( "2.7182818285" );
+
+	public static final BigRational E_1000 = new BigRational(
+		"2.7182818284590452353602874713526624977572470936999595749669676277240766303535475945713821785251664274274663919320030599218174135966290435729003342952605956307381323286279434907632338298807531952510190115738341879307021540891499348841675092447614606680822648001684774118537423454424371075390777449920695517027618386062613313845830007520449338265602976067371132007093287091274437470472306969772093101416928368190255151086574637721112523897844250569536967707854499699679468644549059879316368892300987931277361782154249992295763514822082698951936680331825288693984964651058209392398294887933203625094431173012381970684161403970198376793206832823764648042953118023287825098194558153017567173613320698112509961818815930416903515988885193458072738667385894228792284998920868058257492796104841984443634632449684875602336248270419786232090021609902353043699418491463140934317381436405462531520961836908887070167683964243781405927145635490613031072085103837505101157477041718986106873969655212671546889570350354" );
+
+	/**
+	 * <div>Value of e</div>
+	 *
+	 * @see <a href="https://en.wikipedia.org/wiki/E_(mathematical_constant)">e
+	 *      on Wikipedia</a>
+	 */
+	public static final BigRational E = E_1000;
+
+	public static final BigRational SQUARE_ROOT_2_10 = new BigRational( "1.4142135624" );
+
+	public static final BigRational SQUARE_ROOT_2_1000 = new BigRational(
+		"1.4142135623730950488016887242096980785696718753769480731766797379907324784621070388503875343276415727350138462309122970249248360558507372126441214970999358314132226659275055927557999505011527820605714701095599716059702745345968620147285174186408891986095523292304843087143214508397626036279952514079896872533965463318088296406206152583523950547457502877599617298355752203375318570113543746034084988471603868999706990048150305440277903164542478230684929369186215805784631115966687130130156185689872372352885092648612494977154218334204285686060146824720771435854874155657069677653720226485447015858801620758474922657226002085584466521458398893944370926591800311388246468157082630100594858704003186480342194897278290641045072636881313739855256117322040245091227700226941127573627280495738108967504018369868368450725799364729060762996941380475654823728997180326802474420629269124859052181004459842150591120249441341728531478105803603371077309182869314710171111683916581726889419758716582152128229518488472" );
+
+	/**
+	 * <div>Value of square root of 2.</div>
+	 *
+	 * @see <a href="https://en.wikipedia.org/wiki/Square_root_of_2">Square root
+	 *      of 2 on Wikipedia</a>
+	 */
+	public static final BigRational SQUARE_ROOT_2 = SQUARE_ROOT_2_1000;
+
+	public static final BigRational SQUARE_ROOT_3_10 = new BigRational( "1.7320508076" );
+
+	public static final BigRational SQUARE_ROOT_3_1000 = new BigRational(
+		"1.7320508075688772935274463415058723669428052538103806280558069794519330169088000370811461867572485756756261414154067030299699450949989524788116555120943736485280932319023055820679748201010846749232650153123432669033228866506722546689218379712270471316603678615880190499865373798593894676503475065760507566183481296061009476021871903250831458295239598329977898245082887144638329173472241639845878553976679580638183536661108431737808943783161020883055249016700235207111442886959909563657970871684980728994932964842830207864086039887386975375823173178313959929830078387028770539133695633121037072640192491067682311992883756411414220167427521023729942708310598984594759876642888977961478379583902288548529035760338528080643819723446610596897228728652641538226646984200211954841552784411812865345070351916500166892944154808460712771439997629268346295774383618951101271486387469765459824517885509753790138806649619119622229571105552429237231921977382625616314688420328537166829386496119170497388363954959381" );
+
+	/**
+	 * <div>Value of square root of 3.</div>
+	 *
+	 * @see <a href="https://en.wikipedia.org/wiki/Square_root_of_3">Square root
+	 *      of 3 on Wikipedia</a>
+	 */
+	public static final BigRational SQUARE_ROOT_3 = SQUARE_ROOT_3_1000;
+
+	public static final BigRational SQUARE_ROOT_5_10 = new BigRational( "2.2360679775" );
+
+	public static final BigRational SQUARE_ROOT_5_1000 = new BigRational(
+		"2.2360679774997896964091736687312762354406183596115257242708972454105209256378048994144144083787822749695081761507737835042532677244470738635863601215334527088667781731918791658112766453226398565805357613504175337850034233924140644420864325390972525926272288762995174024406816117759089094984923713907297288984820886415426898940991316935770197486788844250897541329561831769214999774248015304341150359576683325124988151781394080005624208552435422355561063063428202340933319829339597463522712013417496142026359047378855043896870611356600457571399565955669569175645782219525000605392312340050092867648755297220567662536660744858535052623306784946334222423176372770266324076801044433158257335058930981362263431986864719469899701808189524264459620345221411922329125981963258111041704958070481204034559949435068555518555725123886416550102624363125710244496187894246829034044747161154557232017376765904609185295756035779843980541553807790643936397230287560629994822138521773485924535151210463455550407072278724" );
+
+	/**
+	 * <div>Value of square root of 5.</div>
+	 *
+	 * @see <a href="https://en.wikipedia.org/wiki/Square_root_of_5">Square root
+	 *      of 5 on Wikipedia</a>
+	 */
+	public static final BigRational SQUARE_ROOT_5 = SQUARE_ROOT_5_1000;
+
+	public static final BigRational GOLDEN_RATIO_10 = new BigRational( "1.6180339887" );
+
+	public static final BigRational GOLDEN_RATIO_1000 = new BigRational(
+		"1.6180339887498948482045868343656381177203091798057628621354486227052604628189024497072072041893911374847540880753868917521266338622235369317931800607667263544333890865959395829056383226613199282902678806752087668925017116962070322210432162695486262963136144381497587012203408058879544547492461856953648644492410443207713449470495658467885098743394422125448770664780915884607499887124007652170575179788341662562494075890697040002812104276217711177780531531714101170466659914669798731761356006708748071013179523689427521948435305678300228785699782977834784587822891109762500302696156170025046433824377648610283831268330372429267526311653392473167111211588186385133162038400522216579128667529465490681131715993432359734949850904094762132229810172610705961164562990981629055520852479035240602017279974717534277759277862561943208275051312181562855122248093947123414517022373580577278616008688382952304592647878017889921990270776903895321968198615143780314997411069260886742962267575605231727775203536139362" );
+
+	/**
+	 * <div>Value of golden ratio = ( 1 + {@link #SQUARE_ROOT_5} ) / 2</div>
+	 *
+	 * @see <a href="https://en.wikipedia.org/wiki/Golden_ratio">Golden Ratio on
+	 *      Wikipedia</a>
+	 */
+	public static final BigRational GOLDEN_RATIO = GOLDEN_RATIO_1000;
+
+	public static final BigRational SILVER_RATIO_10 = SQUARE_ROOT_2_10.add( ONE );
+
+	public static final BigRational SILVER_RATIO_1000 = SQUARE_ROOT_2_1000.add( ONE );
+
+	/**
+	 * <div>Value of silver ratio = 1 + {@link #SQUARE_ROOT_2}</div
+	 *
+	 * @see <a href="https://en.wikipedia.org/wiki/Silver_ratio">Silver Ratio on
+	 *      Wikipedia</a>
+	 */
+	public static final BigRational SILVER_RATIO = SILVER_RATIO_1000;
 
 }

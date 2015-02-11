@@ -5,3 +5,6 @@ build/
 gradle-app.setting
 /bin/
 /target/
+/.settings/
+/.classpath
+/.project

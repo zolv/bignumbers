@@ -15,6 +15,31 @@
 					<encoding>utf-8</encoding>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.3.201502191951</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<destfile>${project.build.directory}/target/jacoco.exec</destfile>
+							<datafile>${project.build.directory}/target/jacoco.exec</datafile>
+							<output>file</output>
+							<append>true</append>
+						</configuration>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
   </build>
   <dependencies>
@@ -24,5 +49,13 @@
   		<scope>test</scope>
   		<version>4.12</version>
   	</dependency>
+		<dependency>
+			<!-- must be on the classpath -->
+			<groupId>org.jacoco</groupId>
+			<artifactId>org.jacoco.agent</artifactId>
+			<classifier>runtime</classifier>
+			<version>0.7.3.201502191951</version>
+			<scope>test</scope>
+		</dependency>
   </dependencies>
 </project>

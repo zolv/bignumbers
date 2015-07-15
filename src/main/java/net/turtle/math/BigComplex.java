@@ -2,6 +2,8 @@ package net.turtle.math;
 
 import java.util.concurrent.ExecutionException;
 
+import net.turtle.math.exception.CalculationException;
+
 /**
  * Class representing complex number in the form: Z = a + b * i
  *
@@ -123,6 +125,15 @@ public class BigComplex implements Comparable< BigComplex > {
 
 	public BigComplex negate() {
 		return new BigComplex( this.a.negate() , this.b.negate() );
+	}
+
+	public BigComplex inverse() throws ArithmeticException, NullPointerException, CalculationException {
+		try {
+			final BigRational abs = this.absSquared();
+			return new BigComplex(this.a.divide( abs ), this.b.divide( abs ));
+		} catch ( InterruptedException | ExecutionException e ) {
+			throw new CalculationException(e);
+		}
 	}
 
 	/**

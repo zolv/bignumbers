@@ -2,6 +2,21 @@ package net.turtle.math;
 
 public class BigComplexUtil {
 
+	/**
+	 * z = 0 = 0 + 0i
+	 */
+	public static final BigComplex ZERO = BigComplex.ZERO;
+
+	/**
+	 * z = 1 = 1 + 0i
+	 */
+	public static final BigComplex ONE = BigComplex.ONE;
+
+	/**
+	 * z = i = 0 + i
+	 */
+	public static final BigComplex I = BigComplex.I;
+
 	private BigComplexUtil() {
 		super();
 	}

@@ -1,4 +1,4 @@
-package net.turtle.math;
+package net.turtle.math.util;
 
 import org.junit.Test;
 

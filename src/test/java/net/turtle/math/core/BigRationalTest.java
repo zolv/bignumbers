@@ -1,4 +1,4 @@
-package net.turtle.math;
+package net.turtle.math.core;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -10,6 +10,8 @@ import java.util.concurrent.ExecutionException;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import net.turtle.math.core.BigRational;
 
 public class BigRationalTest {
 

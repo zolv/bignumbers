@@ -1,4 +1,7 @@
-package net.turtle.math;
+package net.turtle.math.util;
+
+import net.turtle.math.core.BigComplex;
+import net.turtle.math.core.BigRational;
 
 public class BigComplexUtil {
 

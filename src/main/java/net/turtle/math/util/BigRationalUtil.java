@@ -1,6 +1,8 @@
-package net.turtle.math;
+package net.turtle.math.util;
 
 import java.math.BigInteger;
+
+import net.turtle.math.core.BigRational;
 
 public class BigRationalUtil {
 

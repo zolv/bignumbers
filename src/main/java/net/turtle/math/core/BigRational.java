@@ -1,4 +1,4 @@
-package net.turtle.math;
+package net.turtle.math.core;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

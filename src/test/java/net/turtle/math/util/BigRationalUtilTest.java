@@ -1,7 +1,10 @@
-package net.turtle.math;
+package net.turtle.math.util;
 
 import org.junit.Assert;
 import org.junit.Test;
+
+import net.turtle.math.core.BigRational;
+import net.turtle.math.util.BigRationalUtil;
 
 public class BigRationalUtilTest {
 

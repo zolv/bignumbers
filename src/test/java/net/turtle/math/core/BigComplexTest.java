@@ -329,6 +329,28 @@ public class BigComplexTest {
 	}
 
 	@Test
+	public void testInverse() {
+		{
+			final BigComplex c1 = new BigComplex(new BigRational("2"), new BigRational("3"));
+			final BigComplex cr = new BigComplex(new BigRational("2/13"), new BigRational("-3/13"));
+			Assert.assertEquals(cr, c1.inverse());
+			Assert.assertEquals(c1, c1.inverse().inverse());
+			Assert.assertEquals(cr, c1.inverse().inverse().inverse());
+
+			Assert.assertEquals(BigComplex.ONE, c1.inverse().multiply( c1 ));
+		}
+	}
+
+	@Test(expected=ArithmeticException.class)
+	public void testInverse_ZeroDivision() {
+		{
+			final BigComplex c1 = new BigComplex(new BigRational("0"), new BigRational("0"));
+			c1.inverse();
+			Assert.fail();
+		}
+	}
+
+	@Test
 	public void testCompareTo() {
 		{
 			final BigRational br11 = new BigRational("6", "2");

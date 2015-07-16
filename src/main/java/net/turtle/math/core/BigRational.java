@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 import net.turtle.math.context.BigMathContext;
+import net.turtle.math.util.BigRationalUtil;
 
 public class BigRational implements Comparable<BigRational> {
 
@@ -25,27 +26,8 @@ public class BigRational implements Comparable<BigRational> {
 	public BigRational(BigDecimal bigDecimalValue) {
 		this(
 				bigDecimalValue.scale() >= 0 ? bigDecimalValue.unscaledValue()
-						: bigDecimalValue.unscaledValue().multiply(bigTenToThe(-bigDecimalValue.scale())),
-				bigDecimalValue.scale() < 0 ? BigInteger.ONE : bigTenToThe(bigDecimalValue.scale()));
-	}
-
-	private static BigInteger bigTenToThe(int n) {
-		final BigInteger result;
-		if(n < 0) {
-			result = BigInteger.ZERO;
-		} else {
-			result = new BigInteger(bigTenToTheString(n));
-		}
-		return result;
-	}
-
-	private static String bigTenToTheString(int n) {
-		final char tenpow[] = new char[n + 1];
-		tenpow[0] = '1';
-		for (int i = 1; i <= n; i++) {
-			tenpow[i] = '0';
-		}
-		return new String(tenpow);
+						: bigDecimalValue.unscaledValue().multiply(BigRationalUtil.bigTenToThe(-bigDecimalValue.scale())),
+				bigDecimalValue.scale() < 0 ? BigInteger.ONE : BigRationalUtil.bigTenToThe(bigDecimalValue.scale()));
 	}
 
 	public BigRational(BigInteger bigIntegerValue) throws ArithmeticException, NullPointerException {
@@ -53,39 +35,7 @@ public class BigRational implements Comparable<BigRational> {
 	}
 
 	public BigRational(String value) throws ArithmeticException, NullPointerException {
-		final BigInteger n;
-		final BigInteger d;
-		final int slashIndex = value.indexOf("/");
-		if(slashIndex > 0) {
-			/*
-			 * 123/456
-			 */
-			n = new BigInteger(value.substring(0, slashIndex));
-			d = new BigInteger(value.substring(slashIndex + 1));
-		} else {
-			/*
-			 * 123.456
-			 */
-			final int dotIndex = value.indexOf(".");
-			if(dotIndex > 0) {
-				final String dString = value.substring(dotIndex + 1);
-				n = new BigInteger(value.substring(0, dotIndex) + dString);
-				d = bigTenToThe(dString.length());
-			} else {
-				/*
-				 * 123456
-				 */
-				n = new BigInteger(value);
-				d = BigInteger.ONE;
-			}
-		}
-
-		if(!d.equals(BigInteger.ZERO)) {
-			this.numerator = n;
-			this.denominator = d;
-		} else {
-			throw new ArithmeticException("Division by zero");
-		}
+		this(BigRationalUtil.getNumerator( value ), BigRationalUtil.getDenominator( value ));
 	}
 
 	public BigRational(String numerator, String denominator) throws ArithmeticException, NullPointerException {
@@ -93,19 +43,29 @@ public class BigRational implements Comparable<BigRational> {
 	}
 
 	public BigRational(BigInteger numerator, BigInteger denominator) throws ArithmeticException, NullPointerException {
+		this(numerator, denominator, BigMathContext.get().getNormalizeResult());
+	}
+
+	public BigRational(BigInteger numerator, BigInteger denominator, boolean normalize) throws ArithmeticException, NullPointerException {
 		if(numerator != null) {
-			this.numerator = numerator;
-		} else {
-			throw new NullPointerException("Numerator cannot be null.");
-		}
-		if(denominator != null) {
-			if(!denominator.equals(BigInteger.ZERO)) {
-				this.denominator = denominator;
+			if(denominator != null) {
+				if(!denominator.equals(BigInteger.ZERO)) {
+					if(normalize) {
+						final BigRational toNormalize = new BigRational( numerator , denominator , false ).normalize();
+						this.numerator = toNormalize.getNumerator();
+						this.denominator = toNormalize.getDenominator();
+					} else {
+						this.numerator = numerator;
+						this.denominator = denominator;
+					}
+				} else {
+					throw new ArithmeticException("Division by zero");
+				}
 			} else {
-				throw new ArithmeticException("Division by zero");
+				throw new NullPointerException("Denominator cannot be null.");
 			}
 		} else {
-			throw new NullPointerException("Denominator cannot be null.");
+			throw new NullPointerException("Numerator cannot be null.");
 		}
 	}
 
@@ -142,17 +102,21 @@ public class BigRational implements Comparable<BigRational> {
 	}
 
 	public BigRational cancel() {
-		final BigInteger gcd = this.numerator.gcd(this.denominator);
 		final BigRational result;
-		if(!gcd.equals(BigInteger.ONE)) {
-			result = new BigRational(this.numerator.divide(gcd), this.denominator.divide(gcd));
+		if ( !this.denominator.equals( BigInteger.ONE ) ) {
+			final BigInteger gcd = this.numerator.gcd( this.denominator );
+			if ( !gcd.equals( BigInteger.ONE ) ) {
+				result = new BigRational( this.numerator.divide( gcd ) , this.denominator.divide( gcd ) );
+			} else {
+				result = this;
+			}
 		} else {
 			result = this;
 		}
 		return result;
 	}
 
-	public BigRational add(BigRational augend) throws NullPointerException {
+	public BigRational add(BigRational augend) {
 		return prepareResult(new BigRational(this.numerator.multiply(augend.denominator).add(augend.numerator.multiply(this.denominator)),
 				this.denominator.multiply(augend.denominator)));
 	}
@@ -285,7 +249,7 @@ public class BigRational implements Comparable<BigRational> {
 		/**
 		 * "Silent" signum normalization.
 		 */
-		if(denominator.signum() < 0) {
+		if(this.denominator.signum() < 0) {
 			result = new BigRational(this.numerator, this.denominator.negate());
 		} else {
 			result = new BigRational(this.numerator.negate(), this.denominator);

@@ -130,7 +130,7 @@ public class BigComplex implements Comparable< BigComplex > {
 	public BigComplex inverse() throws ArithmeticException, NullPointerException, CalculationException {
 		try {
 			final BigRational abs = this.absSquared();
-			return new BigComplex(this.a.divide( abs ), this.b.divide( abs ));
+			return new BigComplex(this.a.divide( abs ), this.b.divide( abs ).negate());
 		} catch ( InterruptedException | ExecutionException e ) {
 			throw new CalculationException(e);
 		}
@@ -139,7 +139,7 @@ public class BigComplex implements Comparable< BigComplex > {
 	/**
 	 * <p>Note that:</p>
 	 * <p>"Because complex numbers are naturally thought of as existing on a two-dimensional plane, there is no natural linear ordering on the set of complex numbers.</p>
-	 * <p>There is no linear ordering on the complex numbers that is compatible with addition and multiplication. Formally, we say that the complex numbers cannot have the structure of an ordered field. This is because any square in an ordered field is at least 0, but i2 = −1."</p>
+	 * <p>There is no linear ordering on the complex numbers that is compatible with addition and multiplication. Formally, we say that the complex numbers cannot have the structure of an ordered field. This is because any square in an ordered field is at least 0, but i2 = -1."</p>
 	 * <p>Current implementation of {@link #compareTo(BigComplex)} method uses {@link #absSquared()} method to compare.
 	 */
 	@Override

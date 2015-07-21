@@ -7,9 +7,10 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
 import net.turtle.math.context.BigMathContext;
+import net.turtle.math.exception.CalculationException;
 import net.turtle.math.util.BigRationalUtil;
 
-public class BigRational implements Comparable< BigRational > {
+public class BigRational implements FieldElement<BigRational>, Comparable< BigRational > {
 
 	public static final BigRational ZERO = new BigRational( BigInteger.ZERO );
 
@@ -164,7 +165,7 @@ public class BigRational implements Comparable< BigRational > {
 		}
 	}
 
-	public BigRational divide( final BigRational divisor ) throws ArithmeticException , NullPointerException , InterruptedException , ExecutionException {
+	public BigRational divide( final BigRational divisor ) throws CalculationException {
 		final FutureTask< BigInteger > numeratorComputation = new FutureTask< BigInteger >( new Callable< BigInteger >() {
 
 			@Override
@@ -175,7 +176,13 @@ public class BigRational implements Comparable< BigRational > {
 
 		BigMathContext.get().submit( numeratorComputation );
 		final BigInteger denominatorComputation = this.denominator.multiply( divisor.numerator );
-		return new BigRational( numeratorComputation.get() , denominatorComputation );
+		try {
+			return new BigRational( numeratorComputation.get() , denominatorComputation );
+		} catch(ArithmeticException e) {
+			throw e;
+		} catch(NullPointerException | InterruptedException | ExecutionException e) {
+			throw new CalculationException(e);
+		}
 	}
 
 	public BigRational pow( BigInteger power ) throws NullPointerException , ArithmeticException , InterruptedException , ExecutionException {

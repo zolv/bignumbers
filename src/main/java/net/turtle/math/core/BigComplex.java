@@ -11,7 +11,7 @@ import net.turtle.math.exception.CalculationException;
  * @author Radosław Adamiak
  *
  */
-public class BigComplex implements Comparable< BigComplex > {
+public class BigComplex implements FieldElement<BigComplex>, Comparable< BigComplex > {
 
 	/**
 	 * z = 0 = 0 + 0i
@@ -111,7 +111,7 @@ public class BigComplex implements Comparable< BigComplex > {
 			this.b.multiply( multiplicand.a ).add( this.a.multiply( multiplicand.b ) ) );
 	}
 
-	public BigComplex divide( BigComplex divisor ) throws ArithmeticException , NullPointerException , InterruptedException , ExecutionException {
+	public BigComplex divide( BigComplex divisor ) throws CalculationException {
 
 		final BigRational denominator = divisor.a.multiply( divisor.a ).add( divisor.b.multiply( divisor.b ) );
 		return new BigComplex(
@@ -127,13 +127,9 @@ public class BigComplex implements Comparable< BigComplex > {
 		return new BigComplex( this.a.negate() , this.b.negate() );
 	}
 
-	public BigComplex inverse() throws ArithmeticException, NullPointerException, CalculationException {
-		try {
+	public BigComplex inverse() throws ArithmeticException, CalculationException {
 			final BigRational abs = this.absSquared();
 			return new BigComplex(this.a.divide( abs ), this.b.divide( abs ).negate());
-		} catch ( InterruptedException | ExecutionException e ) {
-			throw new CalculationException(e);
-		}
 	}
 
 	/**

@@ -12,6 +12,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import net.turtle.math.core.BigRational;
+import net.turtle.math.exception.CalculationException;
 
 public class BigRationalTest {
 
@@ -403,7 +404,7 @@ public class BigRationalTest {
 	}
 
 	@Test(expected = ArithmeticException.class)
-	public void testDivide_Zero() throws ArithmeticException, NullPointerException, InterruptedException, ExecutionException {
+	public void testDivide_Zero() throws CalculationException {
 		final BigRational br1 = new BigRational("2", "3");
 		final BigRational br2 = new BigRational("0", "5");
 		br1.divide(br2);
@@ -616,7 +617,7 @@ public class BigRationalTest {
 		br1.max(null);
 		Assert.fail();
 	}
-
+	
 	@Test
 	public void testCompareTo() {
 		{
@@ -718,6 +719,8 @@ public class BigRationalTest {
 			Assert.assertTrue(br2.equals(br1));
 		}
 	}
+	
+	
 
 	@Test
 	public void testHashCode() {

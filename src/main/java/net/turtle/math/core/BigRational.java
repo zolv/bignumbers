@@ -178,14 +178,12 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 		final BigInteger denominatorComputation = this.denominator.multiply( divisor.numerator );
 		try {
 			return new BigRational( numeratorComputation.get() , denominatorComputation );
-		} catch(ArithmeticException e) {
-			throw e;
-		} catch(NullPointerException | InterruptedException | ExecutionException e) {
+		} catch(InterruptedException | ExecutionException e) {
 			throw new CalculationException(e);
 		}
 	}
 
-	public BigRational pow( BigInteger power ) throws NullPointerException , ArithmeticException , InterruptedException , ExecutionException {
+	public BigRational pow( BigInteger power ) throws NullPointerException , ArithmeticException , CalculationException {
 		final BigRational result;
 		if ( !power.equals( BigInteger.ZERO ) ) {
 			final BigInteger powerAbs = power.abs();
@@ -210,7 +208,11 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 				BigMathContext.get().submit( numeratorComputation );
 				final BigInteger denominatorComputation = this.pow( newDenominator , powerAbs );
 
-				result = new BigRational( numeratorComputation.get() , denominatorComputation );
+				try {
+					result = new BigRational( numeratorComputation.get() , denominatorComputation );
+				} catch (InterruptedException | ExecutionException e ) {
+					throw new CalculationException(e);
+				}
 			} else {
 				if ( power.equals( BigInteger.ONE ) ) {
 					result = this;
@@ -246,11 +248,7 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 	}
 
 	public BigRational abs() {
-		return this.abs( this.signum() );
-	}
-
-	private BigRational abs( int signum ) {
-		return signum < 0 ? this.negate() : this;
+		return this.signum() >= 0 ? this : this.negate();
 	}
 
 	/**
@@ -261,7 +259,7 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 	public BigRational negate() {
 		final BigRational result;
 		/**
-		 * "Silent" signum normalization.
+		 * "Silent" harmless signum normalization.
 		 */
 		if ( this.denominator.signum() < 0 ) {
 			result = new BigRational( this.numerator , this.denominator.negate() );
@@ -296,6 +294,9 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 				if ( this.denominator.signum() < 0 ) {
 					result = -1;
 				} else {
+					/*
+					 * Impossible
+					 */
 					throw new ArithmeticException( "Division by zero" );
 				}
 			}
@@ -307,6 +308,9 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 					if ( this.denominator.signum() > 0 ) {
 						result = -1;
 					} else {
+						/*
+						 * Impossible
+						 */
 						throw new ArithmeticException( "Division by zero" );
 					}
 				}
@@ -314,6 +318,9 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 				if ( this.denominator.signum() != 0 ) {
 					result = 0;
 				} else {
+					/*
+					 * Impossible
+					 */
 					throw new ArithmeticException( "Division by zero" );
 				}
 			}
@@ -386,7 +393,11 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 			result = true;
 		} else {
 			if ( obj instanceof BigRational ) {
-				result = this.numerator.multiply( ( (BigRational)obj ).denominator ).equals( ( (BigRational)obj ).numerator.multiply( this.denominator ) );
+				if(this.numerator.equals( ( (BigRational)obj ).numerator ) && this.denominator.equals( ( (BigRational)obj ).denominator )) {
+					result = true;
+				} else {
+					result = this.numerator.multiply( ( (BigRational)obj ).denominator ).equals( ( (BigRational)obj ).numerator.multiply( this.denominator ) );
+				}
 			} else {
 				result = false;
 			}

@@ -6,8 +6,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -367,7 +365,7 @@ public class BigRationalTest {
 	}
 
 	@Test
-	public void testDivide() throws ArithmeticException, NullPointerException, InterruptedException, ExecutionException {
+	public void testDivide() throws ArithmeticException, NullPointerException {
 		{
 			/*
 			 * + and +
@@ -412,14 +410,14 @@ public class BigRationalTest {
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void testDivide_Null() throws ArithmeticException, NullPointerException, InterruptedException, ExecutionException {
+	public void testDivide_Null() throws ArithmeticException, NullPointerException {
 		final BigRational br1 = new BigRational("2", "3");
 		br1.divide(null);
 		Assert.fail();
 	}
 
 	@Test
-	public void testPowBigInteger() throws NullPointerException, ArithmeticException, InterruptedException, ExecutionException {
+	public void testPowBigInteger() throws NullPointerException, ArithmeticException {
 		{
 			final BigRational br1 = new BigRational("2/3");
 			final BigRational r1 = new BigRational("256/6561");
@@ -457,14 +455,14 @@ public class BigRationalTest {
 	}
 
 	@Test(expected=ArithmeticException.class)
-	public void testPowBigInteger_ZeroMinusPow() throws NullPointerException, ArithmeticException, InterruptedException, ExecutionException {
+	public void testPowBigInteger_ZeroMinusPow() throws NullPointerException, ArithmeticException {
 		final BigRational br1 = new BigRational("0");
 		br1.pow(BigInteger.valueOf(-2));
 		Assert.fail();
 	}
 
 	@Test(expected = NullPointerException.class)
-	public void testPowBigInteger_Null() throws NullPointerException, ArithmeticException, InterruptedException, ExecutionException {
+	public void testPowBigInteger_Null() throws NullPointerException, ArithmeticException {
 		final BigRational br1 = new BigRational("2", "3");
 		br1.pow(null);
 		Assert.fail();
@@ -617,7 +615,7 @@ public class BigRationalTest {
 		br1.max(null);
 		Assert.fail();
 	}
-	
+
 	@Test
 	public void testCompareTo() {
 		{
@@ -719,8 +717,8 @@ public class BigRationalTest {
 			Assert.assertTrue(br2.equals(br1));
 		}
 	}
-	
-	
+
+
 
 	@Test
 	public void testHashCode() {

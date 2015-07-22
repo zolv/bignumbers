@@ -1,8 +1,6 @@
 package net.turtle.math.core;
 
 import java.math.BigInteger;
-import java.util.concurrent.ExecutionException;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -270,7 +268,7 @@ public class BigComplexTest {
 	}
 
 	@Test
-	public void testDivide() throws ArithmeticException, NullPointerException, InterruptedException, ExecutionException {
+	public void testDivide() throws ArithmeticException, NullPointerException {
 		{
 			final BigComplex c1 = new BigComplex(BigRational.ZERO, BigRational.ZERO);
 			final BigComplex c2 = new BigComplex(BigRational.ZERO, BigRational.ONE);

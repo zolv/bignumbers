@@ -1,6 +1,8 @@
 package net.turtle.math.util;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 
 import net.turtle.math.core.BigRational;
 
@@ -11,7 +13,15 @@ public class BigRationalUtil {
 	private BigRationalUtil() {
 		super();
 	}
-
+	
+	public static BigDecimal asBigDecimal(BigRational rational, int scale) {
+		return new BigDecimal(rational.getNumerator()).divide(new BigDecimal(rational.getDenominator()), scale, RoundingMode.HALF_UP);
+	}
+	
+	public static BigInteger asBigDInteger(BigRational rational) {
+		return rational.getNumerator().divide(rational.getDenominator());
+	}
+	
 	public static String toStringNormalized( BigRational number ) {
 		final BigRational signumNormalized = number.normalizeSignum();
 		final StringBuilder result = new StringBuilder();

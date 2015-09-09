@@ -46,6 +46,7 @@ public class BigVector implements FieldElement< BigVector > {
 		while ( thisCoordinatesIt.hasNext() && augendCoordinatesIt.hasNext() ) {
 			coordinatesSum.add( thisCoordinatesIt.next().add( augendCoordinatesIt.next() ) );
 		}
+		assert( !( thisCoordinatesIt.hasNext() || augendCoordinatesIt.hasNext() ) );
 		return new BigVector( coordinatesSum );
 	}
 
@@ -58,10 +59,11 @@ public class BigVector implements FieldElement< BigVector > {
 		this.checkDimensions( subtrahend );
 		final ArrayList< BigRational > coordinatesSum = new ArrayList< >( this.getDimension() );
 		final Iterator< BigRational > thisCoordinatesIt = this.coordinates.iterator();
-		final Iterator< BigRational > augendCoordinatesIt = subtrahend.coordinates.iterator();
-		while ( thisCoordinatesIt.hasNext() && augendCoordinatesIt.hasNext() ) {
-			coordinatesSum.add( thisCoordinatesIt.next().subtract( augendCoordinatesIt.next() ) );
+		final Iterator< BigRational > subtrahendCoordinatesIt = subtrahend.coordinates.iterator();
+		while ( thisCoordinatesIt.hasNext() && subtrahendCoordinatesIt.hasNext() ) {
+			coordinatesSum.add( thisCoordinatesIt.next().subtract( subtrahendCoordinatesIt.next() ) );
 		}
+		assert( !( thisCoordinatesIt.hasNext() || subtrahendCoordinatesIt.hasNext() ) );
 		return new BigVector( coordinatesSum );
 	}
 
@@ -88,6 +90,11 @@ public class BigVector implements FieldElement< BigVector > {
 		return this.multiply( divisor.inverse() );
 	}
 
+	/**
+	 * There is no official way to inversing vector.
+	 * This method just uses inversion of every coordinate.
+	 * Not so usefull but...
+	 */
 	@Override
 	public BigVector inverse() {
 		final ArrayList< BigRational > resultCoordinates = new ArrayList< >( this.getDimension() );

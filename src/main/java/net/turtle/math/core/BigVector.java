@@ -8,6 +8,7 @@ import java.util.List;
 
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.exception.DifferentDimensionsException;
+import net.turtle.math.exception.NotImplementedException;
 
 public class BigVector implements FieldElement< BigVector > {
 
@@ -47,7 +48,7 @@ public class BigVector implements FieldElement< BigVector > {
 			coordinatesSum.add( thisCoordinatesIt.next().add( augendCoordinatesIt.next() ) );
 		}
 		assert( !( thisCoordinatesIt.hasNext() || augendCoordinatesIt.hasNext() ) );
-		return new BigVector( coordinatesSum );
+		return new BigVector( coordinatesSum, true );
 	}
 
 	public int getDimension() {
@@ -64,12 +65,12 @@ public class BigVector implements FieldElement< BigVector > {
 			coordinatesSum.add( thisCoordinatesIt.next().subtract( subtrahendCoordinatesIt.next() ) );
 		}
 		assert( !( thisCoordinatesIt.hasNext() || subtrahendCoordinatesIt.hasNext() ) );
-		return new BigVector( coordinatesSum );
+		return new BigVector( coordinatesSum, true );
 	}
 
 	@Override
 	public BigVector multiply( BigVector multiplicand ) throws CalculationException {
-		return null;
+		throw new NotImplementedException();
 	}
 
 	public BigVector multiply( BigRational multiplicand ) {
@@ -78,7 +79,7 @@ public class BigVector implements FieldElement< BigVector > {
 		while ( thisCoordinatesIt.hasNext() ) {
 			coordinatesSum.add( thisCoordinatesIt.next().multiply( multiplicand ) );
 		}
-		return new BigVector( coordinatesSum );
+		return new BigVector( coordinatesSum, true );
 	}
 
 	@Override
@@ -112,7 +113,7 @@ public class BigVector implements FieldElement< BigVector > {
 		while ( thisCoordinatesIt.hasNext() ) {
 			resultCoordinates.add( thisCoordinatesIt.next().negate() );
 		}
-		return new BigVector( resultCoordinates );
+		return new BigVector( resultCoordinates, true );
 	}
 
 	public boolean isSameDimensionAs( BigVector other ) {

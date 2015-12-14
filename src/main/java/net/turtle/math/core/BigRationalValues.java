@@ -45,6 +45,14 @@ public class BigRationalValues {
 
 	public static final BigRational PI_10 = new BigRational( "3.1415926536" );
 
+	/**
+	 * According to <a href="https://www.youtube.com/watch?v=FpyrF_Ci2TQ">NUmberphile</a>
+	 * (dr James Grime) 39 digits (38 decimal places) of pi is enough to calculate
+	 * circumference of the observable Universe within a width of 1 hydrogen atom.
+	 */
+	public static final BigRational PI_39 = new BigRational(
+		"3.14159265358979323846264338327950288420" );
+
 	public static final BigRational PI_100 = new BigRational(
 		"3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170680" );
 
@@ -59,6 +67,12 @@ public class BigRationalValues {
 	public static final BigRational PI = PI_1000;
 
 	public static final BigRational TAU_10 = new BigRational( "6.2831853072" );
+
+	/**
+	 * See {link {@link #PI_39}.
+	 */
+	public static final BigRational TAU_39 = new BigRational(
+		"6.28318530717958647692528676655900576839" );
 
 	public static final BigRational TAU_100 = new BigRational(
 		"6.2831853071795864769252867665590057683943387987502116419498891846156328125724179972560696506842341360" );

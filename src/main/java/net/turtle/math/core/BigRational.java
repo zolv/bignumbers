@@ -20,6 +20,9 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 
 	private final BigInteger denominator;
 
+	/**
+	 * Creates new BigDecimal with value ZERO.
+	 */
 	public BigRational() {
 		this( BigInteger.ZERO , BigInteger.ONE );
 	}
@@ -326,6 +329,14 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 			}
 		}
 		return result;
+	}
+
+	public BigRational square() {
+		return this.multiply( this );
+	}
+
+	public BigRational cube() {
+		return this.multiply( this ).multiply( this );
 	}
 
 	@Override

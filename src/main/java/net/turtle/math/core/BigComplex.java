@@ -1,7 +1,5 @@
 package net.turtle.math.core;
 
-import java.util.concurrent.ExecutionException;
-
 import net.turtle.math.exception.CalculationException;
 
 /**
@@ -11,7 +9,7 @@ import net.turtle.math.exception.CalculationException;
  * @author Radosław Adamiak
  *
  */
-public class BigComplex implements FieldElement<BigComplex>, Comparable< BigComplex > {
+public class BigComplex implements FieldElement< BigComplex > , Comparable< BigComplex > {
 
 	/**
 	 * z = 0 = 0 + 0i
@@ -77,11 +75,7 @@ public class BigComplex implements FieldElement<BigComplex>, Comparable< BigComp
 		final BigComplex result;
 		final BigRational aNormalizedSignum = this.a.normalizeSignum();
 		final BigRational bNormalizedSignum = this.b.normalizeSignum();
-		if ( ( this.a == aNormalizedSignum ) && ( this.b == bNormalizedSignum ) ) {
-			result = this;
-		} else {
-			result = new BigComplex( aNormalizedSignum , bNormalizedSignum );
-		}
+		result = this.reuse( aNormalizedSignum , bNormalizedSignum );
 		return result;
 	}
 
@@ -89,11 +83,7 @@ public class BigComplex implements FieldElement<BigComplex>, Comparable< BigComp
 		final BigComplex result;
 		final BigRational aReduced = this.a.cancel();
 		final BigRational bReduced = this.b.cancel();
-		if ( ( this.a == aReduced ) && ( this.b == bReduced ) ) {
-			result = this;
-		} else {
-			result = new BigComplex( aReduced , bReduced );
-		}
+		result = this.reuse( aReduced , bReduced );
 		return result;
 	}
 
@@ -127,16 +117,39 @@ public class BigComplex implements FieldElement<BigComplex>, Comparable< BigComp
 		return new BigComplex( this.a.negate() , this.b.negate() );
 	}
 
-	public BigComplex inverse() throws ArithmeticException, CalculationException {
-			final BigRational abs = this.absSquared();
-			return new BigComplex(this.a.divide( abs ), this.b.divide( abs ).negate());
+	public BigComplex inverse() throws ArithmeticException , CalculationException {
+		final BigRational abs = this.absSquared();
+		return new BigComplex( this.a.divide( abs ) , this.b.divide( abs ).negate() );
+	}
+
+	public BigComplex reuse( final BigRational aNormalizedSignum , final BigRational bNormalizedSignum ) {
+		final BigComplex result;
+		if ( ( this.a == aNormalizedSignum ) && ( this.b == bNormalizedSignum ) ) {
+			result = this;
+		} else {
+			result = new BigComplex( aNormalizedSignum , bNormalizedSignum );
+		}
+		return result;
 	}
 
 	/**
-	 * <p>Note that:</p>
-	 * <p>"Because complex numbers are naturally thought of as existing on a two-dimensional plane, there is no natural linear ordering on the set of complex numbers.</p>
-	 * <p>There is no linear ordering on the complex numbers that is compatible with addition and multiplication. Formally, we say that the complex numbers cannot have the structure of an ordered field. This is because any square in an ordered field is at least 0, but i2 = -1."</p>
-	 * <p>Current implementation of {@link #compareTo(BigComplex)} method uses {@link #absSquared()} method to compare.
+	 * <p>
+	 * Note that:
+	 * </p>
+	 * <p>
+	 * "Because complex numbers are naturally thought of as existing on a
+	 * two-dimensional plane, there is no natural linear ordering on the set of
+	 * complex numbers.
+	 * </p>
+	 * <p>
+	 * There is no linear ordering on the complex numbers that is compatible
+	 * with addition and multiplication. Formally, we say that the complex
+	 * numbers cannot have the structure of an ordered field. This is because
+	 * any square in an ordered field is at least 0, but i2 = -1."
+	 * </p>
+	 * <p>
+	 * Current implementation of {@link #compareTo(BigComplex)} method uses
+	 * {@link #absSquared()} method to compare.
 	 */
 	@Override
 	public int compareTo( BigComplex val ) {

@@ -1,13 +1,17 @@
-apply plugin: 'java'
-apply plugin: 'jacoco'
+apply plugin: 'java';
+apply plugin: 'jacoco';
  
 repositories {
-    mavenCentral()
+    mavenCentral();
 }
  
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.+'
+    testCompile group: 'junit', name: 'junit', version: '4.+';
 }
+
+
+sourceCompatibility = 1.7;
+targetCompatibility = 1.7;
 
 jacoco {
     toolVersion = "0.7.4.201502262128"
@@ -15,8 +19,8 @@ jacoco {
 
 jacocoTestReport {
     reports {
-        xml.enabled false
-        csv.enabled false
-        html.destination "${buildDir}/reports/jacoco-html"
+        xml.enabled = false;
+        csv.enabled = false;
+        html.destination = "${buildDir}/reports/jacoco-html";
     }
 }

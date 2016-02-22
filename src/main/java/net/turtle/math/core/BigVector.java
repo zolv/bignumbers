@@ -9,6 +9,7 @@ import java.util.List;
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.exception.DifferentDimensionsException;
 import net.turtle.math.exception.NotImplementedException;
+import net.turtle.math.exception.ParsingException;
 
 public class BigVector implements FieldElement< BigVector > {
 
@@ -16,6 +17,21 @@ public class BigVector implements FieldElement< BigVector > {
 
 	public BigVector() {
 		this.coordinates = Collections.emptyList();
+	}
+
+	public BigVector( String vector ) {
+		if ( vector.startsWith( "[" ) && vector.endsWith( "]" ) ) {
+			final String vectorValues = vector.substring( 1 , vector.length() );
+			final String[] values = vectorValues.split( "," );
+			final List< BigRational > coordinatesTemp = new ArrayList< >( values.length );
+			for ( final String value : values ) {
+				final BigRational valueNumber = new BigRational( value );
+				coordinatesTemp.add( valueNumber );
+			}
+			this.coordinates = coordinatesTemp;
+		} else {
+			throw new ParsingException( "Vector string does not start with '[' or does not ends with ']'" );
+		}
 	}
 
 	public BigVector( BigRational... coordinatesToUse ) {
@@ -30,7 +46,7 @@ public class BigVector implements FieldElement< BigVector > {
 		if ( trusted ) {
 			this.coordinates = input;
 		} else {
-			this.coordinates = new ArrayList< >(input);
+			this.coordinates = new ArrayList< >( input );
 		}
 	}
 
@@ -47,8 +63,8 @@ public class BigVector implements FieldElement< BigVector > {
 		while ( thisCoordinatesIt.hasNext() && augendCoordinatesIt.hasNext() ) {
 			coordinatesSum.add( thisCoordinatesIt.next().add( augendCoordinatesIt.next() ) );
 		}
-		assert( !( thisCoordinatesIt.hasNext() || augendCoordinatesIt.hasNext() ) );
-		return new BigVector( coordinatesSum, true );
+		assert ( !( thisCoordinatesIt.hasNext() || augendCoordinatesIt.hasNext() ) );
+		return new BigVector( coordinatesSum , true );
 	}
 
 	public int getDimension() {
@@ -64,8 +80,8 @@ public class BigVector implements FieldElement< BigVector > {
 		while ( thisCoordinatesIt.hasNext() && subtrahendCoordinatesIt.hasNext() ) {
 			coordinatesSum.add( thisCoordinatesIt.next().subtract( subtrahendCoordinatesIt.next() ) );
 		}
-		assert( !( thisCoordinatesIt.hasNext() || subtrahendCoordinatesIt.hasNext() ) );
-		return new BigVector( coordinatesSum, true );
+		assert ( !( thisCoordinatesIt.hasNext() || subtrahendCoordinatesIt.hasNext() ) );
+		return new BigVector( coordinatesSum , true );
 	}
 
 	@Override
@@ -79,7 +95,7 @@ public class BigVector implements FieldElement< BigVector > {
 		while ( thisCoordinatesIt.hasNext() ) {
 			coordinatesSum.add( thisCoordinatesIt.next().multiply( multiplicand ) );
 		}
-		return new BigVector( coordinatesSum, true );
+		return new BigVector( coordinatesSum , true );
 	}
 
 	@Override
@@ -92,9 +108,8 @@ public class BigVector implements FieldElement< BigVector > {
 	}
 
 	/**
-	 * There is no official way to inversing vector.
-	 * This method just uses inversion of every coordinate.
-	 * Not so usefull but...
+	 * There is no official way to inversing vector. This method just uses
+	 * inversion of every coordinate. Not so usefull but...
 	 */
 	@Override
 	public BigVector inverse() {
@@ -113,7 +128,7 @@ public class BigVector implements FieldElement< BigVector > {
 		while ( thisCoordinatesIt.hasNext() ) {
 			resultCoordinates.add( thisCoordinatesIt.next().negate() );
 		}
-		return new BigVector( resultCoordinates, true );
+		return new BigVector( resultCoordinates , true );
 	}
 
 	public boolean isSameDimensionAs( BigVector other ) {

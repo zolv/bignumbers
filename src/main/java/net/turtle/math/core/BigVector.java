@@ -21,14 +21,18 @@ public class BigVector implements FieldElement< BigVector > {
 
 	public BigVector( String vector ) {
 		if ( vector.startsWith( "[" ) && vector.endsWith( "]" ) ) {
-			final String vectorValues = vector.substring( 1 , vector.length() );
+			final String vectorValues = vector.substring( 1 , vector.length() - 1 ).trim();
+			if(!vectorValues.isEmpty()) {
 			final String[] values = vectorValues.split( "," );
 			final List< BigRational > coordinatesTemp = new ArrayList< >( values.length );
-			for ( final String value : values ) {
-				final BigRational valueNumber = new BigRational( value );
-				coordinatesTemp.add( valueNumber );
+				for ( final String value : values ) {
+					final BigRational valueNumber = new BigRational( value );
+					coordinatesTemp.add( valueNumber );
+				}
+				this.coordinates = coordinatesTemp;
+			} else {
+				this.coordinates = new ArrayList< >( 0 );
 			}
-			this.coordinates = coordinatesTemp;
 		} else {
 			throw new ParsingException( "Vector string does not start with '[' or does not ends with ']'" );
 		}

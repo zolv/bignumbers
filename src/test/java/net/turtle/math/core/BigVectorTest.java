@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import net.turtle.math.core.BigRational;
+import net.turtle.math.exception.ParsingException;
 
 public class BigVectorTest {
 
@@ -11,6 +12,43 @@ public class BigVectorTest {
 	public void testBigVector() {
 		{
 			Assert.assertEquals( 0 , new BigVector().getDimension() );
+		}
+	}
+
+	@Test
+	public void testBigVector_String() {
+		{
+			final BigVector input = new BigVector("[]");
+			Assert.assertEquals( 0 , input.getDimension() );
+		}
+		{
+			final BigVector input = new BigVector("[111]");
+			Assert.assertEquals( 1 , input.getDimension() );
+			Assert.assertEquals( new BigRational("111") , input.getCoordinates().get( 0 ) );
+		}
+		{
+			final BigVector input = new BigVector("[2,3]");
+			Assert.assertEquals( 2 , input.getDimension() );
+			Assert.assertEquals( new BigRational("2") , input.getCoordinates().get( 0 ) );
+			Assert.assertEquals( new BigRational("3") , input.getCoordinates().get( 1 ) );
+		}
+		{
+			final BigVector input = new BigVector("[1.2,3.4,5/6,-7/8,9.10,0]");
+			Assert.assertEquals( 6 , input.getDimension() );
+			Assert.assertEquals( new BigRational("1.2") , input.getCoordinates().get( 0 ) );
+			Assert.assertEquals( new BigRational("34/10") , input.getCoordinates().get( 1 ) );
+			Assert.assertEquals( new BigRational("5/6") , input.getCoordinates().get( 2 ) );
+			Assert.assertEquals( new BigRational("-7/8") , input.getCoordinates().get( 3 ) );
+			Assert.assertEquals( new BigRational("91/10") , input.getCoordinates().get( 4 ) );
+			Assert.assertEquals( new BigRational("0/1") , input.getCoordinates().get( 5 ) );
+		}
+	}
+
+	@Test(expected=ParsingException.class)
+	public void testBigVector_String_null() {
+		{
+			new BigVector("test");
+			Assert.fail();
 		}
 	}
 

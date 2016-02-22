@@ -232,7 +232,7 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 		return result;
 	}
 
-	private BigInteger pow( BigInteger value , BigInteger power ) {
+	protected BigInteger pow( BigInteger value , BigInteger power ) {
 		BigInteger partialResult = BigInteger.ONE;
 		final BigInteger two = BigInteger.valueOf( 2L );
 		BigInteger squaredValue = value;

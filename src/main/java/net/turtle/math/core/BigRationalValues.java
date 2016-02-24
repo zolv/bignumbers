@@ -28,6 +28,18 @@ public class BigRationalValues {
 
 	public static final BigRational TEN = new BigRational( BigInteger.valueOf( 10 ) );
 
+	public static final BigRational ELEVEN = new BigRational( BigInteger.valueOf( 11 ) );
+
+	public static final BigRational TWELVE = new BigRational( BigInteger.valueOf( 12 ) );
+
+	public static final BigRational THIRTEEN = new BigRational( BigInteger.valueOf( 13 ) );
+
+	public static final BigRational FOURTEEN = new BigRational( BigInteger.valueOf( 14 ) );
+
+	public static final BigRational FIFTEEN = new BigRational( BigInteger.valueOf( 15 ) );
+
+	public static final BigRational SIXTEEN = new BigRational( BigInteger.valueOf( 16 ) );
+	
 	/**
 	 * <div>Value of Answer to the Ultimate Question of Life, The Universe, and
 	 * Everything.</div>

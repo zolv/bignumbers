@@ -3,6 +3,8 @@ package net.turtle.math.core;
 import org.junit.Assert;
 import org.junit.Test;
 
+import net.turtle.math.exception.DifferentDimensionsException;
+
 public class BigRationalMatrixTest {
 
 	@Test
@@ -32,5 +34,20 @@ public class BigRationalMatrixTest {
 			Assert.assertEquals( 2 , input.getColumnsCount() );
 		}
 	}
+	
+	@Test(expected=DifferentDimensionsException.class)
+	public void testBigMatrix_String_Dimentions() {
+		{
+			new BigRationalMatrix( "[[1,2,3],[4,5],[6,7,8]]" );
+			Assert.fail();
+		}
+	}
 
+	@Test(expected=DifferentDimensionsException.class)
+	public void testBigMatrix_String_MatrixParsing() {
+		{
+			new BigRationalMatrix( "[1,2,3]" );
+			Assert.fail();
+		}
+	}
 }

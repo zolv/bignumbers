@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import net.turtle.math.util.BigVectorUtil;
+
 public class BigRationalVector extends BigVector< BigRational > {
 
 	public BigRationalVector() {
+
 	}
 
 	public BigRationalVector( String vector ) {
-		super( vector );
+		super(BigVectorUtil.parseBigRationalVector(vector));
 	}
 
 	public BigRationalVector( BigRational... coordinatesToUse ) {
@@ -23,11 +26,6 @@ public class BigRationalVector extends BigVector< BigRational > {
 
 	protected BigRationalVector( List< BigRational > input , boolean trusted ) {
 		super( input , trusted );
-	}
-
-	@Override
-	protected BigRational createCoordinateInstance( String text ) {
-		return new BigRational( text );
 	}
 
 	@Override

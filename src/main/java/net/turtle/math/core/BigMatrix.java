@@ -1,62 +1,58 @@
 package net.turtle.math.core;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import net.turtle.math.exception.DifferentDimensionsException;
-import net.turtle.math.exception.ParsingException;
+public abstract class BigMatrix< F extends FieldElement< F > , V extends BigVector< F > > {
 
-public abstract class BigMatrix<T extends FieldElement<T>> {
+	protected final List< V > entries;
 
-	protected final List<BigVector<T>> entries;
-
-	public BigMatrix() {
-		this.entries = new ArrayList<>(0);
-	}
-
-	public BigMatrix(String matrix) {
-
-		final String matrixPatternString = "^\\[((\\[.*\\])+|)\\]$";
-
-		final Pattern matrixPattern = Pattern.compile(matrixPatternString);
-		final Matcher matrixMatcher = matrixPattern.matcher(matrix);
-		if(matrixMatcher.find()) {
-			final String matrixContent = matrixMatcher.group(1);
-
-			final String vectorPatternString = "(\\[[^\\[\\]]*\\])";
-			final Pattern vectorPattern = Pattern.compile(vectorPatternString);
-			final Matcher vectorMatcher = vectorPattern.matcher(matrixContent);
-
-			int dimention = -1;
-			final LinkedList<BigVector<T>> vectorsTemp = new LinkedList<>();
-			while(vectorMatcher.find()) {
-				final String vectorString = vectorMatcher.group(1);
-				System.out.println("found: " + vectorString);
-				final BigVector<T> vector = this.createRowElement(vectorString);
-				if(dimention >= 0) {
-					if(vector.getDimension() != dimention) {
-						throw new DifferentDimensionsException(
-								"Row " + vectorsTemp.size() + " has column count " + vector.getDimension() + " but expected " + dimention);
-					}
-				} else {
-					dimention = vector.getDimension();
-				}
-				vectorsTemp.add(vector);
-			}
-			this.entries = new ArrayList<>(vectorsTemp);
-
+	protected BigMatrix( List< V > entries , boolean trusted ) {
+		if ( trusted ) {
+			this.entries = entries;
 		} else {
-			throw new ParsingException();
+			this.entries = new ArrayList< >( entries );
 		}
-
 	}
 
-	protected abstract BigVector<T> createRowElement(final String vectorString);
+	protected abstract V createRow( List< F > input );
 
-	protected abstract BigVector<T> createRowElement(List<T> input);
+	protected abstract BigMatrix< F , V > createInstance( List< V > vectors );
+
+	public BigMatrix< F , V > transpose() {
+		final int columnsCount = this.getColumnsCount();
+		final List< V > transposedEntries = new ArrayList< >( columnsCount );
+		for ( int i = 0 ; i < columnsCount ; i++ ) {
+			final V columnVector = this.getColumnVector( i );
+			transposedEntries.add( columnVector );
+		}
+		final BigMatrix< F , V > result = this.createInstance( transposedEntries );
+		return result;
+	}
+
+	public BigMatrix< F , V > add( BigMatrix< F , V > augend ) {
+		final int rowCount = this.getRowsCount();
+		final List< V > transposedEntries = new ArrayList< >( rowCount );
+		for ( int i = 0 ; i < rowCount ; i++ ) {
+			final V rowVector = this.getRowVector( i );
+			final V rowVectorAugend = augend.getRowVector( i );
+			transposedEntries.add( (V)rowVector.add( rowVectorAugend ) );
+		}
+		final BigMatrix< F , V > result = this.createInstance( transposedEntries );
+		return result;
+	}
+
+	public BigMatrix< F , V > substract( BigMatrix< F , V > subtrahend ) {
+		final int rowCount = this.getRowsCount();
+		final List< V > transposedEntries = new ArrayList< >( rowCount );
+		for ( int i = 0 ; i < rowCount ; i++ ) {
+			final V rowVector = this.getRowVector( i );
+			final V rowVectorAugend = subtrahend.getRowVector( i );
+			transposedEntries.add( (V)rowVector.subtract( rowVectorAugend ) );
+		}
+		final BigMatrix< F , V > result = this.createInstance( transposedEntries );
+		return result;
+	}
 
 	public int getRowsCount() {
 		return this.entries.size();
@@ -64,8 +60,8 @@ public abstract class BigMatrix<T extends FieldElement<T>> {
 
 	public int getColumnsCount() {
 		final int result;
-		if(!this.entries.isEmpty()) {
-			final BigVector<T> firstRow = this.entries.iterator().next();
+		if ( !this.entries.isEmpty() ) {
+			final V firstRow = this.entries.iterator().next();
 			result = firstRow.getDimension();
 		} else {
 			result = 0;
@@ -73,16 +69,16 @@ public abstract class BigMatrix<T extends FieldElement<T>> {
 		return result;
 	}
 
-	public BigVector<T> getRowVector(int rowIndex) {
-		return this.entries.get(rowIndex);
+	public V getRowVector( int rowIndex ) {
+		return this.entries.get( rowIndex );
 	}
 
-	public BigVector<T> getColumnVector(int columnIndex) {
-		final List<T> columnEntries = new ArrayList<>(this.getColumnsCount());
-		for (final BigVector<T> element : this.entries) {
-			columnEntries.add(element.getCoordinates().get(columnIndex));
+	public V getColumnVector( int columnIndex ) {
+		final List< F > columnEntries = new ArrayList< >( this.getColumnsCount() );
+		for ( final V element : this.entries ) {
+			columnEntries.add( element.getCoordinates().get( columnIndex ) );
 		}
-		return createRowElement(columnEntries);
+		return this.createRow( columnEntries );
 	}
 
 }

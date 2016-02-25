@@ -8,7 +8,6 @@ import java.util.List;
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.exception.DifferentDimensionsException;
 import net.turtle.math.exception.NotImplementedException;
-import net.turtle.math.exception.ParsingException;
 
 public abstract class BigVector< T extends FieldElement< T > > implements FieldElement< BigVector< T > > {
 
@@ -16,25 +15,6 @@ public abstract class BigVector< T extends FieldElement< T > > implements FieldE
 
 	public BigVector() {
 		this.coordinates = Collections.emptyList();
-	}
-
-	public BigVector( String vector ) {
-		if ( vector.startsWith( "[" ) && vector.endsWith( "]" ) ) {
-			final String vectorValues = vector.substring( 1 , vector.length() - 1 ).trim();
-			if ( !vectorValues.isEmpty() ) {
-				final String[] values = vectorValues.split( "," );
-				final List< T > coordinatesTemp = new ArrayList< >( values.length );
-				for ( final String value : values ) {
-					final T valueNumber = this.createCoordinateInstance( value );
-					coordinatesTemp.add( valueNumber );
-				}
-				this.coordinates = coordinatesTemp;
-			} else {
-				this.coordinates = new ArrayList< >( 0 );
-			}
-		} else {
-			throw new ParsingException( "Vector string does not start with '[' or does not ends with ']'" );
-		}
 	}
 
 	public BigVector( List< T > input ) {
@@ -48,8 +28,6 @@ public abstract class BigVector< T extends FieldElement< T > > implements FieldE
 			this.coordinates = new ArrayList< >( input );
 		}
 	}
-
-	protected abstract T createCoordinateInstance( String value );
 
 	protected abstract BigVector< T > createInstance( final ArrayList< T > coordinatesSum );
 

@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import net.turtle.math.core.BigRational;
+import net.turtle.math.exception.CalculationException;
 import net.turtle.math.exception.ParsingException;
 
 public class BigRationalVectorTest {
@@ -62,6 +63,37 @@ public class BigRationalVectorTest {
 		}
 	}
 
+	@Test(expected=CalculationException.class)
+	public void testAdd_Dimensions1() {
+		{
+			final BigRationalVector bv1 = new BigRationalVector( new BigRational( "1" ) , new BigRational( "2" ) , new BigRational( "3" ) );
+			final BigRationalVector bv2 = new BigRationalVector( new BigRational( "2" ) , new BigRational( "4" ) );
+			bv1.add( bv2 ).getCoordinates().toArray();
+			Assert.fail();
+		}
+	}
+
+	@Test(expected=CalculationException.class)
+	public void testAdd_Dimensions2() {
+		{
+			final BigRationalVector bv1 = new BigRationalVector( new BigRational( "1" ) , new BigRational( "2" ) , new BigRational( "3" ) );
+			final BigRationalVector bv2 = new BigRationalVector( new BigRational( "2" ) , new BigRational( "4" ) );
+			bv2.add( bv1 ).getCoordinates().toArray();
+			Assert.fail();
+		}
+	}
+
+	@Test
+	public void testAdd_Dimensions3() {
+		{
+			final BigRationalVector bv1 = new BigRationalVector( );
+			final BigRationalVector bv2 = new BigRationalVector( );
+			final BigRationalVector r1 = new BigRationalVector( );
+			Assert.assertArrayEquals( r1.getCoordinates().toArray() , bv1.add( bv2 ).getCoordinates().toArray() );
+		}
+	}
+
+
 	@Test
 	public void testSubstract() {
 		{
@@ -87,6 +119,24 @@ public class BigRationalVectorTest {
 			final BigRationalVector bv1 = new BigRationalVector( new BigRational( "1" ) , new BigRational( "2" ) , new BigRational( "-3" ) );
 			final BigRationalVector r1 = new BigRationalVector( new BigRational( "1/3" ) , new BigRational( "2/3" ) , new BigRational( "-1" ) );
 			Assert.assertArrayEquals( r1.getCoordinates().toArray() , bv1.divide( new BigRational( "3" ) ).getCoordinates().toArray() );
+		}
+	}
+
+	@Test
+	public void testInverse() {
+		{
+			final BigRationalVector bv1 = new BigRationalVector( new BigRational( "3" ) , new BigRational( "2" ) , new BigRational( "1" ) );
+			final BigRationalVector r1 = new BigRationalVector( new BigRational( "1/3" ) , new BigRational( "1/2" ) , new BigRational( "1" ) );
+			Assert.assertArrayEquals( r1.getCoordinates().toArray() , bv1.inverse().getCoordinates().toArray() );
+		}
+	}
+
+	@Test
+	public void testNegate() {
+		{
+			final BigRationalVector bv1 = new BigRationalVector( new BigRational( "3" ) , new BigRational( "2" ) , new BigRational( "1" ) );
+			final BigRationalVector r1 = new BigRationalVector( new BigRational( "-3" ) , new BigRational( "-2" ) , new BigRational( "-1" ) );
+			Assert.assertArrayEquals( r1.getCoordinates().toArray() , bv1.negate().getCoordinates().toArray() );
 		}
 	}
 }

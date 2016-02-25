@@ -19,7 +19,7 @@ public abstract class BigMatrix< T extends FieldElement< T > > {
 
 	public BigMatrix( String matrix ) {
 
-		final String matrixPatternString = "^\\[(.*)\\]$";
+		final String matrixPatternString = "^\\[(\\[.*\\]|)\\]$";
 
 		final Pattern matrixPattern = Pattern.compile( matrixPatternString );
 		final Matcher matrixMatcher = matrixPattern.matcher( matrix );

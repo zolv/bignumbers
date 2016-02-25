@@ -1,9 +1,11 @@
 package net.turtle.math.core;
 
+
 import org.junit.Assert;
 import org.junit.Test;
 
 import net.turtle.math.exception.DifferentDimensionsException;
+import net.turtle.math.exception.ParsingException;
 
 public class BigRationalMatrixTest {
 
@@ -43,7 +45,7 @@ public class BigRationalMatrixTest {
 		}
 	}
 
-	@Test(expected=DifferentDimensionsException.class)
+	@Test(expected=ParsingException.class)
 	public void testBigMatrix_String_MatrixParsing() {
 		{
 			new BigRationalMatrix( "[1,2,3]" );

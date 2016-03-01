@@ -1,12 +1,11 @@
 package net.turtle.math.core;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import net.turtle.math.util.BigVectorUtil;
 
-public class BigRationalVector extends BigVector< BigRational > {
+public class BigRationalVector extends BigFieldElementVector< BigRational > {
 
 	public BigRationalVector() {
 
@@ -29,7 +28,7 @@ public class BigRationalVector extends BigVector< BigRational > {
 	}
 
 	@Override
-	protected BigVector< BigRational > createInstance( ArrayList< BigRational > coordinatesSum ) {
+	protected BigRationalVector createInstance( List< BigRational > coordinatesSum ) {
 		return new BigRationalVector( coordinatesSum , true );
 	}
 

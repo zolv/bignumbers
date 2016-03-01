@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.turtle.math.util.BigMatrixUtil;
 
-public class BigRationalMatrix extends BigMatrix< BigRational , BigRationalVector > {
+public class BigRationalMatrix extends BigFieldElementMatrix< BigRational , BigRationalVector > {
 
 	public BigRationalMatrix() {
 		this( new ArrayList< BigRationalVector >( 0 ) , false );

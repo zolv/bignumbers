@@ -116,6 +116,14 @@ public abstract class BigFieldElementMatrix< F extends FieldElement< F >, V exte
 	}
 	
 	@Override
+	public M multiply( V multiplicand ) {
+		final List<V> vectors = new ArrayList<>(1);
+		vectors.add( multiplicand );
+		final M converted = this.createInstance( vectors ).transpose();
+		return this.multiply( converted );
+	}
+	
+	@Override
 	public M multiply( F multiplicand ) {
 		final int rowCount = this.getRowsCount();
 		final List< V > resultEntries = new ArrayList<>( rowCount );

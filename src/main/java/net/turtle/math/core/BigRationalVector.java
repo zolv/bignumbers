@@ -6,30 +6,31 @@ import java.util.List;
 import net.turtle.math.util.BigVectorUtil;
 
 public class BigRationalVector extends BigFieldElementVector< BigRational, BigRationalVector > {
-
+	
+	
 	public BigRationalVector() {
-
+		
 	}
-
+	
 	public BigRationalVector( String vector ) {
-		super(BigVectorUtil.parseBigRationalVector(vector));
+		super( BigVectorUtil.parseBigRationalVector( vector ) );
 	}
-
+	
 	public BigRationalVector( BigRational... coordinatesToUse ) {
 		super( Arrays.asList( coordinatesToUse ) );
 	}
-
+	
 	public BigRationalVector( List< BigRational > input ) {
 		super( input );
 	}
-
-	protected BigRationalVector( List< BigRational > input , boolean trusted ) {
-		super( input , trusted );
+	
+	protected BigRationalVector( List< BigRational > input, boolean trusted ) {
+		super( input, trusted );
 	}
-
+	
 	@Override
 	protected BigRationalVector createInstance( List< BigRational > coordinatesSum ) {
-		return new BigRationalVector( coordinatesSum , true );
+		return new BigRationalVector( coordinatesSum, true );
 	}
-
+	
 }

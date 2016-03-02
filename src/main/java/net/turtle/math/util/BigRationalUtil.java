@@ -9,21 +9,22 @@ import net.turtle.math.core.BigRationalValues;
 import net.turtle.math.exception.CalculationException;
 
 public class BigRationalUtil {
-
+	
+	
 	private static final String UNIT_DENOMINATOR_STRING = "1";
-
+	
 	private BigRationalUtil() {
 		super();
 	}
-
-	public static BigDecimal asBigDecimal( BigRational rational , int scale ) {
-		return new BigDecimal( rational.getNumerator() ).divide( new BigDecimal( rational.getDenominator() ) , scale , RoundingMode.HALF_UP );
+	
+	public static BigDecimal asBigDecimal( BigRational rational, int scale ) {
+		return new BigDecimal( rational.getNumerator() ).divide( new BigDecimal( rational.getDenominator() ), scale, RoundingMode.HALF_UP );
 	}
-
+	
 	public static BigInteger asBigDInteger( BigRational rational ) {
 		return rational.getNumerator().divide( rational.getDenominator() );
 	}
-
+	
 	public static String toStringNormalized( BigRational number ) {
 		final BigRational signumNormalized = number.normalizeSignum();
 		final StringBuilder result = new StringBuilder();
@@ -33,7 +34,7 @@ public class BigRationalUtil {
 		}
 		return result.toString();
 	}
-
+	
 	public static String getNumerator( String value ) {
 		final String n;
 		final int slashIndex = value.indexOf( "/" );
@@ -41,7 +42,7 @@ public class BigRationalUtil {
 			/*
 			 * 123/456
 			 */
-			n = value.substring( 0 , slashIndex );
+			n = value.substring( 0, slashIndex );
 		} else {
 			/*
 			 * 123.456
@@ -49,7 +50,7 @@ public class BigRationalUtil {
 			final int dotIndex = value.indexOf( "." );
 			if ( dotIndex > 0 ) {
 				final String dString = value.substring( dotIndex + 1 );
-				n = value.substring( 0 , dotIndex ) + dString;
+				n = value.substring( 0, dotIndex ) + dString;
 			} else {
 				/*
 				 * 123456
@@ -59,7 +60,7 @@ public class BigRationalUtil {
 		}
 		return n;
 	}
-
+	
 	public static String getDenominator( String value ) {
 		final String d;
 		final int slashIndex = value.indexOf( "/" );
@@ -85,7 +86,7 @@ public class BigRationalUtil {
 		}
 		return d;
 	}
-
+	
 	public static BigInteger bigTenToThe( int n ) {
 		final BigInteger result;
 		if ( n < 0 ) {
@@ -95,7 +96,7 @@ public class BigRationalUtil {
 		}
 		return result;
 	}
-
+	
 	public static String bigTenToTheString( int n ) {
 		final char tenpow[] = new char[ n + 1 ];
 		tenpow[ 0 ] = '1';
@@ -104,7 +105,7 @@ public class BigRationalUtil {
 		}
 		return new String( tenpow );
 	}
-
+	
 	public static BigRational factorial( BigRational n ) {
 		final BigRational result;
 		if ( n.compareTo( BigRationalValues.ZERO ) >= 0 ) {

@@ -4,11 +4,12 @@ import net.turtle.math.core.BigComplex;
 import net.turtle.math.core.BigRational;
 
 public class BigComplexUtil {
-
+	
+	
 	private BigComplexUtil() {
 		super();
 	}
-
+	
 	public static String toStringNormalized( BigComplex complex ) {
 		final StringBuilder result = new StringBuilder();
 		if ( !complex.getA().equals( BigRational.ZERO ) ) {
@@ -29,5 +30,5 @@ public class BigComplexUtil {
 		}
 		return result.toString();
 	}
-
+	
 }

@@ -7,32 +7,33 @@ import net.turtle.math.core.BigRational;
 import net.turtle.math.exception.ParsingException;
 
 public class BigVectorUtil {
-
+	
+	
 	private BigVectorUtil() {
-
+		
 	}
-
+	
 	public static List< BigRational > parseBigRationalVector( String vector ) {
 		final List< BigRational > coordinates;
 		if ( vector.startsWith( "[" ) && vector.endsWith( "]" ) ) {
-			final String vectorValues = vector.substring( 1 , vector.length() - 1 ).trim();
-
+			final String vectorValues = vector.substring( 1, vector.length() - 1 ).trim();
+			
 			if ( !vectorValues.isEmpty() ) {
 				final String[] values = vectorValues.split( "," );
-				final List< BigRational > coordinatesTemp = new ArrayList< >( values.length );
+				final List< BigRational > coordinatesTemp = new ArrayList<>( values.length );
 				for ( final String value : values ) {
 					final BigRational valueNumber = new BigRational( value );
 					coordinatesTemp.add( valueNumber );
 				}
 				coordinates = coordinatesTemp;
 			} else {
-				coordinates = new ArrayList< >( 0 );
+				coordinates = new ArrayList<>( 0 );
 			}
-
+			
 		} else {
 			throw new ParsingException( "Vector string does not start with '[' or does not ends with ']'" );
 		}
 		return coordinates;
 	}
-
+	
 }

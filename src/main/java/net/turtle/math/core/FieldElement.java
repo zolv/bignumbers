@@ -4,6 +4,7 @@ import net.turtle.math.exception.CalculationException;
 
 public interface FieldElement< T > {
 	
+	
 	T add( T augend ) throws CalculationException;
 	
 	T subtract( T subtrahend ) throws CalculationException;

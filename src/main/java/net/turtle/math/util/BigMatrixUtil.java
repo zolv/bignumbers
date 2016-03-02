@@ -11,26 +11,27 @@ import net.turtle.math.exception.DifferentDimensionsException;
 import net.turtle.math.exception.ParsingException;
 
 public class BigMatrixUtil {
-
+	
+	
 	private BigMatrixUtil() {
-
+		
 	}
-
+	
 	public static List< BigRationalVector > parseBigRationalMatrix( String matrix ) {
 		final String matrixPatternString = "^\\[((\\[.*\\])+|)\\]$";
-
+		
 		final Pattern matrixPattern = Pattern.compile( matrixPatternString );
 		final Matcher matrixMatcher = matrixPattern.matcher( matrix );
 		final List< BigRationalVector > entries;
 		if ( matrixMatcher.find() ) {
 			final String matrixContent = matrixMatcher.group( 1 );
-
+			
 			final String vectorPatternString = "(\\[[^\\[\\]]*\\])";
 			final Pattern vectorPattern = Pattern.compile( vectorPatternString );
 			final Matcher vectorMatcher = vectorPattern.matcher( matrixContent );
-
+			
 			int dimention = -1;
-			final LinkedList< BigRationalVector > vectorsTemp = new LinkedList< >();
+			final LinkedList< BigRationalVector > vectorsTemp = new LinkedList<>();
 			while ( vectorMatcher.find() ) {
 				final String vectorString = vectorMatcher.group( 1 );
 				final BigRationalVector vector = new BigRationalVector( vectorString );
@@ -43,11 +44,11 @@ public class BigMatrixUtil {
 				}
 				vectorsTemp.add( vector );
 			}
-			entries = new ArrayList< >( vectorsTemp );
+			entries = new ArrayList<>( vectorsTemp );
 		} else {
 			throw new ParsingException();
 		}
 		return entries;
 	}
-
+	
 }

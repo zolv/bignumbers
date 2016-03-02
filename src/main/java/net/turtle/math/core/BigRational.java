@@ -10,59 +10,59 @@ import net.turtle.math.context.BigMathContext;
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.util.BigRationalUtil;
 
-public class BigRational implements FieldElement<BigRational>, Comparable< BigRational > {
-
+public class BigRational implements FieldElement< BigRational >, Comparable< BigRational > {
+	
+	
 	public static final BigRational ZERO = new BigRational( BigInteger.ZERO );
-
+	
 	public static final BigRational ONE = new BigRational( BigInteger.ONE );
-
+	
 	private final BigInteger numerator;
-
+	
 	private final BigInteger denominator;
-
+	
 	/**
 	 * Creates new BigDecimal with value ZERO.
 	 */
 	public BigRational() {
-		this( BigInteger.ZERO , BigInteger.ONE );
+		this( BigInteger.ZERO, BigInteger.ONE );
 	}
-
+	
 	public BigRational( BigDecimal bigDecimalValue ) {
 		this(
 			bigDecimalValue.scale() >= 0 ? bigDecimalValue.unscaledValue()
-				: bigDecimalValue.unscaledValue().multiply( BigRationalUtil.bigTenToThe( -bigDecimalValue.scale() ) ) ,
+				: bigDecimalValue.unscaledValue().multiply( BigRationalUtil.bigTenToThe( -bigDecimalValue.scale() ) ),
 			bigDecimalValue.scale() < 0 ? BigInteger.ONE : BigRationalUtil.bigTenToThe( bigDecimalValue.scale() ) );
 	}
-
-	public BigRational( BigInteger bigIntegerValue ) throws ArithmeticException , NullPointerException {
-		this( bigIntegerValue , BigInteger.ONE );
+	
+	public BigRational( BigInteger bigIntegerValue ) throws ArithmeticException, NullPointerException {
+		this( bigIntegerValue, BigInteger.ONE );
 	}
-
-	public BigRational( String value ) throws ArithmeticException , NullPointerException {
-		this( BigRationalUtil.getNumerator( value ) , BigRationalUtil.getDenominator( value ) );
+	
+	public BigRational( String value ) throws ArithmeticException, NullPointerException {
+		this( BigRationalUtil.getNumerator( value ), BigRationalUtil.getDenominator( value ) );
 	}
-
-	public BigRational( String numerator , String denominator ) throws ArithmeticException , NullPointerException {
-		this( new BigInteger( numerator ) , new BigInteger( denominator ) );
+	
+	public BigRational( String numerator, String denominator ) throws ArithmeticException, NullPointerException {
+		this( new BigInteger( numerator ), new BigInteger( denominator ) );
 	}
-
-	public BigRational( BigInteger numerator , BigInteger denominator ) throws ArithmeticException , NullPointerException {
-		this( numerator , denominator , BigMathContext.get().getNormalizeResult() );
+	
+	public BigRational( BigInteger numerator, BigInteger denominator ) throws ArithmeticException, NullPointerException {
+		this( numerator, denominator, BigMathContext.get().getNormalizeResult() );
 	}
-
-	public BigRational( BigInteger numerator , BigInteger denominator , boolean normalize ) throws ArithmeticException , NullPointerException {
+	
+	public BigRational( BigInteger numerator, BigInteger denominator, boolean normalize ) throws ArithmeticException, NullPointerException {
 		if ( numerator != null ) {
 			if ( denominator != null ) {
 				if ( !denominator.equals( BigInteger.ZERO ) ) {
 					if ( normalize ) {
 						/*
-						 * If numerator and denominator are already normalized,
-						 * the only loss of memory is just the BigRational
-						 * instance (2 references to numerator and denominator)
-						 * because after normalization same instances of
-						 * numerator and denominator are used.
+						 * If numerator and denominator are already normalized, the only
+						 * loss of memory is just the BigRational instance (2 references to
+						 * numerator and denominator) because after normalization same
+						 * instances of numerator and denominator are used.
 						 */
-						final BigRational normalized = new BigRational( numerator , denominator , false ).normalize();
+						final BigRational normalized = new BigRational( numerator, denominator, false ).normalize();
 						this.numerator = normalized.getNumerator();
 						this.denominator = normalized.getDenominator();
 					} else {
@@ -79,45 +79,45 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 			throw new NullPointerException( "Numerator cannot be null." );
 		}
 	}
-
+	
 	public BigInteger getNumerator() {
 		return this.numerator;
 	}
-
+	
 	public BigInteger getDividend() {
 		return this.numerator;
 	}
-
+	
 	public BigInteger getDenominator() {
 		return this.denominator;
 	}
-
+	
 	public BigInteger getDivisor() {
 		return this.denominator;
 	}
-
+	
 	/**
 	 * Normalizes fraction by normalizing signum leaving sign only in numerator
 	 * (denominator is positive) e.g.: 2/-3 becomes -2/3 -2/-3 becomes 2/3 Then
-	 * fraction is cancelled e.g.: -4/6 becomes -2/3 11/11 becomes 1/1 0/123
-	 * (any representation of 0) becomes 0/1
+	 * fraction is cancelled e.g.: -4/6 becomes -2/3 11/11 becomes 1/1 0/123 (any
+	 * representation of 0) becomes 0/1
 	 *
 	 * @return Normalized fraction e.g. 4/-6 becomes -2/3
 	 */
 	public BigRational normalize() {
 		return this.cancel().normalizeSignum();
 	}
-
+	
 	public BigRational normalizeSignum() {
-		return this.denominator.signum() >= 0 ? this : new BigRational( this.numerator.negate() , this.denominator.negate() );
+		return this.denominator.signum() >= 0 ? this : new BigRational( this.numerator.negate(), this.denominator.negate() );
 	}
-
+	
 	public BigRational cancel() {
 		final BigRational result;
 		if ( !this.denominator.equals( BigInteger.ONE ) ) {
 			final BigInteger gcd = this.numerator.gcd( this.denominator );
 			if ( !gcd.equals( BigInteger.ONE ) ) {
-				result = new BigRational( this.numerator.divide( gcd ) , this.denominator.divide( gcd ) );
+				result = new BigRational( this.numerator.divide( gcd ), this.denominator.divide( gcd ) );
 			} else {
 				result = this;
 			}
@@ -126,67 +126,69 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 		}
 		return result;
 	}
-
+	
 	public BigRational add( BigRational augend ) {
 		return new BigRational(
-			this.numerator.multiply( augend.denominator ).add( augend.numerator.multiply( this.denominator ) ) ,
+			this.numerator.multiply( augend.denominator ).add( augend.numerator.multiply( this.denominator ) ),
 			this.denominator.multiply( augend.denominator ) );
 	}
-
+	
 	public BigRational subtract( BigRational subtrahend ) throws NullPointerException {
 		return new BigRational(
-			this.numerator.multiply( subtrahend.denominator ).subtract( subtrahend.numerator.multiply( this.denominator ) ) ,
+			this.numerator.multiply( subtrahend.denominator ).subtract( subtrahend.numerator.multiply( this.denominator ) ),
 			this.denominator.multiply( subtrahend.denominator ) );
 	}
-
+	
 	public BigRational multiply( final BigRational multiplicand ) {
 		if ( multiplicand == null ) {
 			throw new NullPointerException( "Multiplicand cannot be null" );
 		}
-
+		
 		final FutureTask< BigInteger > numeratorComputation = new FutureTask< BigInteger >( new Callable< BigInteger >() {
-
+			
+			
 			@Override
 			public BigInteger call() throws Exception {
 				return BigRational.this.numerator.multiply( multiplicand.numerator );
 			}
 		} );
-
+		
 		BigMathContext.get().submit( numeratorComputation );
-
+		
 		/*
 		 * Reuse current thread for calculation.
 		 */
 		final BigInteger denominatorComputed = this.denominator.multiply( multiplicand.denominator );
-
+		
 		try {
-
-			return new BigRational( numeratorComputation.get() , denominatorComputed );
-
+			
+			return new BigRational( numeratorComputation.get(), denominatorComputed );
+			
 		} catch ( ArithmeticException | NullPointerException | InterruptedException | ExecutionException e ) {
 			throw new RuntimeException( e );
 		}
 	}
-
+	
 	public BigRational divide( final BigRational divisor ) throws CalculationException {
 		final FutureTask< BigInteger > numeratorComputation = new FutureTask< BigInteger >( new Callable< BigInteger >() {
-
+			
+			
 			@Override
 			public BigInteger call() throws Exception {
 				return BigRational.this.numerator.multiply( divisor.denominator );
 			}
 		} );
-
+		
 		BigMathContext.get().submit( numeratorComputation );
 		final BigInteger denominatorComputation = this.denominator.multiply( divisor.numerator );
 		try {
-			return new BigRational( numeratorComputation.get() , denominatorComputation );
-		} catch(InterruptedException | ExecutionException e) {
-			throw new CalculationException(e);
+			return new BigRational( numeratorComputation.get(), denominatorComputation );
+		} catch ( InterruptedException | ExecutionException e ) {
+			throw new CalculationException( e );
 		}
 	}
-
-	public BigRational pow( BigInteger power ) throws NullPointerException , ArithmeticException , CalculationException {
+	
+	public BigRational pow( BigInteger power ) throws NullPointerException, ArithmeticException, CalculationException {
 		final BigRational result;
 		if ( !power.equals( BigInteger.ZERO ) ) {
 			final BigInteger powerAbs = power.abs();
@@ -201,20 +203,21 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 					newDenominator = this.numerator;
 				}
 				final FutureTask< BigInteger > numeratorComputation = new FutureTask< BigInteger >( new Callable< BigInteger >() {
-
+					
+					
 					@Override
 					public BigInteger call() throws Exception {
-						return BigRational.this.pow( newNumerator , powerAbs );
+						return BigRational.this.pow( newNumerator, powerAbs );
 					}
 				} );
-
+				
 				BigMathContext.get().submit( numeratorComputation );
-				final BigInteger denominatorComputation = this.pow( newDenominator , powerAbs );
-
+				final BigInteger denominatorComputation = this.pow( newDenominator, powerAbs );
+				
 				try {
-					result = new BigRational( numeratorComputation.get() , denominatorComputation );
-				} catch (InterruptedException | ExecutionException e ) {
-					throw new CalculationException(e);
+					result = new BigRational( numeratorComputation.get(), denominatorComputation );
+				} catch ( InterruptedException | ExecutionException e ) {
+					throw new CalculationException( e );
 				}
 			} else {
 				if ( power.equals( BigInteger.ONE ) ) {
@@ -231,8 +234,8 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 		}
 		return result;
 	}
-
-	protected BigInteger pow( BigInteger value , BigInteger power ) {
+	
+	protected BigInteger pow( BigInteger value, BigInteger power ) {
 		BigInteger partialResult = BigInteger.ONE;
 		final BigInteger two = BigInteger.valueOf( 2L );
 		BigInteger squaredValue = value;
@@ -246,14 +249,14 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 				squaredValue = squaredValue.multiply( squaredValue );
 			}
 		}
-
+		
 		return partialResult;
 	}
-
+	
 	public BigRational abs() {
 		return this.signum() >= 0 ? this : this.negate();
 	}
-
+	
 	/**
 	 * Negates value. Includes silent signum normalization.
 	 *
@@ -265,13 +268,13 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 		 * "Silent" harmless signum normalization.
 		 */
 		if ( this.denominator.signum() < 0 ) {
-			result = new BigRational( this.numerator , this.denominator.negate() );
+			result = new BigRational( this.numerator, this.denominator.negate() );
 		} else {
-			result = new BigRational( this.numerator.negate() , this.denominator );
+			result = new BigRational( this.numerator.negate(), this.denominator );
 		}
 		return result;
 	}
-
+	
 	/**
 	 * Returns result of 1 / this = this.denominator / this.numerator. Always
 	 * return new BigRational instance. Checking for this.numerator.equals(
@@ -280,9 +283,9 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 	 * @return Inversed
 	 */
 	public BigRational inverse() {
-		return new BigRational( this.denominator , this.numerator );
+		return new BigRational( this.denominator, this.numerator );
 	}
-
+	
 	/**
 	 *
 	 * @return 1 = positive, -1 = negative, 0 = zero
@@ -330,15 +333,15 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 		}
 		return result;
 	}
-
+	
 	public BigRational square() {
 		return this.multiply( this );
 	}
-
+	
 	public BigRational cube() {
 		return this.multiply( this ).multiply( this );
 	}
-
+	
 	@Override
 	public int compareTo( BigRational that ) {
 		final int result;
@@ -363,8 +366,8 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 							result = 1;
 						} else {
 							/*
-							 * abs() of multiplication results are not needed
-							 * due to normalization.
+							 * abs() of multiplication results are not needed due to
+							 * normalization.
 							 */
 							final int absCompare = thisNormalized.numerator.multiply( thatNormalized.denominator )
 								.compareTo( thatNormalized.numerator.multiply( thisNormalized.denominator ) );
@@ -388,15 +391,15 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 		}
 		return result;
 	}
-
+	
 	public BigRational min( BigRational val ) {
 		return ( this.compareTo( val ) <= 0 ? this : val );
 	}
-
+	
 	public BigRational max( BigRational val ) {
 		return ( this.compareTo( val ) > 0 ? this : val );
 	}
-
+	
 	@Override
 	public boolean equals( Object obj ) {
 		final boolean result;
@@ -404,7 +407,7 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 			result = true;
 		} else {
 			if ( obj instanceof BigRational ) {
-				if(this.numerator.equals( ( (BigRational)obj ).numerator ) && this.denominator.equals( ( (BigRational)obj ).denominator )) {
+				if ( this.numerator.equals( ( (BigRational)obj ).numerator ) && this.denominator.equals( ( (BigRational)obj ).denominator ) ) {
 					result = true;
 				} else {
 					result = this.numerator.multiply( ( (BigRational)obj ).denominator ).equals( ( (BigRational)obj ).numerator.multiply( this.denominator ) );
@@ -415,7 +418,7 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 		}
 		return result;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -423,10 +426,10 @@ public class BigRational implements FieldElement<BigRational>, Comparable< BigRa
 		result = ( prime * result ) + this.numerator.intValue();
 		return result;
 	}
-
+	
 	@Override
 	public String toString() {
 		return new StringBuilder().append( this.numerator.toString() ).append( "/" ).append( this.denominator.toString() ).toString();
 	}
-
+	
 }

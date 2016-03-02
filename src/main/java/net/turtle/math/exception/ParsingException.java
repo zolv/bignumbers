@@ -2,7 +2,6 @@ package net.turtle.math.exception;
 
 public class ParsingException extends RuntimeException {
 	
-	
 	private static final long serialVersionUID = 8730069633079206973L;
 	
 	public ParsingException() {

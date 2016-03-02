@@ -10,7 +10,6 @@ import net.turtle.math.exception.ParsingException;
 
 public class BigRationalMatrixTest {
 	
-	
 	@Test
 	public void testBigMatrix() {
 		{

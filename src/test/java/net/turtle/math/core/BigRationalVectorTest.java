@@ -9,7 +9,6 @@ import net.turtle.math.exception.ParsingException;
 
 public class BigRationalVectorTest {
 	
-	
 	@Test
 	public void testBigVector() {
 		{

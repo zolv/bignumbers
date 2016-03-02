@@ -11,7 +11,6 @@ import net.turtle.math.exception.CalculationException;
  */
 public class BigComplex implements FieldElement< BigComplex >, Comparable< BigComplex > {
 	
-	
 	/**
 	 * z = 0 = 0 + 0i
 	 */

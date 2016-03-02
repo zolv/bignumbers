@@ -5,7 +5,6 @@ import net.turtle.math.core.BigRational;
 
 public class BigComplexUtil {
 	
-	
 	private BigComplexUtil() {
 		super();
 	}

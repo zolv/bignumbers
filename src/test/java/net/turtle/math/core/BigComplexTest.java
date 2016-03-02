@@ -9,7 +9,6 @@ import net.turtle.math.core.BigRational;
 
 public class BigComplexTest {
 	
-	
 	@Test
 	public void testBigComplex() {
 		Assert.assertEquals( new BigRational( "0", "1" ), new BigComplex().getA() );

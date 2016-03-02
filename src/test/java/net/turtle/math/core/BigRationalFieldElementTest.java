@@ -5,7 +5,6 @@ import org.junit.Test;
 
 public class BigRationalFieldElementTest {
 	
-	
 	/**
 	 * a + ( b + c ) = (a + b ) + c
 	 */

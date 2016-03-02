@@ -9,7 +9,6 @@ import net.turtle.math.util.BigRationalUtil;
 
 public class BigRationalUtilTest {
 	
-	
 	@Test
 	public void testToStringNormalized() {
 		Assert.assertEquals( "2", BigRationalUtil.toStringNormalized( new BigRational( "2/1" ) ) );

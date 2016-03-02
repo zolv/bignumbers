@@ -10,7 +10,6 @@ import net.turtle.math.exception.CalculationException;
 
 public class BigRationalUtil {
 	
-	
 	private static final String UNIT_DENOMINATOR_STRING = "1";
 	
 	private BigRationalUtil() {

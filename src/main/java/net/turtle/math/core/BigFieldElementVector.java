@@ -11,7 +11,6 @@ import net.turtle.math.exception.NotImplementedException;
 
 public abstract class BigFieldElementVector< T extends FieldElement< T >, V extends BigFieldElementVector< T, V > > implements FieldElement< V >, BigVector< T, V > {
 	
-	
 	private final List< T > coordinates;
 	
 	public BigFieldElementVector() {

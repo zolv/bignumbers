@@ -12,7 +12,6 @@ import net.turtle.math.exception.ParsingException;
 
 public class BigMatrixUtil {
 	
-	
 	private BigMatrixUtil() {
 		
 	}

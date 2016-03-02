@@ -2,7 +2,6 @@ package net.turtle.math.core;
 
 public class BigComplexValues {
 	
-	
 	/**
 	 * z = 0 = 0 + 0i
 	 */

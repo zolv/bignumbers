@@ -2,7 +2,6 @@ package net.turtle.math.context;
 
 public class PooledBigMathContextThread extends Thread {
 	
-	
 	private final BigMathContext bigMathContext;
 	
 	public PooledBigMathContextThread( BigMathContext bigMathContext, ThreadGroup group, Runnable target, String name, long stackSize ) {

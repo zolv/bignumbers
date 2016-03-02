@@ -4,7 +4,6 @@ import org.junit.Test;
 
 public class BigComplexUtilTest {
 	
-	
 	@Test
 	public void testToStringNormalized() {
 		// Assert.assertEquals("2", BigRationalUtil.toStringNormalized(new

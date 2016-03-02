@@ -2,7 +2,6 @@ package net.turtle.math.exception;
 
 public class DifferentDimensionsException extends CalculationException {
 	
-	
 	private static final long serialVersionUID = -6369789850367584488L;
 	
 	public DifferentDimensionsException() {

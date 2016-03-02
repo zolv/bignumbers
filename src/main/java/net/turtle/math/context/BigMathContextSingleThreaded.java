@@ -5,7 +5,6 @@ import java.util.concurrent.Executors;
 
 public class BigMathContextSingleThreaded extends BigMathContext {
 	
-	
 	private final Executor executor;
 	
 	public BigMathContextSingleThreaded() {

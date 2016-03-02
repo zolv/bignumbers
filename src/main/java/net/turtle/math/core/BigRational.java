@@ -12,7 +12,6 @@ import net.turtle.math.util.BigRationalUtil;
 
 public class BigRational implements FieldElement< BigRational >, Comparable< BigRational > {
 	
-	
 	public static final BigRational ZERO = new BigRational( BigInteger.ZERO );
 	
 	public static final BigRational ONE = new BigRational( BigInteger.ONE );

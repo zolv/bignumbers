@@ -7,7 +7,6 @@ import net.turtle.math.exception.NotImplementedException;
 
 public abstract class BigFieldElementMatrix< F extends FieldElement< F >, V extends BigFieldElementVector< F, V >, M extends BigFieldElementMatrix< F, V, M > > implements BigMatrix< F, V, M > {
 	
-	
 	protected final List< V > entries;
 	
 	protected BigFieldElementMatrix( List< V > entries, boolean trusted ) {

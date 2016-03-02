@@ -8,7 +8,6 @@ import net.turtle.math.util.BigRationalUtil;
 
 public class BigRationalBenchmarkTest {
 	
-	
 	/**
 	 * Note: Converges very slowly.
 	 */

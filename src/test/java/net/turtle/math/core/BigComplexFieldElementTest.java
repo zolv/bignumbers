@@ -5,7 +5,6 @@ import org.junit.Test;
 
 public class BigComplexFieldElementTest {
 	
-	
 	/**
 	 * a + ( b + c ) = (a + b ) + c
 	 */

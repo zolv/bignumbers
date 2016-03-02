@@ -14,7 +14,6 @@ import net.turtle.math.exception.CalculationException;
 
 public class BigRationalTest {
 	
-	
 	@Test
 	public void testBigRational() {
 		{

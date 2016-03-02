@@ -9,6 +9,8 @@ public interface BigMatrix< F extends FieldElement< F > , V extends BigVector< F
 	M substract( M subtrahend );
 
 	M multiply( M multiplicand );
+
+	M multiply( F multiplicand );
 	
 	int getRowsCount();
 	

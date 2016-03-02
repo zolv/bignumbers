@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.turtle.math.util.BigVectorUtil;
 
-public class BigRationalVector extends BigFieldElementVector< BigRational > {
+public class BigRationalVector extends BigFieldElementVector< BigRational, BigRationalVector > {
 
 	public BigRationalVector() {
 

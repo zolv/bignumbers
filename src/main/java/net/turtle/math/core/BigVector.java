@@ -4,24 +4,24 @@ import java.util.List;
 
 import net.turtle.math.exception.CalculationException;
 
-public interface BigVector< T extends FieldElement< T > > {
+public interface BigVector< T extends FieldElement< T > , V extends BigVector<T,V> > {
 	
 	
-	BigVector< T > add( BigVector< T > augend ) throws CalculationException;
+	V add(V augend ) throws CalculationException;
 
-	BigVector< T > negate();
+	V negate();
 
-	BigVector< T > inverse();
+	V inverse();
 
-	BigVector< T > divide( T divisor );
+	V divide( T divisor );
 
-	BigVector< T > divide( BigVector< T > divisor );
+	V divide( V divisor );
 
-	BigVector< T > multiply( T multiplicand );
+	V multiply( T multiplicand );
 
-	BigVector< T > multiply( BigVector< T > multiplicand ) throws CalculationException;
+	V multiply( V multiplicand ) throws CalculationException;
 
-	BigVector< T > subtract( BigVector< T > subtrahend ) throws CalculationException;
+	V subtract( V subtrahend ) throws CalculationException;
 
 	int getDimension();
 

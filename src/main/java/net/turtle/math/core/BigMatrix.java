@@ -1,14 +1,14 @@
 package net.turtle.math.core;
 
-public interface BigMatrix< F extends FieldElement< F > , V extends BigVector< F > > {
+public interface BigMatrix< F extends FieldElement< F > , V extends BigVector< F, V > , M extends BigMatrix< F, V, M > > {
 	
-	BigMatrix< F , V > transpose();
+	M transpose();
 	
-	BigMatrix< F , V > add( BigMatrix< F , V > augend );
+	M add( M augend );
 	
-	BigMatrix< F , V > substract( BigMatrix< F , V > subtrahend );
+	M substract( M subtrahend );
 
-	BigMatrix< F , V > multiply( BigMatrix< F , V > multiplicand );
+	M multiply( M multiplicand );
 	
 	int getRowsCount();
 	

@@ -75,6 +75,31 @@ public abstract class BigFieldElementMatrix< F extends FieldElement< F >, V exte
 	
 	@Override
 	public M multiply( M multiplicand ) {
+//		int n = this.getRowsCount();
+//		int m = this.getColumnsCount();
+//		int p = multiplicand.getColumnsCount();
+//
+//		final List< V > resultEntries = new ArrayList< >( n );
+//		
+//		for(int i = 0 ; i < n ; i++) {
+//			final List<F> resultCoordinates = new ArrayList<>(p);
+//			
+//			final V aRowVector = this.getRowVector( i );
+//			
+//			for(int k = 0 ; k < m ; k++) {
+//				
+//				final V bColumnVector = multiplicand.getColumnVector( k );
+//				
+//				
+//				
+//			}
+//			
+//		}
+//		
+//		
+//		
+//		final M result = this.createInstance( resultEntries );
+//		return result;
 		throw new NotImplementedException();
 	}
 	

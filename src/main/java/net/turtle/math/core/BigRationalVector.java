@@ -7,7 +7,6 @@ import net.turtle.math.util.BigVectorUtil;
 
 public class BigRationalVector extends BigFieldElementVector< BigRational, BigRationalVector > {
 	
-	
 	public BigRationalVector() {
 		
 	}
@@ -28,6 +27,11 @@ public class BigRationalVector extends BigFieldElementVector< BigRational, BigRa
 		super( input, trusted );
 	}
 	
+	@Override
+	protected BigRational createZeroFieldElement() {
+		return BigRational.ZERO;
+	}
+
 	@Override
 	protected BigRationalVector createInstance( List< BigRational > coordinatesSum ) {
 		return new BigRationalVector( coordinatesSum, true );

@@ -10,6 +10,7 @@ import net.turtle.math.exception.ParsingException;
 
 public class BigRationalMatrixTest {
 	
+	
 	@Test
 	public void testBigMatrix() {
 		{
@@ -149,6 +150,46 @@ public class BigRationalMatrixTest {
 			Assert.assertEquals( new BigRational( "3" ), coordinates1.get( 0 ) );
 			Assert.assertEquals( new BigRational( "-3" ), coordinates1.get( 1 ) );
 			Assert.assertEquals( new BigRational( "3" ), coordinates1.get( 2 ) );
+		}
+		
+	}
+	
+	@Test
+	public void testMultiplyMatrix() {
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[]" );
+			final BigRationalMatrix output = input.multiply( input );
+			Assert.assertEquals( 0, output.getRowsCount() );
+			Assert.assertEquals( 0, output.getColumnsCount() );
+		}
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[1,0,2],[-1,3,1]]" );
+			final BigRationalMatrix input2 = new BigRationalMatrix( "[[3,1],[2,1],[1,0]]" );
+			final BigRationalMatrix output = input.multiply( input2 );
+			Assert.assertEquals( 2, output.getRowsCount() );
+			Assert.assertEquals( 2, output.getColumnsCount() );
+			
+			final BigRationalVector rowVector0 = output.getRowVector( 0 );
+			final List< BigRational > coordinates0 = rowVector0.getCoordinates();
+			Assert.assertEquals( new BigRational( "5" ), coordinates0.get( 0 ) );
+			Assert.assertEquals( new BigRational( "1" ), coordinates0.get( 1 ) );
+			
+			final BigRationalVector rowVector1 = output.getRowVector( 1 );
+			final List< BigRational > coordinates1 = rowVector1.getCoordinates();
+			Assert.assertEquals( new BigRational( "4" ), coordinates1.get( 0 ) );
+			Assert.assertEquals( new BigRational( "2" ), coordinates1.get( 1 ) );
+		}
+		
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[2,3,5,7,11]]" );
+			final BigRationalMatrix input2 = new BigRationalMatrix( "[[13],[17],[19],[23],[29]]" );
+			final BigRationalMatrix output = input.multiply( input2 );
+			Assert.assertEquals( 1, output.getRowsCount() );
+			Assert.assertEquals( 1, output.getColumnsCount() );
+			
+			final BigRationalVector rowVector0 = output.getRowVector( 0 );
+			final List< BigRational > coordinates0 = rowVector0.getCoordinates();
+			Assert.assertEquals( new BigRational( "652" ), coordinates0.get( 0 ) );
 		}
 		
 	}

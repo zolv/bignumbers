@@ -9,6 +9,7 @@ import net.turtle.math.core.BigRational;
 
 public class BigComplexTest {
 	
+	
 	@Test
 	public void testBigComplex() {
 		Assert.assertEquals( new BigRational( "0", "1" ), new BigComplex().getA() );
@@ -63,6 +64,170 @@ public class BigComplexTest {
 	// Assert.assertEquals(new BigRational("-5/7"), c1.getB());
 	// }
 	// }
+	
+	@Test
+	public void testBigComplexString() {
+		/*
+		 * a
+		 */
+		{
+			final BigComplex c1 = new BigComplex( "2" );
+			Assert.assertEquals( new BigRational( "2" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "0" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "-2" );
+			Assert.assertEquals( new BigRational( "-2" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "0" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "+2" );
+			Assert.assertEquals( new BigRational( "2" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "0" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "2.3" );
+			Assert.assertEquals( new BigRational( "2.3" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "0" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "-2.3" );
+			Assert.assertEquals( new BigRational( "-2.3" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "0" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "+2.3" );
+			Assert.assertEquals( new BigRational( "2.3" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "0" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "2/3" );
+			Assert.assertEquals( new BigRational( "2/3" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "0" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "-2/3" );
+			Assert.assertEquals( new BigRational( "-2/3" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "0" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "+2/3" );
+			Assert.assertEquals( new BigRational( "2/3" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "0" ), c1.getB() );
+		}
+		
+		/*
+		 * a+bi
+		 */
+		{
+			final BigComplex c1 = new BigComplex( "2+3i" );
+			Assert.assertEquals( new BigRational( "2" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "3" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "-2-3i" );
+			Assert.assertEquals( new BigRational( "-2" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "-3" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "+2+3i" );
+			Assert.assertEquals( new BigRational( "2" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "3" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "2.3+2.3i" );
+			Assert.assertEquals( new BigRational( "2.3" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "2.3" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "-2.3-2.3i" );
+			Assert.assertEquals( new BigRational( "-2.3" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "-2.3" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "+2.3+2.3i" );
+			Assert.assertEquals( new BigRational( "2.3" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "2.3" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "2/3+2/3i" );
+			Assert.assertEquals( new BigRational( "2/3" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "2/3" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "-2/3-2/3i" );
+			Assert.assertEquals( new BigRational( "-2/3" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "-2/3" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "+2/3+2/3i" );
+			Assert.assertEquals( new BigRational( "2/3" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "2/3" ), c1.getB() );
+		}
+		
+		/*
+		 * bi
+		 */
+		{
+			final BigComplex c1 = new BigComplex( "2i" );
+			Assert.assertEquals( new BigRational( "0" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "2" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "-2i" );
+			Assert.assertEquals( new BigRational( "0" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "-2" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "+2i" );
+			Assert.assertEquals( new BigRational( "0" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "2" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "2.3i" );
+			Assert.assertEquals( new BigRational( "0" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "2.3" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "-2.3i" );
+			Assert.assertEquals( new BigRational( "0" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "-2.3" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "+2.3i" );
+			Assert.assertEquals( new BigRational( "0" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "2.3" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "2/3i" );
+			Assert.assertEquals( new BigRational( "0" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "2/3" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "-2/3i" );
+			Assert.assertEquals( new BigRational( "0" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "-2/3" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "+2/3i" );
+			Assert.assertEquals( new BigRational( "0" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "2/3" ), c1.getB() );
+		}
+		
+		/*
+		 * i
+		 */
+		{
+			final BigComplex c1 = new BigComplex( "i" );
+			Assert.assertEquals( new BigRational( "0" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "1" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "-i" );
+			Assert.assertEquals( new BigRational( "0" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "-1" ), c1.getB() );
+		}
+	}
 	
 	@Test ( expected = NullPointerException.class )
 	public void testBigComplexBigRationalBigRational_nullA() {
@@ -341,6 +506,20 @@ public class BigComplexTest {
 			final BigComplex c1 = new BigComplex( new BigRational( "0" ), new BigRational( "0" ) );
 			c1.inverse();
 			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void testConjugate() {
+		{
+			final BigComplex c1 = new BigComplex( new BigRational( "2" ), new BigRational( "-3" ) );
+			final BigComplex cr = new BigComplex( new BigRational( "2" ), new BigRational( "3" ) );
+			Assert.assertEquals( cr, c1.conjugate() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( new BigRational( "0" ), new BigRational( "0" ) );
+			final BigComplex cr = new BigComplex( new BigRational( "0" ), new BigRational( "0" ) );
+			Assert.assertEquals( cr, c1.conjugate() );
 		}
 	}
 	

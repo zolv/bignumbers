@@ -1,6 +1,7 @@
 package net.turtle.math.core;
 
 import net.turtle.math.exception.CalculationException;
+import net.turtle.math.util.BigComplexUtil;
 
 /**
  * Class representing complex number in the form: Z = a + b * i
@@ -49,6 +50,10 @@ public class BigComplex implements FieldElement< BigComplex >, Comparable< BigCo
 		} else {
 			throw new NullPointerException( "b cannot be null" );
 		}
+	}
+	
+	public BigComplex( String text ) {
+		this( BigComplexUtil.getReal( text ), BigComplexUtil.getImaginary( text ) );
 	}
 	
 	public BigRational getA() {
@@ -120,6 +125,10 @@ public class BigComplex implements FieldElement< BigComplex >, Comparable< BigCo
 	public BigComplex inverse() throws ArithmeticException, CalculationException {
 		final BigRational abs = this.absSquared();
 		return new BigComplex( this.a.divide( abs ), this.b.divide( abs ).negate() );
+	}
+	
+	public BigComplex conjugate() throws ArithmeticException, CalculationException {
+		return new BigComplex( this.a, this.b.negate() );
 	}
 	
 	public BigComplex reuse( final BigRational aNormalizedSignum, final BigRational bNormalizedSignum ) {

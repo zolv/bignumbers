@@ -34,13 +34,4 @@ public class BigRationalMatrix extends BigFieldElementMatrix< BigRational, BigRa
 		return new BigRationalMatrix( input, true );
 	}
 	
-	@Override
-	public BigRationalMatrix transpose() {
-		return super.transpose();
-	}
-	
-	@Override
-	public BigRationalMatrix add( BigRationalMatrix augend ) {
-		return super.add( augend );
-	}
 }

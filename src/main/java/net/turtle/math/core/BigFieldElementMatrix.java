@@ -1,9 +1,11 @@
 package net.turtle.math.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import net.turtle.math.exception.NotImplementedException;
+import net.turtle.math.exception.CalculationException;
 
 public abstract class BigFieldElementMatrix< F extends FieldElement< F >, V extends BigFieldElementVector< F, V >, M extends BigFieldElementMatrix< F, V, M > > implements BigMatrix< F, V, M > {
 	
@@ -75,32 +77,42 @@ public abstract class BigFieldElementMatrix< F extends FieldElement< F >, V exte
 	
 	@Override
 	public M multiply( M multiplicand ) {
-		// int n = this.getRowsCount();
-		// int m = this.getColumnsCount();
-		// int p = multiplicand.getColumnsCount();
-		//
-		// final List< V > resultEntries = new ArrayList< >( n );
-		//
-		// for(int i = 0 ; i < n ; i++) {
-		// final List<F> resultCoordinates = new ArrayList<>(p);
-		//
-		// final V aRowVector = this.getRowVector( i );
-		//
-		// for(int k = 0 ; k < m ; k++) {
-		//
-		// final V bColumnVector = multiplicand.getColumnVector( k );
-		//
-		//
-		//
-		// }
-		//
-		// }
-		//
-		//
-		//
-		// final M result = this.createInstance( resultEntries );
-		// return result;
-		throw new NotImplementedException();
+		final int thisColumnsCount = this.getColumnsCount();
+		final int thatRowsCount = multiplicand.getRowsCount();
+		final M result;
+		if ( thisColumnsCount == thatRowsCount ) {
+			final int thatColumnsCount = multiplicand.getColumnsCount();
+			
+			/*
+			 * Creating column vector cache.
+			 */
+			final Map< Integer, V > columnVectorCache = new HashMap<>( this.getColumnsCount(), 1.01F );
+			for ( int p = 0 ; p < thatColumnsCount ; p++ ) {
+				final V thatColumnVector = multiplicand.getColumnVector( p );
+				columnVectorCache.put( Integer.valueOf( p ), thatColumnVector );
+			}
+			
+			final int thisRowsCount = this.getRowsCount();
+			final List< V > resultEntries = new ArrayList<>( thisRowsCount );
+			
+			for ( int n = 0 ; n < thisRowsCount ; n++ ) {
+				final V thisRowVector = this.getRowVector( n );
+				final List< F > resultCoordinates = new ArrayList<>( thatColumnsCount );
+				
+				for ( int p = 0 ; p < thatColumnsCount ; p++ ) {
+					final V thatColumnVector = columnVectorCache.get( Integer.valueOf( p ) );
+					final F dotProduct = thisRowVector.dotProduct( thatColumnVector );
+					resultCoordinates.add( dotProduct );
+				}
+				resultEntries.add( this.createRow( resultCoordinates ) );
+			}
+			
+			result = this.createInstance( resultEntries );
+		} else {
+			throw new CalculationException(
+				"Number of columns of this matrix (" + thisColumnsCount + ") and number of rows in multiplicand matrix (" + thatRowsCount + ") are not equal." );
+		}
+		return result;
 	}
 	
 	@Override

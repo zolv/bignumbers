@@ -9,39 +9,40 @@ import net.turtle.math.exception.CalculationException;
 import net.turtle.math.exception.DifferentDimensionsException;
 import net.turtle.math.exception.NotImplementedException;
 
-public abstract class BigFieldElementVector< T extends FieldElement< T >, V extends BigFieldElementVector< T, V > > implements FieldElement< V >, BigVector< T, V > {
+public abstract class BigFieldElementVector< F extends FieldElement< F >, V extends BigFieldElementVector< F, V > > implements FieldElement< V >, BigVector< F, V > {
 	
-	private final List< T > coordinates;
+	protected final List< F > coordinates;
 	
 	public BigFieldElementVector() {
 		this.coordinates = Collections.emptyList();
 	}
 	
-	public BigFieldElementVector( List< T > input ) {
+	public BigFieldElementVector( List< F > input ) {
 		this( input, false );
 	}
 	
-	protected BigFieldElementVector( List< T > input, boolean trusted ) {
+	protected BigFieldElementVector( List< F > input, boolean trusted ) {
 		if ( trusted ) {
 			this.coordinates = input;
 		} else {
 			this.coordinates = new ArrayList<>( input );
 		}
 	}
+	protected abstract F createZeroFieldElement();
 	
-	protected abstract V createInstance( final List< T > coordinatesSum );
+	protected abstract V createInstance( final List< F > coordinatesSum );
 	
 	@Override
-	public List< T > getCoordinates() {
+	public List< F > getCoordinates() {
 		return Collections.unmodifiableList( this.coordinates );
 	}
 	
 	@Override
 	public V add( V augend ) throws CalculationException {
 		this.checkDimensions( augend );
-		final ArrayList< T > coordinatesSum = new ArrayList<>( this.getDimension() );
-		final Iterator< T > thisCoordinatesIt = this.coordinates.iterator();
-		final Iterator< T > augendCoordinatesIt = augend.getCoordinates().iterator();
+		final ArrayList< F > coordinatesSum = new ArrayList<>( this.getDimension() );
+		final Iterator< F > thisCoordinatesIt = this.coordinates.iterator();
+		final Iterator< F > augendCoordinatesIt = augend.getCoordinates().iterator();
 		while ( thisCoordinatesIt.hasNext() && augendCoordinatesIt.hasNext() ) {
 			coordinatesSum.add( thisCoordinatesIt.next().add( augendCoordinatesIt.next() ) );
 		}
@@ -57,9 +58,9 @@ public abstract class BigFieldElementVector< T extends FieldElement< T >, V exte
 	@Override
 	public V subtract( V subtrahend ) throws CalculationException {
 		this.checkDimensions( subtrahend );
-		final ArrayList< T > coordinatesSum = new ArrayList<>( this.getDimension() );
-		final Iterator< T > thisCoordinatesIt = this.coordinates.iterator();
-		final Iterator< T > subtrahendCoordinatesIt = subtrahend.getCoordinates().iterator();
+		final ArrayList< F > coordinatesSum = new ArrayList<>( this.getDimension() );
+		final Iterator< F > thisCoordinatesIt = this.coordinates.iterator();
+		final Iterator< F > subtrahendCoordinatesIt = subtrahend.getCoordinates().iterator();
 		while ( thisCoordinatesIt.hasNext() && subtrahendCoordinatesIt.hasNext() ) {
 			coordinatesSum.add( thisCoordinatesIt.next().subtract( subtrahendCoordinatesIt.next() ) );
 		}
@@ -72,10 +73,22 @@ public abstract class BigFieldElementVector< T extends FieldElement< T >, V exte
 		throw new NotImplementedException();
 	}
 	
+	public F dotProduct( V multiplicand ) throws CalculationException {
+		this.checkDimensions( multiplicand );
+		F coordinatesSum = this.createZeroFieldElement();
+		final Iterator< F > thisCoordinatesIt = this.coordinates.iterator();
+		final Iterator< F > subtrahendCoordinatesIt = multiplicand.getCoordinates().iterator();
+		while ( thisCoordinatesIt.hasNext() && subtrahendCoordinatesIt.hasNext() ) {
+			coordinatesSum = coordinatesSum.add( thisCoordinatesIt.next().multiply( subtrahendCoordinatesIt.next() ) );
+		}
+		assert ( !( thisCoordinatesIt.hasNext() || subtrahendCoordinatesIt.hasNext() ) );
+		return coordinatesSum;
+	}
+	
 	@Override
-	public V multiply( T multiplicand ) {
-		final ArrayList< T > coordinatesSum = new ArrayList<>( this.getDimension() );
-		final Iterator< T > thisCoordinatesIt = this.coordinates.iterator();
+	public V multiply( F multiplicand ) {
+		final ArrayList< F > coordinatesSum = new ArrayList<>( this.getDimension() );
+		final Iterator< F > thisCoordinatesIt = this.coordinates.iterator();
 		while ( thisCoordinatesIt.hasNext() ) {
 			coordinatesSum.add( thisCoordinatesIt.next().multiply( multiplicand ) );
 		}
@@ -88,7 +101,7 @@ public abstract class BigFieldElementVector< T extends FieldElement< T >, V exte
 	}
 	
 	@Override
-	public V divide( T divisor ) {
+	public V divide( F divisor ) {
 		return this.multiply( divisor.inverse() );
 	}
 	
@@ -98,8 +111,8 @@ public abstract class BigFieldElementVector< T extends FieldElement< T >, V exte
 	 */
 	@Override
 	public V inverse() {
-		final ArrayList< T > resultCoordinates = new ArrayList<>( this.getDimension() );
-		final Iterator< T > thisCoordinatesIt = this.coordinates.iterator();
+		final ArrayList< F > resultCoordinates = new ArrayList<>( this.getDimension() );
+		final Iterator< F > thisCoordinatesIt = this.coordinates.iterator();
 		while ( thisCoordinatesIt.hasNext() ) {
 			resultCoordinates.add( thisCoordinatesIt.next().inverse() );
 		}
@@ -108,8 +121,8 @@ public abstract class BigFieldElementVector< T extends FieldElement< T >, V exte
 	
 	@Override
 	public V negate() {
-		final ArrayList< T > resultCoordinates = new ArrayList<>( this.getDimension() );
-		final Iterator< T > thisCoordinatesIt = this.coordinates.iterator();
+		final ArrayList< F > resultCoordinates = new ArrayList<>( this.getDimension() );
+		final Iterator< F > thisCoordinatesIt = this.coordinates.iterator();
 		while ( thisCoordinatesIt.hasNext() ) {
 			resultCoordinates.add( thisCoordinatesIt.next().negate() );
 		}

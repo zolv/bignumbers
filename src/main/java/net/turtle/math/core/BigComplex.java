@@ -52,6 +52,20 @@ public class BigComplex implements FieldElement< BigComplex >, Comparable< BigCo
 		}
 	}
 	
+	/**
+	 * <p>Parses complex number provided as string.</p> 
+	 * <p>General format is:<br />
+	 * &lt;BigRational&gt;&ltBigRational with sign;&gti
+	 * e.g.:<br/>
+	 * "2", "2.3", "2/3", "-2/3", ...<br/>
+	 * "2+3i", "-2.3+4.5i", "-2/3-4/5i", ...<br/>
+	 * "2i", "-2.3i", "-2/3i", ...<br/>
+	 * And special cases:<br/>
+	 * "i", "-i"
+	 * <p>Note: Parser is probably not 100% error prone. But as long as You stick to 
+	 * the supported format, You should be fine ;)</p>
+	 * @param text
+	 */
 	public BigComplex( String text ) {
 		this( BigComplexUtil.getReal( text ), BigComplexUtil.getImaginary( text ) );
 	}
@@ -77,10 +91,9 @@ public class BigComplex implements FieldElement< BigComplex >, Comparable< BigCo
 	}
 	
 	public BigComplex normalizeSignum() {
-		final BigComplex result;
 		final BigRational aNormalizedSignum = this.a.normalizeSignum();
 		final BigRational bNormalizedSignum = this.b.normalizeSignum();
-		result = this.reuse( aNormalizedSignum, bNormalizedSignum );
+		final BigComplex result = this.reuse( aNormalizedSignum, bNormalizedSignum );
 		return result;
 	}
 	

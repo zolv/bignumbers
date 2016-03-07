@@ -36,6 +36,11 @@ public class BigComplexMatrix extends BigFieldElementMatrix< BigComplex, BigComp
 	}
 	
 	@Override
+	protected BigComplex createZeroFieldElement() {
+		return BigComplexValues.ZERO;
+	}
+	
+	@Override
 	protected BigComplexVector createRow( List< BigComplex > input ) {
 		return new BigComplexVector( input, true );
 	}

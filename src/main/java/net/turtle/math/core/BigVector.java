@@ -27,5 +27,7 @@ public interface BigVector< F extends FieldElement< F >, V extends BigVector< F,
 	int getDimension();
 	
 	List< F > getCoordinates();
+
+	F getCoordinate( int index );
 	
 }

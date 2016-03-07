@@ -25,6 +25,11 @@ public class BigRationalMatrix extends BigFieldElementMatrix< BigRational, BigRa
 	}
 	
 	@Override
+	protected BigRational createZeroFieldElement() {
+		return BigRationalValues.ZERO;
+	}
+	
+	@Override
 	protected BigRationalVector createRow( List< BigRational > input ) {
 		return new BigRationalVector( input, true );
 	}
@@ -33,5 +38,7 @@ public class BigRationalMatrix extends BigFieldElementMatrix< BigRational, BigRa
 	protected BigRationalMatrix createInstance( List< BigRationalVector > input ) {
 		return new BigRationalMatrix( input, true );
 	}
+
+
 	
 }

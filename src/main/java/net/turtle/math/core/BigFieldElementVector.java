@@ -38,6 +38,11 @@ public abstract class BigFieldElementVector< F extends FieldElement< F >, V exte
 	}
 	
 	@Override
+	public F getCoordinate(int index) {
+		return this.coordinates.get( index );
+	}
+	
+	@Override
 	public V add( V augend ) throws CalculationException {
 		this.checkDimensions( augend );
 		final ArrayList< F > coordinatesSum = new ArrayList<>( this.getDimension() );
@@ -138,5 +143,13 @@ public abstract class BigFieldElementVector< F extends FieldElement< F >, V exte
 			throw new DifferentDimensionsException();
 		}
 	}
+
+	@Override
+	public String toString() {
+		final StringBuilder builder = new StringBuilder();
+		builder.append( "[" ).append( this.coordinates ).append( "]" );
+		return builder.toString();
+	}
+
 	
 }

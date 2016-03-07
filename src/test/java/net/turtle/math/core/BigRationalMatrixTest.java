@@ -5,6 +5,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+import net.turtle.math.exception.CalculationException;
 import net.turtle.math.exception.DifferentDimensionsException;
 import net.turtle.math.exception.ParsingException;
 
@@ -194,4 +195,49 @@ public class BigRationalMatrixTest {
 		
 	}
 	
+	@Test
+	public void testDet() {
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[]" );
+			final BigRational output = input.det();
+			Assert.assertEquals( BigRationalValues.ZERO, output );
+		}
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[2]]" );
+			final BigRational output = input.det();
+			Assert.assertEquals( BigRationalValues.TWO, output );
+		}
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[2,3],[5,7]]" );
+			final BigRational output = input.det();
+			Assert.assertEquals( new BigRational( "-1" ), output );
+		}
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[-2,2,-3],[-1,1,3],[2,0,-1]]" );
+			final BigRational output = input.det();
+			Assert.assertEquals( new BigRational( "18" ), output );
+		}
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[1,3,0,-1],[0,2,1,3],[3,1,2,1],[-1,2,0,3]]" );
+			final BigRational output = input.det();
+			Assert.assertEquals( new BigRational( "14" ), output );
+		}
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[0,1,2,7],[1,2,3,4],[5,6,7,8],[-1,1,-1,1]]" );
+			final BigRational output = input.det();
+			Assert.assertEquals( new BigRational( "-64" ), output );
+		}
+		
+	}
+	
+	@Test ( expected = CalculationException.class )
+	public void testDet_NotSquare() {
+		{
+			{
+				final BigRationalMatrix input = new BigRationalMatrix( "[[0,1,2,7],[1,2,3,4],[5,6,7,8],[-1,1,-1,1],[-1,1,-1,1],[-1,1,-1,1]]" );
+				input.det();
+				Assert.fail();
+			}
+		}
+	}
 }

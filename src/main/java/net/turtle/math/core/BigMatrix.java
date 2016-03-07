@@ -22,4 +22,10 @@ public interface BigMatrix< F extends FieldElement< F >, V extends BigVector< F,
 	
 	V getColumnVector( int columnIndex );
 	
+	/**
+	 * 
+	 * @return true if matrix is square.
+	 */
+	boolean isSquare();
+	
 }

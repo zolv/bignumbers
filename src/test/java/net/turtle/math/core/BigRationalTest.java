@@ -786,4 +786,13 @@ public class BigRationalTest {
 		Assert.assertEquals( "-2/-3", new BigRational( "-2", "-3" ).toString() );
 	}
 	
+	@Test
+	public void testChain() throws ArithmeticException, NullPointerException {
+		{
+			final BigRational br1 = new BigRational( "1" );
+			final BigRational br2 = new BigRational( "3" );
+			final BigRational r1 = new BigRational( "6" );
+			Assert.assertEquals( r1, br1.divide( br2 ).multiply( br2 ).subtract( new BigRational("-2") ).add( new BigRational("3") ) );
+		}
+	}
 }

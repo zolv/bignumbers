@@ -171,8 +171,14 @@ public abstract class BigFieldElementMatrix< F extends FieldElement< F >, V exte
 							final F h = row2Coordinates.get( 1 );
 							final F i = row2Coordinates.get( 2 );
 							
-							result = a.multiply( e.multiply( i ).subtract( f.multiply( h ) ) ).subtract( b.multiply( d.multiply( i ).subtract( f.multiply( g ) ) ) )
+							/*
+							 * Alternative:
+							 * result = a.multiply( e.multiply( i ).subtract( f.multiply( h ) ) ).subtract( b.multiply( d.multiply( i ).subtract( f.multiply( g ) ) ) )
 								.add( c.multiply( d.multiply( h ).subtract( e.multiply( g ) ) ) );
+							 */
+							result = a.multiply( e ).multiply( i ).add( b.multiply( f ).multiply( g ) ).add( c.multiply( d ).multiply( h ) )
+								.subtract( c.multiply( e ).multiply( g ) ).subtract( b.multiply( d ).multiply( i ) ).subtract( a.multiply( f ).multiply( h ) );
+							
 						} else {
 							
 							final int rowsCount = this.getRowsCount();

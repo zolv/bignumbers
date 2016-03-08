@@ -406,10 +406,16 @@ public class BigRational implements FieldElement< BigRational >, Comparable< Big
 			result = true;
 		} else {
 			if ( obj instanceof BigRational ) {
-				if ( this.numerator.equals( ( (BigRational)obj ).numerator ) && this.denominator.equals( ( (BigRational)obj ).denominator ) ) {
-					result = true;
+				final boolean numeratorsEqual = this.numerator.equals( ( (BigRational)obj ).numerator );
+				if ( numeratorsEqual ) {
+					result = ( BigInteger.ZERO.equals( this.numerator ) && BigInteger.ZERO.equals( ( (BigRational)obj ).numerator ) )
+						|| this.denominator.equals( ( (BigRational)obj ).denominator );
 				} else {
-					result = this.numerator.multiply( ( (BigRational)obj ).denominator ).equals( ( (BigRational)obj ).numerator.multiply( this.denominator ) );
+					if ( this.denominator.equals( ( (BigRational)obj ).denominator ) ) {
+						result = false;
+					} else {
+						result = this.numerator.multiply( ( (BigRational)obj ).denominator ).equals( ( (BigRational)obj ).numerator.multiply( this.denominator ) );
+					}
 				}
 			} else {
 				result = false;

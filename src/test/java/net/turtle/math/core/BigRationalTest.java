@@ -755,7 +755,7 @@ public class BigRationalTest {
 		{
 			final BigRational br1 = new BigRational( new BigInteger( "2" ), new BigInteger( "3" ) );
 			final BigRational br2 = new BigRational( new BigInteger( "4" ), new BigInteger( "6" ) );
-			Assert.assertFalse( br1.hashCode() == br2.hashCode() );
+			Assert.assertTrue( br1.hashCode() == br2.hashCode() );
 		}
 	}
 	
@@ -766,14 +766,14 @@ public class BigRationalTest {
 			set.add( new BigRational( new BigInteger( "2" ), new BigInteger( "3" ) ) );
 			final BigRational br2 = new BigRational( new BigInteger( "2" ), new BigInteger( "3" ) );
 			Assert.assertTrue( set.contains( br2 ) );
-			Assert.assertFalse( set.contains( new BigRational( "4/6" ) ) );
+			Assert.assertTrue( set.contains( new BigRational( "4/6" ) ) );
 		}
 		{
 			final Set< BigRational > set = new HashSet< BigRational >();
 			set.add( new BigRational( new BigInteger( "3" ), new BigInteger( "6" ) ).normalize() );
 			final BigRational br2 = new BigRational( new BigInteger( "5" ), new BigInteger( "10" ) );
 			Assert.assertTrue( set.contains( br2.normalize() ) );
-			Assert.assertFalse( set.contains( br2 ) );
+			Assert.assertTrue( set.contains( br2 ) );
 		}
 	}
 	

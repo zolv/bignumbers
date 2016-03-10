@@ -642,7 +642,7 @@ public class BigComplexTest {
 			final BigRational a2 = new BigRational( "4/6" );
 			final BigRational b2 = new BigRational( "8/10" );
 			final BigComplex c2 = new BigComplex( a2, b2 );
-			Assert.assertFalse( c1.hashCode() == c2.hashCode() );
+			Assert.assertTrue( c1.hashCode() == c2.hashCode() );
 		}
 	}
 	

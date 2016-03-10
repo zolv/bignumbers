@@ -142,7 +142,7 @@ public abstract class BigFieldElementMatrix< F extends FieldElement< F >, V exte
 		final F result = this.detLaplace();
 		return result;
 	}
-
+	
 	protected F detLaplace() {
 		final F result;
 		if ( this.isSquare() ) {
@@ -172,9 +172,10 @@ public abstract class BigFieldElementMatrix< F extends FieldElement< F >, V exte
 							final F i = row2Coordinates.get( 2 );
 							
 							/*
-							 * Alternative:
-							 * result = a.multiply( e.multiply( i ).subtract( f.multiply( h ) ) ).subtract( b.multiply( d.multiply( i ).subtract( f.multiply( g ) ) ) )
-								.add( c.multiply( d.multiply( h ).subtract( e.multiply( g ) ) ) );
+							 * Alternative: result = a.multiply( e.multiply( i ).subtract(
+							 * f.multiply( h ) ) ).subtract( b.multiply( d.multiply( i
+							 * ).subtract( f.multiply( g ) ) ) ) .add( c.multiply( d.multiply(
+							 * h ).subtract( e.multiply( g ) ) ) );
 							 */
 							result = a.multiply( e ).multiply( i ).add( b.multiply( f ).multiply( g ) ).add( c.multiply( d ).multiply( h ) )
 								.subtract( c.multiply( e ).multiply( g ) ).subtract( b.multiply( d ).multiply( i ) ).subtract( a.multiply( f ).multiply( h ) );
@@ -287,8 +288,36 @@ public abstract class BigFieldElementMatrix< F extends FieldElement< F >, V exte
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
-		builder.append( "[" ).append( this.entries ).append( "]" );
+		builder.append( this.entries );
 		return builder.toString();
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = ( prime * result ) + ( ( this.entries == null ) ? 0 : this.entries.hashCode() );
+		return result;
+	}
+	
+	@Override
+	public boolean equals( Object obj ) {
+		final boolean result;
+		if ( this == obj ) {
+			result = true;
+		} else {
+			if ( obj == null ) {
+				result = false;
+			} else {
+				if ( obj instanceof BigFieldElementMatrix ) {
+					final BigFieldElementMatrix< F, V, M > other = (BigFieldElementMatrix< F, V, M >)obj;
+					result = this.entries.equals( other.entries );
+				} else {
+					result = false;
+				}
+			}
+		}
+		return result;
 	}
 	
 }

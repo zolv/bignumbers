@@ -1,5 +1,6 @@
 package net.turtle.math.core;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.junit.Assert;
@@ -156,7 +157,7 @@ public class BigRationalMatrixTest {
 	}
 	
 	@Test
-	public void testMultiplyMatrix() {
+	public void multiplyByMatrix() {
 		{
 			final BigRationalMatrix input = new BigRationalMatrix( "[]" );
 			final BigRationalMatrix output = input.multiply( input );
@@ -195,6 +196,45 @@ public class BigRationalMatrixTest {
 		
 	}
 	
+	@Test(expected=CalculationException.class)
+	public void multiplyByWrongMatrix() {
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[1,0,2],[-1,3,1]]" );
+			final BigRationalMatrix input2 = new BigRationalMatrix( "[[3,1],[2,1],[1,0],[1,0]]" );
+			input.multiply( input2 );
+			Assert.fail();
+		}
+	}
+	
+	@Test
+	public void multiplyByBigRational() {
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[]" );
+			final BigRationalMatrix result = new BigRationalMatrix( "[]" );
+			final BigRationalMatrix output = input.multiply( (BigRational)null );
+			Assert.assertEquals( result, output );
+		}
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[]" );
+			final BigRationalMatrix result = new BigRationalMatrix( "[]" );
+			final BigRationalMatrix output = input.multiply( new BigRational( "2" ) );
+			Assert.assertEquals( result, output );
+		}
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[1,0,2],[-1,3,1]]" );
+			final BigRationalMatrix result = new BigRationalMatrix( "[[2,0,4],[-2,6,2]]" );
+			final BigRationalMatrix output = input.multiply( new BigRational( "2" ) );
+			Assert.assertEquals( result, output );
+		}
+	}
+	
+	@Test ( expected = NullPointerException.class )
+	public void multiplyByNullBigRational() {
+		final BigRationalMatrix input = new BigRationalMatrix( "[[2,3],[4,6]]" );
+		input.multiply( (BigRational)null );
+		Assert.fail();
+	}
+	
 	@Test
 	public void testDet() {
 		{
@@ -230,6 +270,48 @@ public class BigRationalMatrixTest {
 		
 	}
 	
+	@Test
+	public void equalsHashContract() {
+		{
+			final BigRationalMatrix input1 = new BigRationalMatrix( "[]" );
+			final BigRationalMatrix input2 = new BigRationalMatrix( "[]" );
+			Assert.assertTrue( input1.equals( input1 ) );
+			Assert.assertTrue( input1.equals( input2 ) );
+			Assert.assertTrue( input1.hashCode() == input2.hashCode() );
+		}
+		{
+			final BigRationalMatrix input1 = new BigRationalMatrix( "[[2]]" );
+			final BigRationalMatrix input2 = new BigRationalMatrix( "[[4/2]]" );
+			Assert.assertTrue( input1.equals( input2 ) );
+			Assert.assertTrue( input1.hashCode() == input2.hashCode() );
+		}
+		{
+			final BigRationalMatrix input1 = new BigRationalMatrix( "[[2,3],[5,7]]" );
+			final BigRationalMatrix input2 = new BigRationalMatrix( "[[2,3],[5,7]]" );
+			Assert.assertTrue( input1.equals( input2 ) );
+		}
+		{
+			final BigRationalMatrix input1 = new BigRationalMatrix( "[[-2,2,-3],[-1,1,3],[2,0,-1]]" );
+			final BigRationalMatrix input2 = new BigRationalMatrix( "[[-2,2,-3],[-1,1,3],[2,0,-1]]" );
+			Assert.assertTrue( input1.equals( input2 ) );
+			Assert.assertTrue( input1.hashCode() == input2.hashCode() );
+		}
+		{
+			final BigRationalMatrix input1 = new BigRationalMatrix( "[[-2,2,-3],[-1,1,3],[2,0,-1]]" );
+			final BigRationalMatrix input2 = new BigRationalMatrix( "[[-2,2,-3],[-1,1,3],[2,0,1]]" );
+			Assert.assertFalse( input1.equals( input2 ) );
+		}
+		{
+			final BigRationalMatrix input1 = new BigRationalMatrix( "[[-2,2,-3],[-1,1,3],[2,0,-1]]" );
+			Assert.assertFalse( input1.equals( BigInteger.ONE ) );
+		}
+		{
+			final BigRationalMatrix input1 = new BigRationalMatrix( "[[-2,2,-3],[-1,1,3],[2,0,-1]]" );
+			Assert.assertFalse( input1.equals( null ) );
+		}
+		
+	}
+	
 	@Test ( expected = CalculationException.class )
 	public void testDet_NotSquare() {
 		{
@@ -238,6 +320,18 @@ public class BigRationalMatrixTest {
 				input.det();
 				Assert.fail();
 			}
+		}
+	}
+	
+	@Test
+	public void toStringResult() {
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[]" );
+			Assert.assertEquals( "[]", input.toString() );
+		}
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[1,2,3]]" );
+			Assert.assertEquals( "[[1/1, 2/1, 3/1]]", input.toString() );
 		}
 	}
 }

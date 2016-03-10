@@ -11,6 +11,7 @@ import net.turtle.math.exception.NotImplementedException;
 
 public abstract class BigFieldElementVector< F extends FieldElement< F >, V extends BigFieldElementVector< F, V > > implements FieldElement< V >, BigVector< F, V > {
 	
+	
 	protected final List< F > coordinates;
 	
 	public BigFieldElementVector() {
@@ -28,6 +29,7 @@ public abstract class BigFieldElementVector< F extends FieldElement< F >, V exte
 			this.coordinates = new ArrayList<>( input );
 		}
 	}
+	
 	protected abstract F createZeroFieldElement();
 	
 	protected abstract V createInstance( final List< F > coordinatesSum );
@@ -38,7 +40,7 @@ public abstract class BigFieldElementVector< F extends FieldElement< F >, V exte
 	}
 	
 	@Override
-	public F getCoordinate(int index) {
+	public F getCoordinate( int index ) {
 		return this.coordinates.get( index );
 	}
 	
@@ -143,13 +145,40 @@ public abstract class BigFieldElementVector< F extends FieldElement< F >, V exte
 			throw new DifferentDimensionsException();
 		}
 	}
-
+	
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
-		builder.append( "[" ).append( this.coordinates ).append( "]" );
+		builder.append( this.coordinates );
 		return builder.toString();
 	}
-
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = ( prime * result ) + ( ( this.coordinates == null ) ? 0 : this.coordinates.hashCode() );
+		return result;
+	}
+	
+	@Override
+	public boolean equals( Object obj ) {
+		final boolean result;
+		if ( this == obj ) {
+			result = true;
+		} else {
+			if ( obj == null ) {
+				result = false;
+			} else {
+				if ( obj instanceof BigFieldElementVector ) {
+					final BigFieldElementVector< F, V > other = (BigFieldElementVector< F, V >)obj;
+					result = this.coordinates.equals( other.coordinates );
+				} else {
+					result = false;
+				}
+			}
+		}
+		return result;
+	}
 	
 }

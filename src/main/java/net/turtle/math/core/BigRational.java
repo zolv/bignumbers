@@ -108,7 +108,7 @@ public class BigRational implements FieldElement< BigRational >, Comparable< Big
 	}
 	
 	public BigRational normalizeSignum() {
-		return this.denominator.signum() >= 0 ? this : new BigRational( this.numerator.negate(), this.denominator.negate() );
+		return this.denominator.signum() > 0 ? this : new BigRational( this.numerator.negate(), this.denominator.negate() );
 	}
 	
 	public BigRational cancel() {
@@ -427,8 +427,13 @@ public class BigRational implements FieldElement< BigRational >, Comparable< Big
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = prime + this.denominator.intValue();
-		result = ( prime * result ) + this.numerator.intValue();
+		final BigRational normalized = this.normalize();
+		final int result;
+		if(this == normalized ) {
+			result = ( (prime + this.denominator.intValue()) * prime ) + this.numerator.intValue();
+		} else {
+			result = normalized.hashCode();
+		}
 		return result;
 	}
 	

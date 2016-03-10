@@ -1,5 +1,7 @@
 package net.turtle.math.core;
 
+import java.math.BigInteger;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -8,6 +10,7 @@ import net.turtle.math.exception.CalculationException;
 import net.turtle.math.exception.ParsingException;
 
 public class BigRationalVectorTest {
+	
 	
 	@Test
 	public void testBigVector() {
@@ -138,4 +141,45 @@ public class BigRationalVectorTest {
 			Assert.assertArrayEquals( r1.getCoordinates().toArray(), bv1.negate().getCoordinates().toArray() );
 		}
 	}
+	
+	@Test
+	public void equalsHashContract() {
+		{
+			final BigRationalVector input1 = new BigRationalVector( "[]" );
+			final BigRationalVector input2 = new BigRationalVector( "[]" );
+			Assert.assertTrue( input1.equals( input1 ) );
+			Assert.assertTrue( input1.equals( input2 ) );
+		}
+		{
+			final BigRationalVector input1 = new BigRationalVector( "[2]" );
+			final BigRationalVector input2 = new BigRationalVector( "[4/2]" );
+			Assert.assertTrue( input1.equals( input2 ) );
+			Assert.assertTrue( input1.hashCode() == input2.hashCode() );
+		}
+		{
+			final BigRationalVector input1 = new BigRationalVector( "[2,3,5,7]" );
+			final BigRationalVector input2 = new BigRationalVector( "[2,3,5,7]" );
+			Assert.assertTrue( input1.equals( input2 ) );
+			Assert.assertTrue( input1.hashCode() == input2.hashCode() );
+		}
+		{
+			final BigRationalVector input1 = new BigRationalVector( "[2,3,5,7]" );
+			final BigRationalVector input2 = new BigRationalVector( "[2,3,5,8]" );
+			Assert.assertFalse( input1.equals( input2 ) );
+		}
+		{
+			final BigRationalVector input1 = new BigRationalVector( "[2,3,5,7]" );
+			final BigRationalVector input2 = new BigRationalVector( "[2,3,5,7,11]" );
+			Assert.assertFalse( input1.equals( input2 ) );
+		}
+		{
+			final BigRationalVector input1 = new BigRationalVector( "[2,3,5,7]" );
+			Assert.assertFalse( input1.equals( BigInteger.ONE ) );
+		}
+		{
+			final BigRationalVector input1 = new BigRationalVector( "[2,3,5,7]" );
+			Assert.assertFalse( input1.equals( null ) );
+		}
+	}
+	
 }

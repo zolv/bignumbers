@@ -157,7 +157,7 @@ public abstract class BigFieldElementVector< F extends FieldElement< F >, V exte
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = ( prime * result ) + ( ( this.coordinates == null ) ? 0 : this.coordinates.hashCode() );
+		result = ( prime * result ) + this.coordinates.hashCode();
 		return result;
 	}
 	

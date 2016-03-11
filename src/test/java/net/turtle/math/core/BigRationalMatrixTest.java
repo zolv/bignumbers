@@ -236,6 +236,50 @@ public class BigRationalMatrixTest {
 	}
 	
 	@Test
+	public void isSquare() {
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[]" );
+			Assert.assertTrue(input.isSquare() );
+		}
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[1]]" );
+			Assert.assertTrue(input.isSquare() );
+		}
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[1,0,2],[-1,3,1],[-1,3,1]]" );
+			Assert.assertTrue(input.isSquare() );
+		}
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[1,0,2],[-1,3,1]]" );
+			Assert.assertFalse(input.isSquare() );
+		}
+	}
+	
+	@Test
+	public void isSimetric() {
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[]" );
+			Assert.assertTrue(input.isSimetric() );
+		}
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[1]]" );
+			Assert.assertTrue(input.isSimetric() );
+		}
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[2,3,5],[3,7,11],[5,11,13]]" );
+			Assert.assertTrue(input.isSimetric() );
+		}
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[0,0],[0,0]]" );
+			Assert.assertTrue(input.isSimetric() );
+		}
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[2,3],[5,7]]" );
+			Assert.assertFalse(input.isSimetric() );
+		}
+	}
+	
+	@Test
 	public void testDet() {
 		{
 			final BigRationalMatrix input = new BigRationalMatrix( "[]" );

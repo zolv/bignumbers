@@ -238,6 +238,11 @@ public abstract class BigFieldElementMatrix< F extends FieldElement< F >, V exte
 		return this.getRowsCount() == this.getColumnsCount();
 	}
 	
+	@Override
+	public boolean isSimetric() {
+		return this.equals( this.transpose() );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -296,7 +301,7 @@ public abstract class BigFieldElementMatrix< F extends FieldElement< F >, V exte
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = ( prime * result ) + ( ( this.entries == null ) ? 0 : this.entries.hashCode() );
+		result = ( prime * result ) + this.entries.hashCode();
 		return result;
 	}
 	

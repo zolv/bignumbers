@@ -28,4 +28,6 @@ public interface BigMatrix< F extends FieldElement< F >, V extends BigVector< F,
 	 */
 	boolean isSquare();
 	
+	boolean isSimetric();
+	
 }

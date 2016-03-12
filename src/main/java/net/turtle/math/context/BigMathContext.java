@@ -16,7 +16,9 @@ public abstract class BigMathContext {
 		
 	};
 	
-	private boolean normalizeResult;
+	private boolean normalizeResult = false;
+	
+	private boolean strictEqualsAndHashContract = false;
 	
 	protected static ThreadLocal< BigMathContext > getContextThreadLocal() {
 		return contextThreadLocal;
@@ -40,18 +42,20 @@ public abstract class BigMathContext {
 		this.getExecutor().execute( task );
 	}
 	
-	void submit( FutureTask< ? >... tasksToExecute ) {
-		for ( final FutureTask< ? > futureTask : tasksToExecute ) {
-			this.submit( futureTask );
-		}
-	}
-	
 	public boolean getNormalizeResult() {
 		return this.normalizeResult;
 	}
 	
 	public void setNormalizeResult( boolean normalizeResult ) {
 		this.normalizeResult = normalizeResult;
+	}
+	
+	public boolean getStrictEqualsAndHashContract() {
+		return this.strictEqualsAndHashContract;
+	}
+	
+	public void setStrictEqualsAndHashContract( boolean strictEqualsAndHashContract ) {
+		this.strictEqualsAndHashContract = strictEqualsAndHashContract;
 	}
 	
 }

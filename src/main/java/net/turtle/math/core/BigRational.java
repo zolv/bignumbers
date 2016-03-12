@@ -12,6 +12,7 @@ import net.turtle.math.util.BigRationalUtil;
 
 public class BigRational implements FieldElement< BigRational >, Comparable< BigRational > {
 	
+	
 	public static final BigRational ZERO = new BigRational( BigInteger.ZERO );
 	
 	public static final BigRational ONE = new BigRational( BigInteger.ONE );
@@ -406,16 +407,10 @@ public class BigRational implements FieldElement< BigRational >, Comparable< Big
 			result = true;
 		} else {
 			if ( obj instanceof BigRational ) {
-				final boolean numeratorsEqual = this.numerator.equals( ( (BigRational)obj ).numerator );
-				if ( numeratorsEqual ) {
-					result = ( BigInteger.ZERO.equals( this.numerator ) && BigInteger.ZERO.equals( ( (BigRational)obj ).numerator ) )
-						|| this.denominator.equals( ( (BigRational)obj ).denominator );
+				if ( BigMathContext.get().getStrictEqualsAndHashContract() ) {
+					result = this.equalsStrict( (BigRational)obj );
 				} else {
-					if ( this.denominator.equals( ( (BigRational)obj ).denominator ) ) {
-						result = false;
-					} else {
-						result = this.numerator.multiply( ( (BigRational)obj ).denominator ).equals( ( (BigRational)obj ).numerator.multiply( this.denominator ) );
-					}
+					result = this.equalsValue( (BigRational)obj );
 				}
 			} else {
 				result = false;
@@ -424,17 +419,44 @@ public class BigRational implements FieldElement< BigRational >, Comparable< Big
 		return result;
 	}
 	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		final BigRational normalized = this.normalize();
-		final int result;
-		if(this == normalized ) {
-			result = ( (prime + this.denominator.intValue()) * prime ) + this.numerator.intValue();
+	public boolean equalsStrict( BigRational obj ) {
+		return this.numerator.equals( obj.numerator ) && this.denominator.equals( obj.denominator );
+	}
+	
+	public boolean equalsValue( BigRational obj ) {
+		final boolean result;
+		final boolean numeratorsEqual = this.numerator.equals( obj.numerator );
+		if ( numeratorsEqual ) {
+			result = ( BigInteger.ZERO.equals( this.numerator ) && BigInteger.ZERO.equals( obj.numerator ) ) || this.denominator.equals( obj.denominator );
 		} else {
-			result = normalized.hashCode();
+			if ( this.denominator.equals( obj.denominator ) ) {
+				result = false;
+			} else {
+				result = this.numerator.multiply( obj.denominator ).equals( obj.numerator.multiply( this.denominator ) );
+			}
 		}
 		return result;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int result;
+		if ( BigMathContext.get().getStrictEqualsAndHashContract() ) {
+			result = this.hashCodeStrict();
+		} else {
+			result = this.hashCodeNormalized();
+		}
+		return result;
+	}
+	
+	public int hashCodeStrict() {
+		final int prime = 31;
+		final int result = ( ( prime + this.denominator.intValue() ) * prime ) + this.numerator.intValue();
+		return result;
+	}
+	
+	public int hashCodeNormalized() {
+		return this.normalize().hashCodeStrict();
 	}
 	
 	@Override

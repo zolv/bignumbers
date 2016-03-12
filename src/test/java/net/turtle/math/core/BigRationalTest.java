@@ -9,11 +9,12 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 
+import net.turtle.math.context.BigMathContext;
 import net.turtle.math.core.BigRational;
 import net.turtle.math.exception.CalculationException;
 
 public class BigRationalTest {
-	
+
 	@Test
 	public void testBigRational() {
 		{
@@ -692,7 +693,7 @@ public class BigRationalTest {
 	}
 	
 	@Test
-	public void testEqualsObject() {
+	public void equalsByValue() {
 		{
 			/*
 			 * Equals null
@@ -746,7 +747,64 @@ public class BigRationalTest {
 	}
 	
 	@Test
-	public void testHashCode() {
+	public void equalsStrict() {
+		BigMathContext.get().setStrictEqualsAndHashContract( true );
+		{
+			/*
+			 * Equals null
+			 */
+			final BigRational br1 = new BigRational( "2", "3" );
+			Assert.assertFalse( br1.equals( null ) );
+		}
+		{
+			/*
+			 * Same instance
+			 */
+			final BigRational br1 = new BigRational( "2", "3" );
+			Assert.assertTrue( br1.equals( br1 ) );
+		}
+		
+		{
+			final BigRational br1 = new BigRational( "2", "3" );
+			final BigRational br2 = new BigRational( "4", "5" );
+			Assert.assertFalse( br1.equals( br2 ) );
+			Assert.assertFalse( br2.equals( br1 ) );
+		}
+		
+		{
+			/*
+			 * Equal by value
+			 */
+			final BigRational br1 = new BigRational( "2", "3" );
+			final BigRational br2 = new BigRational( "4", "6" );
+			Assert.assertFalse( br1.equals( br2 ) );
+			Assert.assertFalse( br2.equals( br1 ) );
+		}
+		{
+			/*
+			 * Equal by value
+			 */
+			final BigRational br1 = new BigRational( "-2", "3" );
+			final BigRational br2 = new BigRational( "-4", "6" );
+			Assert.assertFalse( br1.equals( br2 ) );
+			Assert.assertFalse( br2.equals( br1 ) );
+		}
+		
+		{
+			/*
+			 * Zero
+			 */
+			final BigRational br1 = new BigRational( "0", "3" );
+			final BigRational br2 = new BigRational( "0", "-5" );
+			Assert.assertFalse( br1.equals( br2 ) );
+			Assert.assertFalse( br2.equals( br1 ) );
+		}
+		BigMathContext.get().setStrictEqualsAndHashContract( false );
+	}
+	
+	
+	@Test
+	public void hashCodeByValue() {
 		{
 			final BigRational br1 = new BigRational( new BigInteger( "2" ), new BigInteger( "3" ) );
 			final BigRational br2 = new BigRational( new BigInteger( "2" ), new BigInteger( "3" ) );
@@ -760,7 +818,23 @@ public class BigRationalTest {
 	}
 	
 	@Test
-	public void testEqualsHashCodeContract() {
+	public void hashCodeStrict() {
+		BigMathContext.get().setStrictEqualsAndHashContract( true );
+		{
+			final BigRational br1 = new BigRational( new BigInteger( "2" ), new BigInteger( "3" ) );
+			final BigRational br2 = new BigRational( new BigInteger( "2" ), new BigInteger( "3" ) );
+			Assert.assertTrue( br1.hashCode() == br2.hashCode() );
+		}
+		{
+			final BigRational br1 = new BigRational( new BigInteger( "2" ), new BigInteger( "3" ) );
+			final BigRational br2 = new BigRational( new BigInteger( "4" ), new BigInteger( "6" ) );
+			Assert.assertFalse( br1.hashCode() == br2.hashCode() );
+		}
+		BigMathContext.get().setStrictEqualsAndHashContract( false );
+	}
+	
+	@Test
+	public void equalsHashCodeContractByValue() {
 		{
 			final Set< BigRational > set = new HashSet< BigRational >();
 			set.add( new BigRational( new BigInteger( "2" ), new BigInteger( "3" ) ) );
@@ -775,6 +849,26 @@ public class BigRationalTest {
 			Assert.assertTrue( set.contains( br2.normalize() ) );
 			Assert.assertTrue( set.contains( br2 ) );
 		}
+	}
+	
+	@Test
+	public void equalsHashCodeContractStrict() {
+		BigMathContext.get().setStrictEqualsAndHashContract( true );
+		{
+			final Set< BigRational > set = new HashSet< BigRational >();
+			set.add( new BigRational( new BigInteger( "2" ), new BigInteger( "3" ) ) );
+			final BigRational br2 = new BigRational( new BigInteger( "2" ), new BigInteger( "3" ) );
+			Assert.assertTrue( set.contains( br2 ) );
+			Assert.assertFalse( set.contains( new BigRational( "4/6" ) ) );
+		}
+		{
+			final Set< BigRational > set = new HashSet< BigRational >();
+			set.add( new BigRational( new BigInteger( "3" ), new BigInteger( "6" ) ).normalize() );
+			final BigRational br2 = new BigRational( new BigInteger( "5" ), new BigInteger( "10" ) );
+			Assert.assertTrue( set.contains( br2.normalize() ) );
+			Assert.assertFalse( set.contains( br2 ) );
+		}
+		BigMathContext.get().setStrictEqualsAndHashContract( false );
 	}
 	
 	@Test

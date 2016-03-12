@@ -1,5 +1,6 @@
 package net.turtle.math.core;
 
+import net.turtle.math.context.BigMathContext;
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.util.BigComplexUtil;
 
@@ -11,6 +12,7 @@ import net.turtle.math.util.BigComplexUtil;
  *
  */
 public class BigComplex implements FieldElement< BigComplex >, Comparable< BigComplex > {
+	
 	
 	/**
 	 * z = 0 = 0 + 0i
@@ -53,17 +55,22 @@ public class BigComplex implements FieldElement< BigComplex >, Comparable< BigCo
 	}
 	
 	/**
-	 * <p>Parses complex number provided as string.</p> 
-	 * <p>General format is:<br />
-	 * &lt;BigRational&gt;&ltBigRational with sign;&gti
-	 * e.g.:<br/>
+	 * <p>
+	 * Parses complex number provided as string.
+	 * </p>
+	 * <p>
+	 * General format is:<br />
+	 * &lt;BigRational&gt;&ltBigRational with sign;&gti e.g.:<br/>
 	 * "2", "2.3", "2/3", "-2/3", ...<br/>
 	 * "2+3i", "-2.3+4.5i", "-2/3-4/5i", ...<br/>
 	 * "2i", "-2.3i", "-2/3i", ...<br/>
 	 * And special cases:<br/>
 	 * "i", "-i"
-	 * <p>Note: Parser is probably not 100% error prone. But as long as You stick to 
-	 * the supported format, You should be fine ;)</p>
+	 * <p>
+	 * Note: Parser is probably not 100% error prone. But as long as You stick to
+	 * the supported format, You should be fine ;)
+	 * </p>
+	 * 
 	 * @param text
 	 */
 	public BigComplex( String text ) {
@@ -98,11 +105,7 @@ public class BigComplex implements FieldElement< BigComplex >, Comparable< BigCo
 	}
 	
 	public BigComplex cancel() {
-		final BigComplex result;
-		final BigRational aReduced = this.a.cancel();
-		final BigRational bReduced = this.b.cancel();
-		result = this.reuse( aReduced, bReduced );
-		return result;
+		return this.reuse( this.a.cancel(), this.b.cancel() );
 	}
 	
 	public BigComplex add( BigComplex augend ) {
@@ -185,11 +188,25 @@ public class BigComplex implements FieldElement< BigComplex >, Comparable< BigCo
 			result = true;
 		} else {
 			if ( obj instanceof BigComplex ) {
-				result = this.a.equals( ( (BigComplex)obj ).a ) && this.b.equals( ( (BigComplex)obj ).b );
+				if ( BigMathContext.get().getStrictEqualsAndHashContract() ) {
+					result = this.equalsStrict( (BigComplex)obj );
+				} else {
+					result = this.equalsValue( (BigComplex)obj );
+				}
 			} else {
 				result = false;
 			}
 		}
+		return result;
+	}
+	
+	public boolean equalsValue( BigComplex obj ) {
+		final boolean result = this.a.equalsValue( obj.a ) && this.b.equalsValue( obj.b );
+		return result;
+	}
+	
+	public boolean equalsStrict( BigComplex obj ) {
+		final boolean result = this.a.equalsStrict( obj.a ) && this.b.equalsStrict( obj.b );
 		return result;
 	}
 	

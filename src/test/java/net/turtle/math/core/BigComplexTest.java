@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import org.junit.Assert;
 import org.junit.Test;
 
+import net.turtle.math.context.BigMathContext;
 import net.turtle.math.core.BigComplex;
 import net.turtle.math.core.BigRational;
 
@@ -554,7 +555,7 @@ public class BigComplexTest {
 	}
 	
 	@Test
-	public void testEqualsObject() {
+	public void equalsByValue() {
 		{
 			/*
 			 * Equals null
@@ -622,6 +623,79 @@ public class BigComplexTest {
 			Assert.assertFalse( bc1.equals( new Object() ) );
 		}
 		
+	}
+	
+	@Test
+	public void equalsStrict() {
+		BigMathContext.get().setStrictEqualsAndHashContract( true );
+		{
+			/*
+			 * Equals null
+			 */
+			final BigRational br1 = new BigRational( "2", "3" );
+			final BigRational br2 = new BigRational( "3", "5" );
+			final BigComplex bc1 = new BigComplex( br1, br2 );
+			Assert.assertFalse( bc1.equals( null ) );
+		}
+		{
+			/*
+			 * Same instance
+			 */
+			final BigRational br1 = new BigRational( "2", "3" );
+			final BigRational br2 = new BigRational( "3", "5" );
+			final BigComplex bc1 = new BigComplex( br1, br2 );
+			Assert.assertTrue( bc1.equals( bc1 ) );
+		}
+		
+		{
+			/*
+			 * Equal by value
+			 */
+			final BigRational br11 = new BigRational( "2", "3" );
+			final BigRational br12 = new BigRational( "3", "5" );
+			final BigComplex bc1 = new BigComplex( br11, br12 );
+			
+			final BigRational br21 = new BigRational( "4", "6" );
+			final BigRational br22 = new BigRational( "9", "15" );
+			final BigComplex bc2 = new BigComplex( br21, br22 );
+			
+			final BigRational br31 = new BigRational( "4", "6" );
+			final BigRational br32 = new BigRational( "10", "15" );
+			final BigComplex bc3 = new BigComplex( br31, br32 );
+			
+			final BigRational br41 = new BigRational( "5", "6" );
+			final BigRational br42 = new BigRational( "10", "15" );
+			final BigComplex bc4 = new BigComplex( br41, br42 );
+			
+			Assert.assertFalse( bc1.equals( bc2 ) );
+			Assert.assertFalse( bc2.equals( bc1 ) );
+			Assert.assertFalse( bc2.equals( bc3 ) );
+			Assert.assertFalse( bc2.equals( bc4 ) );
+		}
+		{
+			/*
+			 * Zero
+			 */
+			final BigRational br11 = new BigRational( "0", "3" );
+			final BigRational br12 = new BigRational( "0", "-5" );
+			final BigComplex bc1 = new BigComplex( br11, br12 );
+			
+			final BigRational br21 = new BigRational( "0", "-6" );
+			final BigRational br22 = new BigRational( "0", "15" );
+			final BigComplex bc2 = new BigComplex( br21, br22 );
+			
+			Assert.assertFalse( bc1.equals( bc2 ) );
+			Assert.assertFalse( bc2.equals( bc1 ) );
+		}
+		
+		{
+			final BigRational br1 = new BigRational( "2", "3" );
+			final BigRational br2 = new BigRational( "3", "5" );
+			final BigComplex bc1 = new BigComplex( br1, br2 );
+			Assert.assertFalse( bc1.equals( new Object() ) );
+		}
+		
+		BigMathContext.get().setStrictEqualsAndHashContract( false );
 	}
 	
 	@Test

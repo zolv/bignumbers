@@ -280,7 +280,7 @@ public class BigRationalMatrixTest {
 	}
 	
 	@Test
-	public void testDet() {
+	public void detCalculation() {
 		{
 			final BigRationalMatrix input = new BigRationalMatrix( "[]" );
 			final BigRational output = input.det();
@@ -308,6 +308,11 @@ public class BigRationalMatrixTest {
 		}
 		{
 			final BigRationalMatrix input = new BigRationalMatrix( "[[0,1,2,7],[1,2,3,4],[5,6,7,8],[-1,1,-1,1]]" );
+			final BigRational output = input.det();
+			Assert.assertEquals( new BigRational( "-64" ), output );
+		}
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[0,0,0,0,0,0,0,0,0,0],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10]]]" );
 			final BigRational output = input.det();
 			Assert.assertEquals( new BigRational( "-64" ), output );
 		}

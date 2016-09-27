@@ -1,10 +1,13 @@
 package net.turtle.math.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import net.turtle.math.core.BigComplex;
 import net.turtle.math.core.BigRational;
+import net.turtle.math.core.BigRationalValues;
+import net.turtle.math.core.BigRationalVector;
 import net.turtle.math.exception.ParsingException;
 
 public class BigVectorUtil {
@@ -58,6 +61,16 @@ public class BigVectorUtil {
 			throw new ParsingException( "Vector string does not start with '[' or does not ends with ']'" );
 		}
 		return coordinates;
+	}
+	
+	public static BigRationalVector createZeroVector(int dimention) {
+		return create( dimention, BigRationalValues.ZERO );
+	}
+	
+	public static BigRationalVector create(int dimention, BigRational coordinate) {
+		final List<BigRational> coordinates = new ArrayList<>(dimention);
+		Collections.fill( coordinates, coordinate );
+		return new BigRationalVector( coordinates );
 	}
 	
 }

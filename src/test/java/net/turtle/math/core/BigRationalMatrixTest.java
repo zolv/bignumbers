@@ -312,11 +312,20 @@ public class BigRationalMatrixTest {
 			Assert.assertEquals( new BigRational( "-64" ), output );
 		}
 		{
-			final BigRationalMatrix input = new BigRationalMatrix( "[[0,0,0,0,0,0,0,0,0,0],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10],[1,2,3,4,5,6,7,8,9,10]]]" );
+			final BigRationalMatrix input = new BigRationalMatrix( "[[2, 3, 5, 7, 11],[13, 17, 19, 23, 29],[31, 37, 41, 43, 47],[53, 59, 61, 67, 71],[73, 79, 83, 89, 97]]" );
 			final BigRational output = input.det();
-			Assert.assertEquals( new BigRational( "-64" ), output );
+			Assert.assertEquals( new BigRational( "-4656" ), output );
 		}
-		
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10]]]" );
+			final BigRational output = input.det();
+			Assert.assertEquals( new BigRational( "-0" ), output );
+		}
+		{
+			final BigRationalMatrix input = new BigRationalMatrix( "[[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10],[0,1,2,3,4,5,6,7,8,9,10]]]" );
+			final BigRational output = input.det();
+			Assert.assertEquals( new BigRational( "-0" ), output );
+		}
 	}
 	
 	@Test

@@ -11,6 +11,9 @@ import net.turtle.math.exception.CalculationException;
 public class BigRationalUtil {
 	
 	private static final String UNIT_DENOMINATOR_STRING = "1";
+	private static final String ZERO_NUMERATOR_STRING = "0";
+	private static final char ZERO_CHAR = '0';
+	private static final char ONE_CHAR = '1';
 	
 	private BigRationalUtil() {
 		super();
@@ -54,7 +57,7 @@ public class BigRationalUtil {
 				/*
 				 * 123456
 				 */
-				n = value;
+				n = value.isEmpty() ? ZERO_NUMERATOR_STRING : value;
 			}
 		}
 		return n;
@@ -98,9 +101,9 @@ public class BigRationalUtil {
 	
 	public static String bigTenToTheString( int n ) {
 		final char tenpow[] = new char[ n + 1 ];
-		tenpow[ 0 ] = '1';
+		tenpow[ 0 ] = ONE_CHAR;
 		for ( int i = 1 ; i <= n ; i++ ) {
-			tenpow[ i ] = '0';
+			tenpow[ i ] = ZERO_CHAR;
 		}
 		return new String( tenpow );
 	}

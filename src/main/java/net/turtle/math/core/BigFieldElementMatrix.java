@@ -9,7 +9,6 @@ import net.turtle.math.exception.CalculationException;
 
 public abstract class BigFieldElementMatrix< F extends FieldElement< F >, V extends BigFieldElementVector< F, V >, M extends BigFieldElementMatrix< F, V, M > > implements BigMatrix< F, V, M > {
 	
-	
 	protected final List< V > entries;
 	
 	protected BigFieldElementMatrix( List< V > entries, boolean trusted ) {
@@ -139,11 +138,6 @@ public abstract class BigFieldElementMatrix< F extends FieldElement< F >, V exte
 	}
 	
 	public F det() {
-		final F result = this.detLaplace();
-		return result;
-	}
-	
-	protected F detLaplace() {
 		final F result;
 		if ( this.isSquare() ) {
 			if ( this.getRowsCount() == 0 ) {
@@ -153,54 +147,12 @@ public abstract class BigFieldElementMatrix< F extends FieldElement< F >, V exte
 					result = this.getRowVector( 0 ).getCoordinates().get( 0 );
 				} else {
 					if ( this.getRowsCount() == 2 ) {
-						final List< F > row0Coordinates = this.getRowVector( 0 ).getCoordinates();
-						final List< F > row1Coordinates = this.getRowVector( 1 ).getCoordinates();
-						result = row0Coordinates.get( 0 ).multiply( row1Coordinates.get( 1 ) ).subtract( row0Coordinates.get( 1 ).multiply( row1Coordinates.get( 0 ) ) );
+						result = this.det2x2();
 					} else {
 						if ( this.getRowsCount() == 3 ) {
-							final List< F > row0Coordinates = this.getRowVector( 0 ).getCoordinates();
-							final List< F > row1Coordinates = this.getRowVector( 1 ).getCoordinates();
-							final List< F > row2Coordinates = this.getRowVector( 2 ).getCoordinates();
-							final F a = row0Coordinates.get( 0 );
-							final F b = row0Coordinates.get( 1 );
-							final F c = row0Coordinates.get( 2 );
-							final F d = row1Coordinates.get( 0 );
-							final F e = row1Coordinates.get( 1 );
-							final F f = row1Coordinates.get( 2 );
-							final F g = row2Coordinates.get( 0 );
-							final F h = row2Coordinates.get( 1 );
-							final F i = row2Coordinates.get( 2 );
-							
-							/*
-							 * Alternative: result = a.multiply( e.multiply( i ).subtract(
-							 * f.multiply( h ) ) ).subtract( b.multiply( d.multiply( i
-							 * ).subtract( f.multiply( g ) ) ) ) .add( c.multiply( d.multiply(
-							 * h ).subtract( e.multiply( g ) ) ) );
-							 */
-							result = a.multiply( e ).multiply( i ).add( b.multiply( f ).multiply( g ) ).add( c.multiply( d ).multiply( h ) )
-								.subtract( c.multiply( e ).multiply( g ) ).subtract( b.multiply( d ).multiply( i ) ).subtract( a.multiply( f ).multiply( h ) );
-							
+							result = this.det3x3();
 						} else {
-							
-							final int rowsCount = this.getRowsCount();
-							F determinant = this.createZeroFieldElement();
-							for ( int i = 0 ; i < rowsCount ; i++ ) {
-								final V rowVector = this.getRowVector( i );
-								final F cellValue = rowVector.getCoordinate( 0 );
-								/*
-								 * Zero check to speed up.
-								 */
-								if ( !this.createZeroFieldElement().equals( cellValue ) ) {
-									final F subDet2 = this.createMatrixWithoutRowAndColumn( i, 0 ).det();
-									final F subDet = cellValue.multiply( subDet2 );
-									if ( ( i % 2 ) != 0 ) {
-										determinant = determinant.subtract( subDet );
-									} else {
-										determinant = determinant.add( subDet );
-									}
-								}
-							}
-							result = determinant;
+							result = this.detLaplace();
 						}
 					}
 				}
@@ -208,6 +160,63 @@ public abstract class BigFieldElementMatrix< F extends FieldElement< F >, V exte
 		} else {
 			throw new CalculationException( "Matrix is not square matrix: " + this.getRowsCount() + " x " + this.getColumnsCount() );
 		}
+		return result;
+	}
+	
+	protected F det2x2() {
+		final List< F > row0Coordinates = this.getRowVector( 0 ).getCoordinates();
+		final List< F > row1Coordinates = this.getRowVector( 1 ).getCoordinates();
+		final F result = row0Coordinates.get( 0 ).multiply( row1Coordinates.get( 1 ) ).subtract( row0Coordinates.get( 1 ).multiply( row1Coordinates.get( 0 ) ) );
+		return result;
+	}
+	
+	protected F det3x3() {
+		final F result;
+		final List< F > row0Coordinates = this.getRowVector( 0 ).getCoordinates();
+		final List< F > row1Coordinates = this.getRowVector( 1 ).getCoordinates();
+		final List< F > row2Coordinates = this.getRowVector( 2 ).getCoordinates();
+		final F a = row0Coordinates.get( 0 );
+		final F b = row0Coordinates.get( 1 );
+		final F c = row0Coordinates.get( 2 );
+		final F d = row1Coordinates.get( 0 );
+		final F e = row1Coordinates.get( 1 );
+		final F f = row1Coordinates.get( 2 );
+		final F g = row2Coordinates.get( 0 );
+		final F h = row2Coordinates.get( 1 );
+		final F i = row2Coordinates.get( 2 );
+		
+		/*
+		 * Alternative: result = a.multiply( e.multiply( i ).subtract( f.multiply( h
+		 * ) ) ).subtract( b.multiply( d.multiply( i ).subtract( f.multiply( g ) ) )
+		 * ) .add( c.multiply( d.multiply( h ).subtract( e.multiply( g ) ) ) );
+		 */
+		result = a.multiply( e ).multiply( i ).add( b.multiply( f ).multiply( g ) ).add( c.multiply( d ).multiply( h ) ).subtract( c.multiply( e ).multiply( g ) )
+			.subtract( b.multiply( d ).multiply( i ) ).subtract( a.multiply( f ).multiply( h ) );
+		return result;
+	}
+	
+	protected F detLaplace() {
+		final F result;
+		
+		final int rowsCount = this.getRowsCount();
+		F determinant = this.createZeroFieldElement();
+		for ( int i = 0 ; i < rowsCount ; i++ ) {
+			final V rowVector = this.getRowVector( i );
+			final F cellValue = rowVector.getCoordinate( 0 );
+			/*
+			 * Zero check to speed up.
+			 */
+			if ( !this.createZeroFieldElement().equals( cellValue ) ) {
+				final F subDet2 = this.createMatrixWithoutRowAndColumn( i, 0 ).det();
+				final F subDet = cellValue.multiply( subDet2 );
+				if ( ( i % 2 ) != 0 ) {
+					determinant = determinant.subtract( subDet );
+				} else {
+					determinant = determinant.add( subDet );
+				}
+			}
+		}
+		result = determinant;
 		return result;
 	}
 	
@@ -242,7 +251,7 @@ public abstract class BigFieldElementMatrix< F extends FieldElement< F >, V exte
 	public boolean isSimetric() {
 		return this.equals( this.transpose() );
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

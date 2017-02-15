@@ -4,7 +4,7 @@ Java library for Rational and Complex number calculations without loosing precis
 
 # Building
 
-![Build status](https://travis-ci.org/zolv/bignumbers.svg?branch=master)
+[![Build status](https://travis-ci.org/zolv/bignumbers.svg?branch=master)](https://travis-ci.org/zolv/bignumbers)
 
 After building using Your favourite building tool, just add BigNumbers as dependency.
 ## Maven

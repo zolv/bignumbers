@@ -8,6 +8,7 @@ import java.util.concurrent.FutureTask;
 
 import net.turtle.math.context.BigMathContext;
 import net.turtle.math.exception.CalculationException;
+import net.turtle.math.exception.NotImplementedException;
 import net.turtle.math.util.BigRationalUtil;
 
 public class BigRational implements FieldElement< BigRational >, Comparable< BigRational > {
@@ -143,30 +144,56 @@ public class BigRational implements FieldElement< BigRational >, Comparable< Big
 		if ( multiplicand == null ) {
 			throw new NullPointerException( "Multiplicand cannot be null" );
 		}
-		
-		final FutureTask< BigInteger > numeratorComputation = new FutureTask< BigInteger >( new Callable< BigInteger >() {
-			
-			
-			@Override
-			public BigInteger call() throws Exception {
-				return BigRational.this.numerator.multiply( multiplicand.numerator );
+		final BigRational result;
+		if ( !multiplicand.equals( BigRational.ONE ) ) {
+			if ( !multiplicand.equals( BigRational.ZERO ) && !this.equals( BigRational.ZERO ) ) {
+				if ( !this.equals( BigRational.ONE ) ) {
+						final FutureTask< BigInteger > numeratorComputation = new FutureTask< BigInteger >( new Callable< BigInteger >() {
+							
+							@Override
+							public BigInteger call() throws Exception {
+								return multiply( BigRational.this.numerator, multiplicand.numerator );
+							}
+						} );
+						
+						BigMathContext.get().submit( numeratorComputation );
+						
+						/*
+						 * Reuse current thread for calculation.
+						 */
+						final BigInteger denominatorComputed = multiply( this.denominator, multiplicand.denominator );
+						
+						try {
+							
+							result = new BigRational( numeratorComputation.get(), denominatorComputed );
+							
+						} catch ( ArithmeticException | NullPointerException | InterruptedException | ExecutionException e ) {
+							throw new RuntimeException( e );
+						}
+				} else {
+					result = multiplicand;
+				}
+			} else {
+				result = BigRational.ZERO;
 			}
-		} );
-		
-		BigMathContext.get().submit( numeratorComputation );
-		
-		/*
-		 * Reuse current thread for calculation.
-		 */
-		final BigInteger denominatorComputed = this.denominator.multiply( multiplicand.denominator );
-		
-		try {
-			
-			return new BigRational( numeratorComputation.get(), denominatorComputed );
-			
-		} catch ( ArithmeticException | NullPointerException | InterruptedException | ExecutionException e ) {
-			throw new RuntimeException( e );
+		} else {
+			result = this;
 		}
+		return result;
+	}
+	
+	private BigInteger multiply(BigInteger multiplicandA, BigInteger multiplicandB) {
+		final BigInteger result;
+		if(multiplicandB.equals( BigInteger.ONE )) {
+			result = multiplicandA;
+		} else {
+			if(multiplicandA.equals( BigInteger.ONE )) {
+				result = multiplicandB;
+			} else {
+				result = multiplicandA.multiply( multiplicandB );
+			}
+		}
+		return result;
 	}
 	
 	public BigRational divide( final BigRational divisor ) throws CalculationException {
@@ -186,6 +213,21 @@ public class BigRational implements FieldElement< BigRational >, Comparable< Big
 		} catch ( InterruptedException | ExecutionException e ) {
 			throw new CalculationException( e );
 		}
+	}
+	
+	public BigRational pow( BigRational power ) throws NullPointerException, ArithmeticException, CalculationException {
+		final BigRational result;
+		if ( power.equals( BigRational.ONE ) ) {
+			result = this;
+		} else {
+			final BigRational normalizedPower = power.normalize();
+			if ( normalizedPower.denominator.equals( BigInteger.ONE ) ) {
+				result = pow( normalizedPower.numerator );
+			} else {
+				throw new NotImplementedException("Power operation only for integers");
+			}
+		}
+		return result;
 	}
 	
 	public BigRational pow( BigInteger power ) throws NullPointerException, ArithmeticException, CalculationException {
@@ -427,7 +469,7 @@ public class BigRational implements FieldElement< BigRational >, Comparable< Big
 		final boolean result;
 		final boolean numeratorsEqual = this.numerator.equals( obj.numerator );
 		if ( numeratorsEqual ) {
-			result = ( BigInteger.ZERO.equals( this.numerator ) && BigInteger.ZERO.equals( obj.numerator ) ) || this.denominator.equals( obj.denominator );
+			result = BigInteger.ZERO.equals( this.numerator ) || this.denominator.equals( obj.denominator );
 		} else {
 			if ( this.denominator.equals( obj.denominator ) ) {
 				result = false;

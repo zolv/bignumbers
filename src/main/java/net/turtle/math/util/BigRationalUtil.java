@@ -23,7 +23,7 @@ public class BigRationalUtil {
 		return new BigDecimal( rational.getNumerator() ).divide( new BigDecimal( rational.getDenominator() ), scale, RoundingMode.HALF_UP );
 	}
 	
-	public static BigInteger asBigDInteger( BigRational rational ) {
+	public static BigInteger asBigInteger( BigRational rational ) {
 		return rational.getNumerator().divide( rational.getDenominator() );
 	}
 	

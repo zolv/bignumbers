@@ -14,7 +14,7 @@ import net.turtle.math.core.BigRational;
 import net.turtle.math.exception.CalculationException;
 
 public class BigRationalTest {
-
+	
 	@Test
 	public void testBigRational() {
 		{
@@ -26,6 +26,11 @@ public class BigRationalTest {
 	
 	@Test
 	public void testBigRational_String() {
+		{
+			final BigRational br = new BigRational( "" );
+			Assert.assertEquals( new BigInteger( "0" ), br.getNumerator() );
+			Assert.assertEquals( new BigInteger( "1" ), br.getDenominator() );
+		}
 		{
 			final BigRational br = new BigRational( "-123/456" );
 			Assert.assertEquals( new BigInteger( "-123" ), br.getNumerator() );
@@ -128,13 +133,13 @@ public class BigRationalTest {
 	
 	@Test ( expected = NullPointerException.class )
 	public void testBigRational_BigInteger_BigInteger_Null_1() {
-		new BigRational( null, BigInteger.valueOf( 2 ) );
+		new BigRational( (BigInteger)null, BigInteger.valueOf( 2 ) );
 		Assert.fail();
 	}
 	
 	@Test ( expected = NullPointerException.class )
 	public void testBigRational_BigInteger_BigInteger_Null_2() {
-		new BigRational( BigInteger.valueOf( 2 ), null );
+		new BigRational( BigInteger.valueOf( 2 ), (BigInteger)null );
 		Assert.fail();
 	}
 	
@@ -276,7 +281,7 @@ public class BigRationalTest {
 	@Test ( expected = NullPointerException.class )
 	public void testAdd_Null() {
 		final BigRational br1 = new BigRational( "2", "3" );
-		br1.add( null );
+		br1.add( (BigRational)null );
 		Assert.fail();
 	}
 	
@@ -319,12 +324,34 @@ public class BigRationalTest {
 	@Test ( expected = NullPointerException.class )
 	public void testSubstract_Null() {
 		final BigRational br1 = new BigRational( "2", "3" );
-		br1.subtract( null );
+		br1.subtract( (BigRational)null );
 		Assert.fail();
 	}
 	
 	@Test
 	public void testMultiply() {
+		{
+			/*
+			 * Multiply by 0
+			 */
+			final BigRational br1 = new BigRational( "0", "2" );
+			final BigRational br2 = new BigRational( "4", "5" );
+			final BigRational r1 = new BigRational( "0", "1" );
+			Assert.assertEquals( r1, br1.multiply( br2 ) );
+			Assert.assertEquals( r1, br2.multiply( br1 ) );
+		}
+		{
+			/*
+			 * Multiply by 1
+			 */
+			final BigRational br1 = new BigRational( "5", "5" );
+			final BigRational br2 = new BigRational( "4", "5" );
+			final BigRational r1 = new BigRational( "4", "5" );
+			Assert.assertEquals( r1, br1.multiply( br2 ) );
+			Assert.assertSame( br2, br1.multiply( br2 ) );
+			Assert.assertEquals( r1, br2.multiply( br1 ) );
+			Assert.assertEquals( br2, br2.multiply( br1 ) );
+		}
 		{
 			/*
 			 * + and +
@@ -360,7 +387,7 @@ public class BigRationalTest {
 	@Test ( expected = NullPointerException.class )
 	public void testMultiply_Null() {
 		final BigRational br1 = new BigRational( "2", "3" );
-		br1.multiply( null );
+		br1.multiply( (BigRational)null );
 		Assert.fail();
 	}
 	
@@ -412,12 +439,66 @@ public class BigRationalTest {
 	@Test ( expected = NullPointerException.class )
 	public void testDivide_Null() throws ArithmeticException, NullPointerException {
 		final BigRational br1 = new BigRational( "2", "3" );
-		br1.divide( null );
+		br1.divide( (BigRational)null );
 		Assert.fail();
 	}
 	
 	@Test
-	public void testPowBigInteger() throws NullPointerException, ArithmeticException {
+	public void testPowBigRational() {
+		{
+			final BigRational br1 = new BigRational( "2/3" );
+			final BigRational r1 = new BigRational( "256/6561" );
+			Assert.assertEquals( r1, br1.pow( new BigRational( "8" ) ) );
+			Assert.assertEquals( r1, br1.pow( new BigRational( "16/2" ).normalize() ) );
+		}
+		{
+			final BigRational br1 = new BigRational( "2/3" );
+			final BigRational r1 = new BigRational( "6561/256" );
+			Assert.assertEquals( r1, br1.pow( new BigRational( "-8" ) ) );
+			Assert.assertEquals( r1, br1.pow( new BigRational( "-24/3" ) ) );
+		}
+		{
+			final BigRational br1 = new BigRational( "10" );
+			final BigRational r1 = new BigRational( "0.1" );
+			Assert.assertEquals( r1, br1.pow( new BigRational( "-1" ) ) );
+		}
+		{
+			final BigRational br1 = new BigRational( "0" );
+			final BigRational r1 = new BigRational( "1" );
+			Assert.assertEquals( r1, br1.pow( BigRational.ZERO ) );
+		}
+		
+		{
+			final BigRational br1 = new BigRational( "123" );
+			final BigRational r1 = new BigRational( "6443858614676334363" );
+			Assert.assertEquals( r1, br1.pow( BigInteger.valueOf( 9 ) ) );
+		}
+		
+		{
+			final BigRational br1 = new BigRational( "5" );
+			final BigRational r1 = new BigRational( "5" );
+			final BigRational result = br1.pow( new BigRational( "1" ) );
+			Assert.assertEquals( r1, result );
+			Assert.assertSame( br1, result );
+		}
+		{
+			final BigRational br1 = new BigRational( "5" );
+			final BigRational r1 = new BigRational( "5" );
+			final BigRational result = br1.pow( new BigRational( "7/7" ) );
+			Assert.assertEquals( r1, result );
+			Assert.assertSame( br1, result );
+		}
+	}
+	
+	@Test ( expected = NullPointerException.class )
+	public void testPowBigRational_Null() throws NullPointerException, ArithmeticException {
+		final BigRational br1 = new BigRational( "2", "3" );
+		br1.pow( (BigRational)null );
+		Assert.fail();
+	}
+	
+	@Test
+	public void testPowBigInteger() {
 		{
 			final BigRational br1 = new BigRational( "2/3" );
 			final BigRational r1 = new BigRational( "256/6561" );
@@ -464,7 +545,7 @@ public class BigRationalTest {
 	@Test ( expected = NullPointerException.class )
 	public void testPowBigInteger_Null() throws NullPointerException, ArithmeticException {
 		final BigRational br1 = new BigRational( "2", "3" );
-		br1.pow( null );
+		br1.pow( (BigInteger)null );
 		Assert.fail();
 	}
 	
@@ -802,7 +883,6 @@ public class BigRationalTest {
 		BigMathContext.get().setStrictEqualsAndHashContract( false );
 	}
 	
-	
 	@Test
 	public void hashCodeByValue() {
 		{
@@ -886,7 +966,7 @@ public class BigRationalTest {
 			final BigRational br1 = new BigRational( "1" );
 			final BigRational br2 = new BigRational( "3" );
 			final BigRational r1 = new BigRational( "6" );
-			Assert.assertEquals( r1, br1.divide( br2 ).multiply( br2 ).subtract( new BigRational("-2") ).add( new BigRational("3") ) );
+			Assert.assertEquals( r1, br1.divide( br2 ).multiply( br2 ).subtract( new BigRational( "-2" ) ).add( new BigRational( "3" ) ) );
 		}
 	}
 }

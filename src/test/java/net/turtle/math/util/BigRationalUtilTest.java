@@ -1,5 +1,7 @@
 package net.turtle.math.util;
 
+import java.math.BigInteger;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -47,6 +49,29 @@ public class BigRationalUtilTest {
 	public void testFactorial_null() {
 		BigRationalUtil.factorial( null );
 		Assert.fail();
+	}
+	
+	@Test
+	public void testAsBigInteger() {
+		{
+			Assert.assertEquals( BigInteger.ONE, BigRationalUtil.asBigInteger( new BigRational( "3/3" ) ) );
+		}
+	}
+
+	@Test
+	public void testBigTenToThe() {
+		{
+			final BigInteger result = new BigInteger( "0" );
+			Assert.assertEquals( result, BigRationalUtil.bigTenToThe( -1 ) );
+		}
+		{
+			final BigInteger result = new BigInteger( "1" );
+			Assert.assertEquals( result, BigRationalUtil.bigTenToThe( 0 ) );
+		}
+		{
+			final BigInteger result = new BigInteger( "1000" );
+			Assert.assertEquals( result, BigRationalUtil.bigTenToThe( 3 ) );
+		}
 	}
 	
 }

@@ -228,6 +228,20 @@ public class BigComplexTest {
 			Assert.assertEquals( new BigRational( "0" ), c1.getA() );
 			Assert.assertEquals( new BigRational( "-1" ), c1.getB() );
 		}
+
+		/*
+		 * a+i
+		 */
+		{
+			final BigComplex c1 = new BigComplex( "2+i" );
+			Assert.assertEquals( new BigRational( "2" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "1" ), c1.getB() );
+		}
+		{
+			final BigComplex c1 = new BigComplex( "2-i" );
+			Assert.assertEquals( new BigRational( "2" ), c1.getA() );
+			Assert.assertEquals( new BigRational( "-1" ), c1.getB() );
+		}
 	}
 	
 	@Test ( expected = NullPointerException.class )
@@ -514,8 +528,9 @@ public class BigComplexTest {
 	public void testConjugate() {
 		{
 			final BigComplex c1 = new BigComplex( new BigRational( "2" ), new BigRational( "-3" ) );
-			final BigComplex cr = new BigComplex( new BigRational( "2" ), new BigRational( "3" ) );
-			Assert.assertEquals( cr, c1.conjugate() );
+			final BigComplex c2 = new BigComplex( new BigRational( "2" ), new BigRational( "3" ) );
+			Assert.assertEquals( c2, c1.conjugate() );
+			Assert.assertEquals( c1, c2.conjugate() );
 		}
 		{
 			final BigComplex c1 = new BigComplex( new BigRational( "0" ), new BigRational( "0" ) );
@@ -648,28 +663,34 @@ public class BigComplexTest {
 		}
 		
 		{
-			/*
-			 * Equal by value
-			 */
 			final BigRational br11 = new BigRational( "2", "3" );
 			final BigRational br12 = new BigRational( "3", "5" );
 			final BigComplex bc1 = new BigComplex( br11, br12 );
+
+			final BigRational br11copy = new BigRational( "2", "3" );
+			final BigRational br12copy = new BigRational( "3", "5" );
+			final BigComplex bc1copy = new BigComplex( br11copy, br12copy );
+
+			Assert.assertTrue( bc1.equals( bc1copy ) );
+			Assert.assertTrue( bc1copy.equals( bc1 ) );
 			
 			final BigRational br21 = new BigRational( "4", "6" );
 			final BigRational br22 = new BigRational( "9", "15" );
 			final BigComplex bc2 = new BigComplex( br21, br22 );
+
+			Assert.assertFalse( bc1.equals( bc2 ) );
+			Assert.assertFalse( bc2.equals( bc1 ) );
 			
 			final BigRational br31 = new BigRational( "4", "6" );
 			final BigRational br32 = new BigRational( "10", "15" );
 			final BigComplex bc3 = new BigComplex( br31, br32 );
 			
+			Assert.assertFalse( bc2.equals( bc3 ) );
+			
 			final BigRational br41 = new BigRational( "5", "6" );
 			final BigRational br42 = new BigRational( "10", "15" );
 			final BigComplex bc4 = new BigComplex( br41, br42 );
 			
-			Assert.assertFalse( bc1.equals( bc2 ) );
-			Assert.assertFalse( bc2.equals( bc1 ) );
-			Assert.assertFalse( bc2.equals( bc3 ) );
 			Assert.assertFalse( bc2.equals( bc4 ) );
 		}
 		{

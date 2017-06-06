@@ -74,7 +74,7 @@ public class BigComplexFieldElementTest {
 	}
 	
 	/**
-	 * a + 0 = a
+	 * a * 1 = a
 	 */
 	@Test
 	public void testATimes1() {

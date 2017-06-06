@@ -1,6 +1,5 @@
 package net.turtle.math.util;
 
-import java.math.BigInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,7 +34,7 @@ public class BigComplexUtil {
 		if ( !b.equals( BigRational.ZERO ) ) {
 			if ( !b.equals( BigRational.ONE ) ) {
 				if ( !b.equals( MINUS_ONE ) ) {
-					if(result.length() > 0 && b.signum() > 0) {
+					if(( result.length() > 0 ) && ( b.signum() > 0 )) {
 						result.append( "+" );
 					}
 					result.append( BigRationalUtil.toStringNormalized( b.normalizeSignum() ) ).append( "i" );
@@ -48,7 +47,8 @@ public class BigComplexUtil {
 		}
 	}
 	
-	public static BigRational getReal( String text ) {
+	public static BigRational getReal( String text2 ) {
+		final String text = text2.trim();
 		final String realString;
 		if ( text.endsWith( "i" ) ) {
 			
@@ -68,28 +68,28 @@ public class BigComplexUtil {
 		return real;
 	}
 	
-	public static BigRational getImaginary( String text ) {
-		
+	public static BigRational getImaginary( String text2 ) {
+		final String text = text2.trim();
 		final String imaginaryString;
 		if ( text.endsWith( "i" ) ) {
-			if ( !text.equals( "i" ) ) {
-			if ( !text.equals( "-i" ) ) {
-				
-				final String realPattern = "([-+]?([0-9]+|[0-9]+\\.[0-9]+|[0-9]+\\/[0-9]+|))i";
-				// final String realPattern = "([-+]?[0-9\\.\\/]+)i$";
-				
-				final Pattern matrixPattern = Pattern.compile( realPattern );
-				final Matcher matrixMatcher = matrixPattern.matcher( text );
-				if ( matrixMatcher.find() ) {
-					imaginaryString = matrixMatcher.group( 1 );
+			if ( !text.equals( "i" ) && !text.endsWith( "+i" ) ) {
+				if ( !text.equals( "-i" )  && !text.endsWith( "-i" )) {
+					
+					final String realPattern = "([-+]?([0-9]+|[0-9]+\\.[0-9]+|[0-9]+\\/[0-9]+|))i";
+					// final String realPattern = "([-+]?[0-9\\.\\/]+)i$";
+					
+					final Pattern matrixPattern = Pattern.compile( realPattern );
+					final Matcher matrixMatcher = matrixPattern.matcher( text );
+					if ( matrixMatcher.find() ) {
+						imaginaryString = matrixMatcher.group( 1 );
+					} else {
+						imaginaryString = "0";
+					}
 				} else {
-					imaginaryString = "0";
+					imaginaryString = "-1";
 				}
 			} else {
-				imaginaryString = "-1";
-			}
-			} else {
-			imaginaryString = "1";
+				imaginaryString = "1";
 			}
 		} else {
 			imaginaryString = "0";

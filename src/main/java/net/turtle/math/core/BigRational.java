@@ -6,12 +6,13 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
+import org.apache.commons.lang3.NotImplementedException;
+
 import net.turtle.math.context.BigMathContext;
 import net.turtle.math.exception.CalculationException;
-import net.turtle.math.exception.NotImplementedException;
 import net.turtle.math.util.BigRationalUtil;
 
-public class BigRational implements FieldElement< BigRational >, Comparable< BigRational > {
+public class BigRational implements BigFieldElement< BigRational >, Comparable< BigRational > {
 	
 	
 	public static final BigRational ZERO = new BigRational( BigInteger.ZERO );
@@ -128,18 +129,21 @@ public class BigRational implements FieldElement< BigRational >, Comparable< Big
 		return result;
 	}
 	
+	@Override
 	public BigRational add( BigRational augend ) {
 		return new BigRational(
 			this.numerator.multiply( augend.denominator ).add( augend.numerator.multiply( this.denominator ) ),
 			this.denominator.multiply( augend.denominator ) );
 	}
 	
+	@Override
 	public BigRational subtract( BigRational subtrahend ) throws NullPointerException {
 		return new BigRational(
 			this.numerator.multiply( subtrahend.denominator ).subtract( subtrahend.numerator.multiply( this.denominator ) ),
 			this.denominator.multiply( subtrahend.denominator ) );
 	}
 	
+	@Override
 	public BigRational multiply( final BigRational multiplicand ) {
 		if ( multiplicand == null ) {
 			throw new NullPointerException( "Multiplicand cannot be null" );
@@ -196,6 +200,7 @@ public class BigRational implements FieldElement< BigRational >, Comparable< Big
 		return result;
 	}
 	
+	@Override
 	public BigRational divide( final BigRational divisor ) throws CalculationException {
 		final FutureTask< BigInteger > numeratorComputation = new FutureTask< BigInteger >( new Callable< BigInteger >() {
 			
@@ -224,7 +229,7 @@ public class BigRational implements FieldElement< BigRational >, Comparable< Big
 			if ( normalizedPower.denominator.equals( BigInteger.ONE ) ) {
 				result = pow( normalizedPower.numerator );
 			} else {
-				throw new NotImplementedException("Power operation only for integers");
+				throw new NotImplementedException("Power operation is available only for integers");
 			}
 		}
 		return result;
@@ -304,6 +309,7 @@ public class BigRational implements FieldElement< BigRational >, Comparable< Big
 	 *
 	 * @return
 	 */
+	@Override
 	public BigRational negate() {
 		final BigRational result;
 		/**
@@ -324,6 +330,7 @@ public class BigRational implements FieldElement< BigRational >, Comparable< Big
 	 *
 	 * @return Inversed
 	 */
+	@Override
 	public BigRational inverse() {
 		return new BigRational( this.denominator, this.numerator );
 	}

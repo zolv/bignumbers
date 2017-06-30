@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.turtle.math.exception.CalculationException;
 
-public interface BigVector< F extends FieldElement< F >, V extends BigVector< F, V > > {
+public interface BigVector< F extends BigFieldElement< F >, V extends BigVector< F, V > > {
 	
 	V add( V augend ) throws CalculationException;
 	

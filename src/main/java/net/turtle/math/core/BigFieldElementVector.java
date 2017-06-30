@@ -5,11 +5,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang3.NotImplementedException;
+
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.exception.DifferentDimensionsException;
-import net.turtle.math.exception.NotImplementedException;
 
-public abstract class BigFieldElementVector< F extends FieldElement< F >, V extends BigFieldElementVector< F, V > > implements FieldElement< V >, BigVector< F, V > {
+public abstract class BigFieldElementVector< F extends BigFieldElement< F >, V extends BigFieldElementVector< F, V > > implements BigFieldElement< V >, BigVector< F, V > {
 	
 	
 	protected final List< F > coordinates;
@@ -77,9 +78,10 @@ public abstract class BigFieldElementVector< F extends FieldElement< F >, V exte
 	
 	@Override
 	public V multiply( V multiplicand ) throws CalculationException {
-		throw new NotImplementedException();
+		throw new NotImplementedException("Unknown value");
 	}
 	
+	@Override
 	public F dotProduct( V multiplicand ) throws CalculationException {
 		this.checkDimensions( multiplicand );
 		F coordinatesSum = this.createZeroFieldElement();

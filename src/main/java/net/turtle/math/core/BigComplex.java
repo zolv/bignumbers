@@ -11,7 +11,7 @@ import net.turtle.math.util.BigComplexUtil;
  * @author Radosław Adamiak
  *
  */
-public class BigComplex implements FieldElement< BigComplex >, Comparable< BigComplex > {
+public class BigComplex implements BigFieldElement< BigComplex >, Comparable< BigComplex > {
 	
 	
 	/**

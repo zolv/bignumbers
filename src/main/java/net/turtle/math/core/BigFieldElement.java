@@ -2,7 +2,7 @@ package net.turtle.math.core;
 
 import net.turtle.math.exception.CalculationException;
 
-public interface FieldElement< T > {
+public interface BigFieldElement< T > {
 	
 	
 	T add( T augend ) throws CalculationException;

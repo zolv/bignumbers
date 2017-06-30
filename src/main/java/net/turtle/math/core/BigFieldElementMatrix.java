@@ -7,7 +7,7 @@ import java.util.Map;
 
 import net.turtle.math.exception.CalculationException;
 
-public abstract class BigFieldElementMatrix< F extends FieldElement< F >, V extends BigFieldElementVector< F, V >, M extends BigFieldElementMatrix< F, V, M > > implements BigMatrix< F, V, M > {
+public abstract class BigFieldElementMatrix< F extends BigFieldElement< F >, V extends BigFieldElementVector< F, V >, M extends BigFieldElementMatrix< F, V, M > > implements BigMatrix< F, V, M > {
 	
 	protected final List< V > entries;
 	

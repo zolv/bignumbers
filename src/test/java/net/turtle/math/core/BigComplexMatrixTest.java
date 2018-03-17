@@ -242,15 +242,15 @@ public class BigComplexMatrixTest {
 			Assert.assertTrue(input.isSquare() );
 		}
 		{
-			final BigComplexMatrix input = new BigComplexMatrix( "[[1]]" );
+			final BigComplexMatrix input = new BigComplexMatrix( "[[1+2i]]" );
 			Assert.assertTrue(input.isSquare() );
 		}
 		{
-			final BigComplexMatrix input = new BigComplexMatrix( "[[1,0,2],[-1,3,1],[-1,3,1]]" );
+			final BigComplexMatrix input = new BigComplexMatrix( "[[1+2i,0,2],[-1,3-i,i],[-i,3,1+2i]]" );
 			Assert.assertTrue(input.isSquare() );
 		}
 		{
-			final BigComplexMatrix input = new BigComplexMatrix( "[[1,0,2],[-1,3,1]]" );
+			final BigComplexMatrix input = new BigComplexMatrix( "[[1,0+2i,2],[-1-i,3,1]]" );
 			Assert.assertFalse(input.isSquare() );
 		}
 	}

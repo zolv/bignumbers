@@ -12,8 +12,7 @@ import net.turtle.math.context.BigMathContext;
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.util.BigRationalUtil;
 
-public class BigRational implements BigFieldElement< BigRational >, Comparable< BigRational > {
-	
+public class BigRational implements BigRationalFieldElement, Comparable< BigRational > {
 	
 	public static final BigRational ZERO = new BigRational( BigInteger.ZERO );
 	

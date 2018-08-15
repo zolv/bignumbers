@@ -1,7 +1,7 @@
 package net.turtle.math.calc.operation;
 
-public interface BigValuable< T > {
-	
-	public T getValue();
+import java.util.function.Supplier;
+
+public interface BigValuable< T > extends Supplier< T > {
 	
 }

@@ -12,7 +12,7 @@ public abstract class BigIterativeFunction< T extends BigFieldElement< T > > ext
 	}
 
 	@Override
-	public T evaluate( List< T > parameters ) {
+	public T apply( List< T > parameters ) {
 		T result;
 		if(!parameters.isEmpty()) {
 			final Iterator<T> parametersIt = parameters.iterator();

@@ -97,14 +97,17 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
     return this.reuse(this.a.cancel(), this.b.cancel());
   }
 
+  @Override
   public BigComplex add(BigComplex augend) {
     return new BigComplex(this.a.add(augend.a), this.b.add(augend.b));
   }
 
+  @Override
   public BigComplex subtract(BigComplex subtrahend) {
     return new BigComplex(this.a.subtract(subtrahend.a), this.b.subtract(subtrahend.b));
   }
 
+  @Override
   public BigComplex multiply(BigComplex multiplicand)
       throws NullPointerException, ArithmeticException {
     return new BigComplex(
@@ -112,6 +115,7 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
         this.b.multiply(multiplicand.a).add(this.a.multiply(multiplicand.b)));
   }
 
+  @Override
   public BigComplex divide(BigComplex divisor) throws CalculationException {
 
     final BigRational denominator =
@@ -125,10 +129,12 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
     return this.a.multiply(this.a).add(this.b.multiply(this.b));
   }
 
+  @Override
   public BigComplex negate() {
     return new BigComplex(this.a.negate(), this.b.negate());
   }
 
+  @Override
   public BigComplex inverse() throws ArithmeticException, CalculationException {
     final BigRational abs = this.absSquared();
     return new BigComplex(this.a.divide(abs), this.b.divide(abs).negate());

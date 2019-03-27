@@ -34,6 +34,7 @@ public abstract class BigFieldElementMatrix<
    *
    * @see net.turtle.math.core.BigMatrix#transpose()
    */
+  @Override
   public M transpose() {
     final int columnsCount = this.getColumnsCount();
     final List<V> transposedEntries = new ArrayList<>(columnsCount);
@@ -69,6 +70,7 @@ public abstract class BigFieldElementMatrix<
    * @see
    * net.turtle.math.core.BigMatrix#substract(net.turtle.math.core.BigMatrix)
    */
+  @Override
   public M substract(M subtrahend) {
     final int rowCount = this.getRowsCount();
     final List<V> transposedEntries = new ArrayList<>(rowCount);
@@ -276,6 +278,7 @@ public abstract class BigFieldElementMatrix<
    *
    * @see net.turtle.math.core.BigMatrix#getRowsCount()
    */
+  @Override
   public int getRowsCount() {
     return this.entries.size();
   }
@@ -285,6 +288,7 @@ public abstract class BigFieldElementMatrix<
    *
    * @see net.turtle.math.core.BigMatrix#getColumnsCount()
    */
+  @Override
   public int getColumnsCount() {
     final int result;
     if (!this.entries.isEmpty()) {
@@ -301,6 +305,7 @@ public abstract class BigFieldElementMatrix<
    *
    * @see net.turtle.math.core.BigMatrix#getRowVector(int)
    */
+  @Override
   public V getRowVector(int rowIndex) {
     return this.entries.get(rowIndex);
   }
@@ -310,6 +315,7 @@ public abstract class BigFieldElementMatrix<
    *
    * @see net.turtle.math.core.BigMatrix#getColumnVector(int)
    */
+  @Override
   public V getColumnVector(int columnIndex) {
     final List<F> columnEntries = new ArrayList<>(this.getColumnsCount());
     for (final V element : this.entries) {

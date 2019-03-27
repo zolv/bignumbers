@@ -2,7 +2,6 @@ package net.turtle.math.core;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
@@ -164,14 +163,10 @@ public class BigRational implements BigFieldElement<BigRational>, Comparable<Big
       if (!multiplicand.equals(BigRational.ZERO) && !this.equals(BigRational.ZERO)) {
         if (!this.equals(BigRational.ONE)) {
           final FutureTask<BigInteger> numeratorComputation =
-              new FutureTask<BigInteger>(
-                  new Callable<BigInteger>() {
-
-                    @Override
-                    public BigInteger call() throws Exception {
-                      return multiply(BigRational.this.numerator, multiplicand.numerator);
-                    }
-                  });
+              new FutureTask<>(
+                  () ->
+                      BigRational.this.multiply(
+                          BigRational.this.numerator, multiplicand.numerator));
 
           BigMathContext.get().submit(numeratorComputation);
 
@@ -179,7 +174,7 @@ public class BigRational implements BigFieldElement<BigRational>, Comparable<Big
            * Reuse current thread for calculation.
            */
           final BigInteger denominatorComputed =
-              multiply(this.denominator, multiplicand.denominator);
+              this.multiply(this.denominator, multiplicand.denominator);
 
           try {
 
@@ -220,14 +215,7 @@ public class BigRational implements BigFieldElement<BigRational>, Comparable<Big
   @Override
   public BigRational divide(final BigRational divisor) throws CalculationException {
     final FutureTask<BigInteger> numeratorComputation =
-        new FutureTask<BigInteger>(
-            new Callable<BigInteger>() {
-
-              @Override
-              public BigInteger call() throws Exception {
-                return BigRational.this.numerator.multiply(divisor.denominator);
-              }
-            });
+        new FutureTask<>(() -> BigRational.this.numerator.multiply(divisor.denominator));
 
     BigMathContext.get().submit(numeratorComputation);
     final BigInteger denominatorComputation = this.denominator.multiply(divisor.numerator);
@@ -246,7 +234,7 @@ public class BigRational implements BigFieldElement<BigRational>, Comparable<Big
     } else {
       final BigRational normalizedPower = power.normalize();
       if (normalizedPower.denominator.equals(BigInteger.ONE)) {
-        result = pow(normalizedPower.numerator);
+        result = this.pow(normalizedPower.numerator);
       } else {
         throw new NotImplementedException("Power operation is available only for integers");
       }
@@ -270,14 +258,7 @@ public class BigRational implements BigFieldElement<BigRational>, Comparable<Big
           newDenominator = this.numerator;
         }
         final FutureTask<BigInteger> numeratorComputation =
-            new FutureTask<BigInteger>(
-                new Callable<BigInteger>() {
-
-                  @Override
-                  public BigInteger call() throws Exception {
-                    return BigRational.this.pow(newNumerator, powerAbs);
-                  }
-                });
+            new FutureTask<>(() -> BigRational.this.pow(newNumerator, powerAbs));
 
         BigMathContext.get().submit(numeratorComputation);
         final BigInteger denominatorComputation = this.pow(newDenominator, powerAbs);

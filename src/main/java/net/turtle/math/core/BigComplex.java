@@ -1,5 +1,9 @@
 package net.turtle.math.core;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import net.turtle.math.context.BigMathContext;
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.util.BigComplexUtil;
@@ -13,27 +17,27 @@ import net.turtle.math.util.BigComplexUtil;
 public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigComplex> {
 
   /** z = 0 = 0 + 0i */
-  public static final BigComplex ZERO = new BigComplex(BigRational.ZERO, BigRational.ZERO);
+  @Valid public static final BigComplex ZERO = new BigComplex(BigRational.ZERO, BigRational.ZERO);
 
   /** z = 1 = 1 + 0i */
-  public static final BigComplex ONE = new BigComplex(BigRational.ONE, BigRational.ZERO);
+  @Valid public static final BigComplex ONE = new BigComplex(BigRational.ONE, BigRational.ZERO);
 
   /** z = i = 0 + i */
-  public static final BigComplex I = new BigComplex(BigRational.ZERO, BigRational.ONE);
+  @Valid public static final BigComplex I = new BigComplex(BigRational.ZERO, BigRational.ONE);
 
-  private final BigRational a;
+  @Valid private final BigRational a;
 
-  private final BigRational b;
+  @Valid private final BigRational b;
 
   public BigComplex() {
     this(BigRational.ZERO, BigRational.ZERO);
   }
 
-  public BigComplex(BigRational a) {
+  public BigComplex(@NotNull BigRational a) {
     this(a, BigRational.ZERO);
   }
 
-  public BigComplex(BigRational a, BigRational b) {
+  public BigComplex(@NotNull BigRational a, @NotNull BigRational b) throws NullPointerException {
     if (a != null) {
       this.a = a;
     } else {
@@ -62,7 +66,7 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
    *
    * @param text
    */
-  public BigComplex(String text) {
+  public BigComplex(@NotNull @NotEmpty String text) {
     this(BigComplexUtil.getReal(text), BigComplexUtil.getImaginary(text));
   }
 
@@ -98,17 +102,17 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
   }
 
   @Override
-  public BigComplex add(BigComplex augend) {
+  public BigComplex add(@NotNull BigComplex augend) {
     return new BigComplex(this.a.add(augend.a), this.b.add(augend.b));
   }
 
   @Override
-  public BigComplex subtract(BigComplex subtrahend) {
+  public BigComplex subtract(@NotNull BigComplex subtrahend) {
     return new BigComplex(this.a.subtract(subtrahend.a), this.b.subtract(subtrahend.b));
   }
 
   @Override
-  public BigComplex multiply(BigComplex multiplicand)
+  public BigComplex multiply(@NotNull BigComplex multiplicand)
       throws NullPointerException, ArithmeticException {
     return new BigComplex(
         this.a.multiply(multiplicand.a).subtract(this.b.multiply(multiplicand.b)),
@@ -116,7 +120,7 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
   }
 
   @Override
-  public BigComplex divide(BigComplex divisor) throws CalculationException {
+  public BigComplex divide(@NotNull BigComplex divisor) throws CalculationException {
 
     final BigRational denominator =
         divisor.a.multiply(divisor.a).add(divisor.b.multiply(divisor.b));
@@ -145,7 +149,7 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
   }
 
   public BigComplex reuse(
-      final BigRational aNormalizedSignum, final BigRational bNormalizedSignum) {
+      @NotNull final BigRational aNormalizedSignum, @NotNull final BigRational bNormalizedSignum) {
     final BigComplex result;
     if ((this.a == aNormalizedSignum) && (this.b == bNormalizedSignum)) {
       result = this;
@@ -192,12 +196,12 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
     return result;
   }
 
-  public boolean equalsValue(BigComplex obj) {
+  public boolean equalsValue(@NotNull BigComplex obj) {
     final boolean result = this.a.equalsValue(obj.a) && this.b.equalsValue(obj.b);
     return result;
   }
 
-  public boolean equalsStrict(BigComplex obj) {
+  public boolean equalsStrict(@NotNull BigComplex obj) {
     final boolean result = this.a.equalsStrict(obj.a) && this.b.equalsStrict(obj.b);
     return result;
   }

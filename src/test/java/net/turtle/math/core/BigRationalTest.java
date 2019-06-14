@@ -8,9 +8,7 @@ import java.util.Random;
 import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
-
 import net.turtle.math.context.BigMathContext;
-import net.turtle.math.core.BigRational;
 import net.turtle.math.exception.CalculationException;
 
 public class BigRationalTest {

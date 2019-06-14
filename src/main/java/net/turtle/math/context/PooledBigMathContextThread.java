@@ -26,5 +26,4 @@ public class PooledBigMathContextThread extends Thread {
     super.interrupt();
     BigMathContext.getContextThreadLocal().remove();
   }
-
 }

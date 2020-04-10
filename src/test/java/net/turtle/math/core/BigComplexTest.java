@@ -1,12 +1,11 @@
 package net.turtle.math.core;
 
 import java.math.BigInteger;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 import net.turtle.math.context.BigMathContext;
-import net.turtle.math.core.BigComplex;
-import net.turtle.math.core.BigRational;
 
 public class BigComplexTest {
 

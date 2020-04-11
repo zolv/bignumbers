@@ -5,7 +5,6 @@ import java.math.BigInteger;
 import org.junit.Assert;
 import org.junit.Test;
 
-import net.turtle.math.core.BigRational;
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.exception.ParsingException;
 

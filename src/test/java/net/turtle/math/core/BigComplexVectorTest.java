@@ -3,7 +3,6 @@ package net.turtle.math.core;
 import org.junit.Assert;
 import org.junit.Test;
 
-import net.turtle.math.core.BigComplex;
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.exception.ParsingException;
 

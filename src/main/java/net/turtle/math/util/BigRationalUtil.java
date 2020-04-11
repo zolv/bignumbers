@@ -3,9 +3,9 @@ package net.turtle.math.util;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.stream.Stream;
 
 import net.turtle.math.core.BigRational;
-import net.turtle.math.core.BigRationalValues;
 import net.turtle.math.exception.CalculationException;
 
 public class BigRationalUtil {
@@ -101,24 +101,34 @@ public class BigRationalUtil {
   }
 
   public static String bigTenToTheString(int n) {
-    final char tenpow[] = new char[n + 1];
-    tenpow[0] = ONE_CHAR;
+    final char tenPower[] = new char[n + 1];
+    tenPower[0] = ONE_CHAR;
     for (int i = 1; i <= n; i++) {
-      tenpow[i] = ZERO_CHAR;
+      tenPower[i] = ZERO_CHAR;
     }
-    return new String(tenpow);
+    return new String(tenPower);
   }
 
   public static BigRational factorial(BigRational n) {
     final BigRational result;
-    if (n.compareTo(BigRationalValues.ZERO) >= 0) {
-      BigRational tempResult = BigRationalValues.ONE;
-      for (BigRational i = n;
-          i.compareTo(BigRationalValues.ONE) >= 0;
-          i = i.subtract(BigRationalValues.ONE)) {
-        tempResult = tempResult.multiply(i);
-      }
-      result = tempResult;
+    final BigRational normalized = n.normalize();
+    if (normalized.getDenominator().equals(BigInteger.ONE)) {
+      result = new BigRational(factorial(normalized.getNumerator()));
+    } else {
+      throw new CalculationException("Factorial parameter is not an integer number");
+    }
+    return result;
+  }
+
+  public static BigInteger factorial(final BigInteger input) {
+    final BigInteger result;
+    if (input.compareTo(BigInteger.ZERO) >= 0) {
+      result =
+          Stream.iterate(
+                  input,
+                  in -> in.compareTo(BigInteger.ONE) > 0,
+                  current -> current.subtract(BigInteger.ONE))
+              .reduce(BigInteger.ONE, (a, b) -> a.multiply(b), (a, b) -> a.multiply(b));
     } else {
       throw new CalculationException("Factorial parameter is less than 0");
     }

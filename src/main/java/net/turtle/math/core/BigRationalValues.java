@@ -2,8 +2,6 @@ package net.turtle.math.core;
 
 import java.math.BigInteger;
 
-import net.turtle.math.core.BigRational;
-
 public class BigRationalValues {
 
   public static final BigRational ZERO = BigRational.ZERO;

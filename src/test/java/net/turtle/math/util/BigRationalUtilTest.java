@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import net.turtle.math.core.BigRational;
 import net.turtle.math.exception.CalculationException;
-import net.turtle.math.util.BigRationalUtil;
 
 public class BigRationalUtilTest {
 
@@ -46,16 +45,20 @@ public class BigRationalUtilTest {
   }
 
   @Test(expected = NullPointerException.class)
-  public void testFactorial_null() {
-    BigRationalUtil.factorial(null);
+  public void testFactorialBigInteger_null() {
+    BigRationalUtil.factorial((BigInteger) null);
+    Assert.fail();
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void testFactorialBigRational_null() {
+    BigRationalUtil.factorial((BigRational) null);
     Assert.fail();
   }
 
   @Test
   public void testAsBigInteger() {
-    {
-      Assert.assertEquals(BigInteger.ONE, BigRationalUtil.asBigInteger(new BigRational("3/3")));
-    }
+    Assert.assertEquals(BigInteger.ONE, BigRationalUtil.asBigInteger(new BigRational("3/3")));
   }
 
   @Test

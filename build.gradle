@@ -10,11 +10,11 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.+';
 }
 
-sourceCompatibility = 1.8;
-targetCompatibility = 1.8;
+sourceCompatibility = 11.0;
+targetCompatibility = 11.0;
 
 jacoco {
-    toolVersion = "0.7.6.+"
+    toolVersion = "0.8.4.+"
 }
 
 jacocoTestReport {

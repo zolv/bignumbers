@@ -2,8 +2,6 @@ package net.turtle.math.core;
 
 import java.math.BigInteger;
 
-import net.turtle.math.core.BigRational;
-
 public class BigRationalValues {
 
   public static final BigRational ZERO = BigRational.ZERO;
@@ -73,7 +71,7 @@ public class BigRationalValues {
    *
    * @see <a href="https://en.wikipedia.org/wiki/Pi">π on Wikipedia</a>
    */
-  public static final BigRational PI = PI_1000;
+  public static final BigRational PI = PI_10;
 
   public static final BigRational TAU_10 = new BigRational("6.2831853072");
 
@@ -94,7 +92,7 @@ public class BigRationalValues {
    *
    * @see <a href= "https://en.wikipedia.org/wiki/Turn_(geometry)#Tau_proposal"> τ on Wikipedia</a>
    */
-  public static final BigRational TAU = TAU_1000;
+  public static final BigRational TAU = TAU_10;
 
   public static final BigRational E_10 = new BigRational("2.7182818285");
 
@@ -111,7 +109,7 @@ public class BigRationalValues {
    *
    * @see <a href="https://en.wikipedia.org/wiki/E_(mathematical_constant)">e on Wikipedia</a>
    */
-  public static final BigRational E = E_1000;
+  public static final BigRational E = E_10;
 
   public static final BigRational SQUARE_ROOT_2_10 = new BigRational("1.4142135624");
 
@@ -128,7 +126,7 @@ public class BigRationalValues {
    *
    * @see <a href="https://en.wikipedia.org/wiki/Square_root_of_2">Square root of 2 on Wikipedia</a>
    */
-  public static final BigRational SQUARE_ROOT_2 = SQUARE_ROOT_2_1000;
+  public static final BigRational SQUARE_ROOT_2 = SQUARE_ROOT_2_10;
 
   public static final BigRational SQUARE_ROOT_3_10 = new BigRational("1.7320508076");
 
@@ -145,7 +143,7 @@ public class BigRationalValues {
    *
    * @see <a href="https://en.wikipedia.org/wiki/Square_root_of_3">Square root of 3 on Wikipedia</a>
    */
-  public static final BigRational SQUARE_ROOT_3 = SQUARE_ROOT_3_1000;
+  public static final BigRational SQUARE_ROOT_3 = SQUARE_ROOT_3_10;
 
   public static final BigRational SQUARE_ROOT_5_10 = new BigRational("2.2360679775");
 
@@ -162,7 +160,7 @@ public class BigRationalValues {
    *
    * @see <a href="https://en.wikipedia.org/wiki/Square_root_of_5">Square root of 5 on Wikipedia</a>
    */
-  public static final BigRational SQUARE_ROOT_5 = SQUARE_ROOT_5_1000;
+  public static final BigRational SQUARE_ROOT_5 = SQUARE_ROOT_5_10;
 
   public static final BigRational GOLDEN_RATIO_10 = new BigRational("1.6180339887");
 
@@ -194,7 +192,7 @@ public class BigRationalValues {
    *
    * @see <a href="https://en.wikipedia.org/wiki/Silver_ratio">Silver Ratio on Wikipedia</a>
    */
-  public static final BigRational SILVER_RATIO = SILVER_RATIO_1000;
+  public static final BigRational SILVER_RATIO = SILVER_RATIO_10;
 
   private BigRationalValues() {
     super();

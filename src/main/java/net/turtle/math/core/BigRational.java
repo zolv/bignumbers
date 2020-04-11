@@ -2,32 +2,35 @@ package net.turtle.math.core;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.NotImplementedException;
 
 import net.turtle.math.context.BigMathContext;
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.util.BigRationalUtil;
+import net.turtle.math.validation.NotZero;
 
-public class BigRational implements BigRationalFieldElement, Comparable<BigRational> {
+public class BigRational implements BigFieldElement<BigRational>, Comparable<BigRational> {
 
-  public static final BigRational ZERO = new BigRational(BigInteger.ZERO);
+  @Valid @NotNull public static final BigRational ZERO = new BigRational(BigInteger.ZERO);
 
-  public static final BigRational ONE = new BigRational(BigInteger.ONE);
+  @Valid @NotNull public static final BigRational ONE = new BigRational(BigInteger.ONE);
 
-  private final BigInteger numerator;
+  @NotNull private final BigInteger numerator;
 
-  private final BigInteger denominator;
+  @NotNull @NotZero private final BigInteger denominator;
 
   /** Creates new BigDecimal with value ZERO. */
   public BigRational() {
     this(BigInteger.ZERO, BigInteger.ONE);
   }
 
-  public BigRational(BigDecimal bigDecimalValue) {
+  public BigRational(@NotNull BigDecimal bigDecimalValue) {
     this(
         bigDecimalValue.scale() >= 0
             ? bigDecimalValue.unscaledValue()
@@ -39,25 +42,27 @@ public class BigRational implements BigRationalFieldElement, Comparable<BigRatio
             : BigRationalUtil.bigTenToThe(bigDecimalValue.scale()));
   }
 
-  public BigRational(BigInteger bigIntegerValue) throws ArithmeticException, NullPointerException {
+  public BigRational(@NotNull BigInteger bigIntegerValue)
+      throws ArithmeticException, NullPointerException {
     this(bigIntegerValue, BigInteger.ONE);
   }
 
-  public BigRational(String value) throws ArithmeticException, NullPointerException {
+  public BigRational(@NotNull String value) throws ArithmeticException, NullPointerException {
     this(BigRationalUtil.getNumerator(value), BigRationalUtil.getDenominator(value));
   }
 
-  public BigRational(String numerator, String denominator)
+  public BigRational(@NotNull String numerator, @NotNull @NotZero String denominator)
       throws ArithmeticException, NullPointerException {
     this(new BigInteger(numerator), new BigInteger(denominator));
   }
 
-  public BigRational(BigInteger numerator, BigInteger denominator)
+  public BigRational(@NotNull BigInteger numerator, @NotNull @NotZero BigInteger denominator)
       throws ArithmeticException, NullPointerException {
     this(numerator, denominator, BigMathContext.get().getNormalizeResult());
   }
 
-  public BigRational(BigInteger numerator, BigInteger denominator, boolean normalize)
+  public BigRational(
+      @NotNull BigInteger numerator, @NotNull @NotZero BigInteger denominator, boolean normalize)
       throws ArithmeticException, NullPointerException {
     if (numerator != null) {
       if (denominator != null) {
@@ -164,14 +169,10 @@ public class BigRational implements BigRationalFieldElement, Comparable<BigRatio
       if (!multiplicand.equals(BigRational.ZERO) && !this.equals(BigRational.ZERO)) {
         if (!this.equals(BigRational.ONE)) {
           final FutureTask<BigInteger> numeratorComputation =
-              new FutureTask<BigInteger>(
-                  new Callable<BigInteger>() {
-
-                    @Override
-                    public BigInteger call() throws Exception {
-                      return multiply(BigRational.this.numerator, multiplicand.numerator);
-                    }
-                  });
+              new FutureTask<>(
+                  () ->
+                      BigRational.this.multiply(
+                          BigRational.this.numerator, multiplicand.numerator));
 
           BigMathContext.get().submit(numeratorComputation);
 
@@ -179,7 +180,7 @@ public class BigRational implements BigRationalFieldElement, Comparable<BigRatio
            * Reuse current thread for calculation.
            */
           final BigInteger denominatorComputed =
-              multiply(this.denominator, multiplicand.denominator);
+              this.multiply(this.denominator, multiplicand.denominator);
 
           try {
 
@@ -203,7 +204,7 @@ public class BigRational implements BigRationalFieldElement, Comparable<BigRatio
     return result;
   }
 
-  private BigInteger multiply(BigInteger multiplicandA, BigInteger multiplicandB) {
+  private BigInteger multiply(@NotNull BigInteger multiplicandA, BigInteger multiplicandB) {
     final BigInteger result;
     if (multiplicandB.equals(BigInteger.ONE)) {
       result = multiplicandA;
@@ -218,16 +219,10 @@ public class BigRational implements BigRationalFieldElement, Comparable<BigRatio
   }
 
   @Override
-  public BigRational divide(final BigRational divisor) throws CalculationException {
+  public BigRational divide(@NotNull @NotZero final BigRational divisor)
+      throws CalculationException {
     final FutureTask<BigInteger> numeratorComputation =
-        new FutureTask<BigInteger>(
-            new Callable<BigInteger>() {
-
-              @Override
-              public BigInteger call() throws Exception {
-                return BigRational.this.numerator.multiply(divisor.denominator);
-              }
-            });
+        new FutureTask<>(() -> BigRational.this.numerator.multiply(divisor.denominator));
 
     BigMathContext.get().submit(numeratorComputation);
     final BigInteger denominatorComputation = this.denominator.multiply(divisor.numerator);
@@ -238,7 +233,7 @@ public class BigRational implements BigRationalFieldElement, Comparable<BigRatio
     }
   }
 
-  public BigRational pow(BigRational power)
+  public BigRational pow(@NotNull BigRational power)
       throws NullPointerException, ArithmeticException, CalculationException {
     final BigRational result;
     if (power.equals(BigRational.ONE)) {
@@ -246,7 +241,7 @@ public class BigRational implements BigRationalFieldElement, Comparable<BigRatio
     } else {
       final BigRational normalizedPower = power.normalize();
       if (normalizedPower.denominator.equals(BigInteger.ONE)) {
-        result = pow(normalizedPower.numerator);
+        result = this.pow(normalizedPower.numerator);
       } else {
         throw new NotImplementedException("Power operation is available only for integers");
       }
@@ -270,14 +265,7 @@ public class BigRational implements BigRationalFieldElement, Comparable<BigRatio
           newDenominator = this.numerator;
         }
         final FutureTask<BigInteger> numeratorComputation =
-            new FutureTask<BigInteger>(
-                new Callable<BigInteger>() {
-
-                  @Override
-                  public BigInteger call() throws Exception {
-                    return BigRational.this.pow(newNumerator, powerAbs);
-                  }
-                });
+            new FutureTask<>(() -> BigRational.this.pow(newNumerator, powerAbs));
 
         BigMathContext.get().submit(numeratorComputation);
         final BigInteger denominatorComputation = this.pow(newDenominator, powerAbs);
@@ -435,8 +423,7 @@ public class BigRational implements BigRationalFieldElement, Comparable<BigRatio
               result = 1;
             } else {
               /*
-               * abs() of multiplication results are not needed due to
-               * normalization.
+               * abs() of multiplication results are not needed due to normalization.
                */
               final int absCompare =
                   thisNormalized

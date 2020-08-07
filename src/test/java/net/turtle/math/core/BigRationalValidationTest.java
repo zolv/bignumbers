@@ -8,15 +8,15 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class BigRationalValidationTest {
 
   private static Validator validator;
 
-  @BeforeClass
+  @BeforeAll
   public static void beforeClass() {
     validator = Validation.buildDefaultValidatorFactory().getValidator();
   }
@@ -34,6 +34,6 @@ public class BigRationalValidationTest {
             .validateConstructorParameters(
                 constructor,
                 new Object[] {BigInteger.valueOf(1L), BigInteger.valueOf(0), Boolean.TRUE});
-    Assert.assertEquals(1, validations.size());
+    Assertions.assertEquals(1, validations.size());
   }
 }

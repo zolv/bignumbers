@@ -1,7 +1,7 @@
 package net.turtle.math.core;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class BigRationalFieldElementTest {
 
@@ -13,8 +13,8 @@ public class BigRationalFieldElementTest {
       final BigRational br2 = new BigRational("2", "4");
       final BigRational br3 = new BigRational("3", "6");
       final BigRational r1 = new BigRational("3", "2");
-      Assert.assertEquals(r1, br1.add(br2.add(br3)));
-      Assert.assertEquals(r1, br1.add(br2).add(br3));
+      Assertions.assertEquals(r1, br1.add(br2.add(br3)));
+      Assertions.assertEquals(r1, br1.add(br2).add(br3));
     }
   }
 
@@ -24,8 +24,8 @@ public class BigRationalFieldElementTest {
     {
       final BigRational br1 = new BigRational("1", "2");
       final BigRational br2 = new BigRational("0", "4");
-      Assert.assertEquals(br1, br1.add(br2));
-      Assert.assertEquals(br1, BigRationalValues.ZERO.add(br1));
+      Assertions.assertEquals(br1, br1.add(br2));
+      Assertions.assertEquals(br1, BigRationalValues.ZERO.add(br1));
     }
   }
 
@@ -34,7 +34,7 @@ public class BigRationalFieldElementTest {
   public void testAPlusMinusA() {
     {
       final BigRational br1 = new BigRational("1", "2");
-      Assert.assertEquals(BigRationalValues.ZERO, br1.add(br1.negate()));
+      Assertions.assertEquals(BigRationalValues.ZERO, br1.add(br1.negate()));
     }
   }
 
@@ -44,8 +44,8 @@ public class BigRationalFieldElementTest {
     {
       final BigRational br1 = new BigRational("1", "2");
       final BigRational br2 = new BigRational("2", "4");
-      Assert.assertEquals(BigRationalValues.ONE, br1.add(br2));
-      Assert.assertEquals(BigRationalValues.ONE, br2.add(br1));
+      Assertions.assertEquals(BigRationalValues.ONE, br1.add(br2));
+      Assertions.assertEquals(BigRationalValues.ONE, br2.add(br1));
     }
   }
 
@@ -57,8 +57,8 @@ public class BigRationalFieldElementTest {
       final BigRational br2 = new BigRational("2", "4");
       final BigRational br3 = new BigRational("3", "6");
       final BigRational r1 = new BigRational("1", "8");
-      Assert.assertEquals(r1, br1.multiply(br2.multiply(br3)));
-      Assert.assertEquals(r1, br1.multiply(br2).multiply(br3));
+      Assertions.assertEquals(r1, br1.multiply(br2.multiply(br3)));
+      Assertions.assertEquals(r1, br1.multiply(br2).multiply(br3));
     }
   }
 
@@ -68,8 +68,8 @@ public class BigRationalFieldElementTest {
     {
       final BigRational br1 = new BigRational("1", "2");
       final BigRational br2 = new BigRational("3", "3");
-      Assert.assertEquals(br1, br1.multiply(br2));
-      Assert.assertEquals(br1, BigRationalValues.ONE.multiply(br1));
+      Assertions.assertEquals(br1, br1.multiply(br2));
+      Assertions.assertEquals(br1, BigRationalValues.ONE.multiply(br1));
     }
   }
 
@@ -78,7 +78,7 @@ public class BigRationalFieldElementTest {
   public void testATimesInversedA() {
     {
       final BigRational br1 = new BigRational("1", "2");
-      Assert.assertEquals(BigRationalValues.ONE, br1.multiply(br1.inverse()));
+      Assertions.assertEquals(BigRationalValues.ONE, br1.multiply(br1.inverse()));
     }
   }
 
@@ -89,8 +89,8 @@ public class BigRationalFieldElementTest {
       final BigRational br1 = new BigRational("1", "2");
       final BigRational br2 = new BigRational("2", "4");
       final BigRational r1 = new BigRational("1", "4");
-      Assert.assertEquals(r1, br1.multiply(br2));
-      Assert.assertEquals(r1, br2.multiply(br1));
+      Assertions.assertEquals(r1, br1.multiply(br2));
+      Assertions.assertEquals(r1, br2.multiply(br1));
     }
   }
 
@@ -102,8 +102,8 @@ public class BigRationalFieldElementTest {
       final BigRational br2 = new BigRational("2", "4");
       final BigRational br3 = new BigRational("3", "6");
       final BigRational r1 = new BigRational("1", "2");
-      Assert.assertEquals(r1, br1.multiply(br2.add(br3)));
-      Assert.assertEquals(r1, br1.multiply(br2).add(br1.multiply(br3)));
+      Assertions.assertEquals(r1, br1.multiply(br2.add(br3)));
+      Assertions.assertEquals(r1, br1.multiply(br2).add(br1.multiply(br3)));
     }
   }
 }

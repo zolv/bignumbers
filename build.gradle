@@ -2,25 +2,32 @@ apply plugin: 'java';
 apply plugin: 'jacoco';
  
 repositories {
-    mavenCentral();
+  mavenCentral();
 }
  
 dependencies {
-    compile('org.apache.commons:commons-lang3:3.+');
-    testCompile group: 'junit', name: 'junit', version: '4.+';
+  compile 'org.apache.commons:commons-lang3:3.+';
+  compile 'javax.validation:validation-api:2.0.1.Final';
+  
+  def junitJupiterVersion = '5.+'
+  testImplementation "org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion"
+  testImplementation "org.junit.jupiter:junit-jupiter-params:$junitJupiterVersion"
+  testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion"
+  testCompile 'org.hibernate:hibernate-validator:6.1.2.Final';
+  testCompile 'org.glassfish:javax.el:3.0.1-b09';
 }
 
 sourceCompatibility = 11.0;
 targetCompatibility = 11.0;
 
 jacoco {
-    toolVersion = "0.8.4.+"
+  toolVersion = "0.8.+"
 }
 
 jacocoTestReport {
-    reports {
-        xml.enabled = false;
-        csv.enabled = false;
-        html.destination = "${buildDir}/reports/jacoco-html";
-    }
+  reports {
+    xml.enabled = false;
+    csv.enabled = false;
+    html.destination = "${buildDir}/reports/jacoco-html";
+  }
 }

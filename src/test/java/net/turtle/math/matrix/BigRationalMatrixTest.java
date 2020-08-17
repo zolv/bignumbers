@@ -1,4 +1,4 @@
-package net.turtle.math.core;
+package net.turtle.math.matrix;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -6,9 +6,13 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import net.turtle.math.core.BigRational;
+import net.turtle.math.core.BigRationalValues;
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.exception.DifferentDimensionsException;
 import net.turtle.math.exception.ParsingException;
+import net.turtle.math.matrix.BigRationalMatrix;
+import net.turtle.math.vector.BigRationalVector;
 
 public class BigRationalMatrixTest {
 

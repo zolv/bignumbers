@@ -1,11 +1,13 @@
-package net.turtle.math.core;
+package net.turtle.math.matrix;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.turtle.math.core.BigFieldElement;
 import net.turtle.math.exception.CalculationException;
+import net.turtle.math.vector.BigFieldElementVector;
 
 public abstract class BigFieldElementMatrix<
         F extends BigFieldElement<F>,

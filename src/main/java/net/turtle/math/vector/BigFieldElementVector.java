@@ -1,4 +1,4 @@
-package net.turtle.math.core;
+package net.turtle.math.vector;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.NotImplementedException;
 
+import net.turtle.math.core.BigFieldElement;
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.exception.DifferentDimensionsException;
 

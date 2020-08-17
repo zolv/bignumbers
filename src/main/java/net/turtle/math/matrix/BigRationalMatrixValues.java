@@ -1,4 +1,4 @@
-package net.turtle.math.core;
+package net.turtle.math.matrix;
 
 public class BigRationalMatrixValues {
 

@@ -11,14 +11,14 @@ import net.turtle.math.vector.BigComplexVector;
 public class BigComplexVectorTest {
 
   @Test
-  public void testBigVector() {
+  void testBigVector() {
     {
       Assertions.assertEquals(0, new BigComplexVector().getDimension());
     }
   }
 
   @Test
-  public void testBigVector_String() {
+  void testBigVector_String() {
     {
       final BigComplexVector input = new BigComplexVector("[]");
       Assertions.assertEquals(0, input.getDimension());
@@ -47,7 +47,7 @@ public class BigComplexVectorTest {
   }
 
   @Test
-  public void testBigVector_String_null() {
+  void testBigVector_String_null() {
     Assertions.assertThrows(
         ParsingException.class,
         () -> {
@@ -56,7 +56,7 @@ public class BigComplexVectorTest {
   }
 
   @Test
-  public void testAdd() {
+  void testAdd() {
     {
       final BigComplexVector bv1 =
           new BigComplexVector(new BigComplex("1"), new BigComplex("2"), new BigComplex("3"));
@@ -70,7 +70,7 @@ public class BigComplexVectorTest {
   }
 
   @Test
-  public void testAdd_Dimensions1() {
+  void testAdd_Dimensions1() {
     Assertions.assertThrows(
         CalculationException.class,
         () -> {
@@ -83,7 +83,7 @@ public class BigComplexVectorTest {
   }
 
   @Test
-  public void testAdd_Dimensions2() {
+  void testAdd_Dimensions2() {
     Assertions.assertThrows(
         CalculationException.class,
         () -> {
@@ -96,7 +96,7 @@ public class BigComplexVectorTest {
   }
 
   @Test
-  public void testAdd_Dimensions3() {
+  void testAdd_Dimensions3() {
     {
       final BigComplexVector bv1 = new BigComplexVector();
       final BigComplexVector bv2 = new BigComplexVector();
@@ -107,7 +107,7 @@ public class BigComplexVectorTest {
   }
 
   @Test
-  public void testSubstract() {
+  void testSubstract() {
     {
       final BigComplexVector bv1 =
           new BigComplexVector(new BigComplex("3"), new BigComplex("2"), new BigComplex("1"));
@@ -121,7 +121,7 @@ public class BigComplexVectorTest {
   }
 
   @Test
-  public void testMultiply_BigComplex() {
+  void testMultiply_BigComplex() {
     {
       final BigComplexVector bv1 =
           new BigComplexVector(new BigComplex("1"), new BigComplex("2"), new BigComplex("-3"));
@@ -134,7 +134,7 @@ public class BigComplexVectorTest {
   }
 
   @Test
-  public void testDivide_BigComplex() {
+  void testDivide_BigComplex() {
     {
       final BigComplexVector bv1 =
           new BigComplexVector(new BigComplex("1"), new BigComplex("2"), new BigComplex("-3"));
@@ -147,7 +147,7 @@ public class BigComplexVectorTest {
   }
 
   @Test
-  public void testInverse() {
+  void testInverse() {
     {
       final BigComplexVector bv1 =
           new BigComplexVector(new BigComplex("3"), new BigComplex("2"), new BigComplex("1"));
@@ -159,7 +159,7 @@ public class BigComplexVectorTest {
   }
 
   @Test
-  public void testNegate() {
+  void testNegate() {
     {
       final BigComplexVector bv1 =
           new BigComplexVector(new BigComplex("3"), new BigComplex("2"), new BigComplex("1"));
@@ -171,7 +171,7 @@ public class BigComplexVectorTest {
   }
 
   @Test
-  public void testConjugate() {
+  void testConjugate() {
     {
       final BigComplexVector input = new BigComplexVector("[]");
       Assertions.assertEquals(0, input.conjugate().getDimension());

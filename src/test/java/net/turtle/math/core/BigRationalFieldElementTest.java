@@ -7,7 +7,7 @@ public class BigRationalFieldElementTest {
 
   /** a + ( b + c ) = (a + b ) + c */
   @Test
-  public void testAPlusBPlusC() {
+  void testAPlusBPlusC() {
     {
       final BigRational br1 = new BigRational("1", "2");
       final BigRational br2 = new BigRational("2", "4");
@@ -20,7 +20,7 @@ public class BigRationalFieldElementTest {
 
   /** a + 0 = a */
   @Test
-  public void testAPlus0() {
+  void testAPlus0() {
     {
       final BigRational br1 = new BigRational("1", "2");
       final BigRational br2 = new BigRational("0", "4");
@@ -31,7 +31,7 @@ public class BigRationalFieldElementTest {
 
   /** a + (-a) = 0 */
   @Test
-  public void testAPlusMinusA() {
+  void testAPlusMinusA() {
     {
       final BigRational br1 = new BigRational("1", "2");
       Assertions.assertEquals(BigRationalValues.ZERO, br1.add(br1.negate()));
@@ -40,7 +40,7 @@ public class BigRationalFieldElementTest {
 
   /** a + 0 = a */
   @Test
-  public void testAPlusBBPlusA() {
+  void testAPlusBBPlusA() {
     {
       final BigRational br1 = new BigRational("1", "2");
       final BigRational br2 = new BigRational("2", "4");
@@ -51,7 +51,7 @@ public class BigRationalFieldElementTest {
 
   /** a * ( b * c ) = (a * b ) * c */
   @Test
-  public void testATimesBTimesC() {
+  void testATimesBTimesC() {
     {
       final BigRational br1 = new BigRational("1", "2");
       final BigRational br2 = new BigRational("2", "4");
@@ -64,7 +64,7 @@ public class BigRationalFieldElementTest {
 
   /** a + 0 = a */
   @Test
-  public void testATimes1() {
+  void testATimes1() {
     {
       final BigRational br1 = new BigRational("1", "2");
       final BigRational br2 = new BigRational("3", "3");
@@ -75,7 +75,7 @@ public class BigRationalFieldElementTest {
 
   /** a * (1/a) = 1 */
   @Test
-  public void testATimesInversedA() {
+  void testATimesInversedA() {
     {
       final BigRational br1 = new BigRational("1", "2");
       Assertions.assertEquals(BigRationalValues.ONE, br1.multiply(br1.inverse()));
@@ -84,7 +84,7 @@ public class BigRationalFieldElementTest {
 
   /** a * b = b * a */
   @Test
-  public void testATimesBBTimesA() {
+  void testATimesBBTimesA() {
     {
       final BigRational br1 = new BigRational("1", "2");
       final BigRational br2 = new BigRational("2", "4");
@@ -96,7 +96,7 @@ public class BigRationalFieldElementTest {
 
   /** a * ( b + c ) = (a * b ) + ( a * c ) */
   @Test
-  public void testATimesBPlusC() {
+  void testATimesBPlusC() {
     {
       final BigRational br1 = new BigRational("1", "2");
       final BigRational br2 = new BigRational("2", "4");

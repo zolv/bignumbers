@@ -22,7 +22,7 @@ public class BigRationalValidationTest {
   }
 
   @Test
-  public void validateNumeratorDenominatorConstructorParameters()
+  void validateNumeratorDenominatorConstructorParameters()
       throws NoSuchMethodException, SecurityException {
     final Constructor<BigRational> constructor =
         BigRational.class.getConstructor(

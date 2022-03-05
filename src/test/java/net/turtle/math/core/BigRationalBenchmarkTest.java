@@ -13,7 +13,7 @@ public class BigRationalBenchmarkTest {
 
   /** Note: Converges very slowly. */
   @Test
-  public void testPiCalculationSlow() {
+  void testPiCalculationSlow() {
     final int iterations = 10000;
 
     BigRational step = BigRationalValues.ONE;
@@ -36,7 +36,7 @@ public class BigRationalBenchmarkTest {
   }
 
   @Test
-  public void testPiCalculationSpigot() {
+  void testPiCalculationSpigot() {
     final int iterations = 100;
 
     final BigRational _16 = new BigRational("16");
@@ -76,7 +76,7 @@ public class BigRationalBenchmarkTest {
   }
 
   @Test
-  public void testSquareRoot2Calculation() {
+  void testSquareRoot2Calculation() {
     final int iterations = 10;
 
     /*

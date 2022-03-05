@@ -7,7 +7,7 @@ public class BigComplexFieldElementTest {
 
   /** a + ( b + c ) = (a + b ) + c */
   @Test
-  public void testAPlusBPlusC() {
+  void testAPlusBPlusC() {
     {
       final BigComplex br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
       final BigComplex br2 = new BigComplex(new BigRational("2"), new BigRational("4"));
@@ -20,7 +20,7 @@ public class BigComplexFieldElementTest {
 
   /** a + 0 = a */
   @Test
-  public void testAPlus0() {
+  void testAPlus0() {
     {
       final BigComplex br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
       final BigComplex br2 = new BigComplex(new BigRational("0"), new BigRational("0"));
@@ -31,7 +31,7 @@ public class BigComplexFieldElementTest {
 
   /** a + (-a) = 0 */
   @Test
-  public void testAPlusMinusA() {
+  void testAPlusMinusA() {
     {
       final BigComplex br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
       Assertions.assertEquals(BigComplexValues.ZERO, br1.add(br1.negate()));
@@ -40,7 +40,7 @@ public class BigComplexFieldElementTest {
 
   /** a + 0 = a */
   @Test
-  public void testAPlusBBPlusA() {
+  void testAPlusBBPlusA() {
     {
       final BigComplex br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
       final BigComplex br2 = new BigComplex(new BigRational("2"), new BigRational("4"));
@@ -52,7 +52,7 @@ public class BigComplexFieldElementTest {
 
   /** a * ( b * c ) = (a * b ) * c */
   @Test
-  public void testATimesBTimesC() {
+  void testATimesBTimesC() {
     {
       final BigComplex br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
       final BigComplex br2 = new BigComplex(new BigRational("2"), new BigRational("4"));
@@ -65,7 +65,7 @@ public class BigComplexFieldElementTest {
 
   /** a * 1 = a */
   @Test
-  public void testATimes1() {
+  void testATimes1() {
     {
       final BigComplex br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
       final BigComplex br2 = new BigComplex(new BigRational("1"), new BigRational("0"));
@@ -76,7 +76,7 @@ public class BigComplexFieldElementTest {
 
   /** a * (1/a) = 1 */
   @Test
-  public void testATimesInversedA() {
+  void testATimesInversedA() {
     {
       final BigComplex br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
       Assertions.assertEquals(BigComplexValues.ONE, br1.multiply(br1.inverse()));
@@ -85,7 +85,7 @@ public class BigComplexFieldElementTest {
 
   /** a * b = b * a */
   @Test
-  public void testATimesBBTimesA() {
+  void testATimesBBTimesA() {
     {
       final BigComplex br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
       final BigComplex br2 = new BigComplex(new BigRational("2"), new BigRational("4"));
@@ -97,7 +97,7 @@ public class BigComplexFieldElementTest {
 
   /** a * ( b + c ) = (a * b ) + ( a * c ) */
   @Test
-  public void testATimesBPlusC() {
+  void testATimesBPlusC() {
     {
       final BigComplex br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
       final BigComplex br2 = new BigComplex(new BigRational("2"), new BigRational("4"));

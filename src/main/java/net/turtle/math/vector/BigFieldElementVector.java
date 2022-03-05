@@ -17,11 +17,11 @@ public abstract class BigFieldElementVector<
 
   protected final List<F> coordinates;
 
-  public BigFieldElementVector() {
+  protected BigFieldElementVector() {
     this.coordinates = Collections.emptyList();
   }
 
-  public BigFieldElementVector(List<F> input) {
+  protected BigFieldElementVector(List<F> input) {
     this(input, false);
   }
 

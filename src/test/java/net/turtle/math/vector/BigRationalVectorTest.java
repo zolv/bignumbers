@@ -14,14 +14,14 @@ import net.turtle.math.vector.BigRationalVector;
 public class BigRationalVectorTest {
 
   @Test
-  public void testBigVector() {
+  void testBigVector() {
     {
       Assertions.assertEquals(0, new BigRationalVector().getDimension());
     }
   }
 
   @Test
-  public void testBigVector_String() {
+  void testBigVector_String() {
     {
       final BigRationalVector input = new BigRationalVector("[]");
       Assertions.assertEquals(0, input.getDimension());
@@ -50,7 +50,7 @@ public class BigRationalVectorTest {
   }
 
   @Test
-  public void testBigVector_String_null() {
+  void testBigVector_String_null() {
     Assertions.assertThrows(
         ParsingException.class,
         () -> {
@@ -59,7 +59,7 @@ public class BigRationalVectorTest {
   }
 
   @Test
-  public void testAdd() {
+  void testAdd() {
     {
       final BigRationalVector bv1 =
           new BigRationalVector(new BigRational("1"), new BigRational("2"), new BigRational("3"));
@@ -73,7 +73,7 @@ public class BigRationalVectorTest {
   }
 
   @Test
-  public void testAdd_Dimensions1() {
+  void testAdd_Dimensions1() {
     Assertions.assertThrows(
         DifferentDimensionsException.class,
         () -> {
@@ -87,7 +87,7 @@ public class BigRationalVectorTest {
   }
 
   @Test
-  public void testAdd_Dimensions2() {
+  void testAdd_Dimensions2() {
     Assertions.assertThrows(
         DifferentDimensionsException.class,
         () -> {
@@ -101,7 +101,7 @@ public class BigRationalVectorTest {
   }
 
   @Test
-  public void testAdd_Dimensions3() {
+  void testAdd_Dimensions3() {
     {
       final BigRationalVector bv1 = new BigRationalVector();
       final BigRationalVector bv2 = new BigRationalVector();
@@ -112,7 +112,7 @@ public class BigRationalVectorTest {
   }
 
   @Test
-  public void testSubstract() {
+  void testSubstract() {
     {
       final BigRationalVector bv1 =
           new BigRationalVector(new BigRational("3"), new BigRational("2"), new BigRational("1"));
@@ -126,7 +126,7 @@ public class BigRationalVectorTest {
   }
 
   @Test
-  public void testMultiply_BigRational() {
+  void testMultiply_BigRational() {
     {
       final BigRationalVector bv1 =
           new BigRationalVector(new BigRational("1"), new BigRational("2"), new BigRational("-3"));
@@ -139,7 +139,7 @@ public class BigRationalVectorTest {
   }
 
   @Test
-  public void testDivide_BigRational() {
+  void testDivide_BigRational() {
     {
       final BigRationalVector bv1 =
           new BigRationalVector(new BigRational("1"), new BigRational("2"), new BigRational("-3"));
@@ -153,7 +153,7 @@ public class BigRationalVectorTest {
   }
 
   @Test
-  public void testInverse() {
+  void testInverse() {
     {
       final BigRationalVector bv1 =
           new BigRationalVector(new BigRational("3"), new BigRational("2"), new BigRational("1"));
@@ -166,7 +166,7 @@ public class BigRationalVectorTest {
   }
 
   @Test
-  public void testNegate() {
+  void testNegate() {
     {
       final BigRationalVector bv1 =
           new BigRationalVector(new BigRational("3"), new BigRational("2"), new BigRational("1"));
@@ -179,7 +179,7 @@ public class BigRationalVectorTest {
   }
 
   @Test
-  public void equalsHashContract() {
+  void equalsHashContract() {
     {
       final BigRationalVector input1 = new BigRationalVector("[]");
       final BigRationalVector input2 = new BigRationalVector("[]");

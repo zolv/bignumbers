@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 public class BigRationalValuesTest {
 
   @Test
-  public void initialize() throws Exception {
+  void initialize() throws Exception {
     Assertions.assertEquals(
         BigRationalValues.ZERO, BigRationalValues.ZERO.multiply(BigRationalValues.ONE));
   }

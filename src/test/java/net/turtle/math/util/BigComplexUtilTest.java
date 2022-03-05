@@ -8,7 +8,7 @@ import net.turtle.math.core.BigComplex;
 public class BigComplexUtilTest {
 
   @Test
-  public void testToStringShort() {
+  void testToStringShort() {
     {
       Assertions.assertEquals("0", BigComplexUtil.toStringShort(new BigComplex("0")));
       Assertions.assertEquals("i", BigComplexUtil.toStringShort(new BigComplex("i")));

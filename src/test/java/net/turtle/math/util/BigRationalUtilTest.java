@@ -12,7 +12,7 @@ import net.turtle.math.exception.ParsingException;
 public class BigRationalUtilTest {
 
   @Test
-  public void testToStringNormalized() {
+  void testToStringNormalized() {
     Assertions.assertEquals("2", BigRationalUtil.toStringNormalized(new BigRational("2/1")));
     Assertions.assertEquals("-2", BigRationalUtil.toStringNormalized(new BigRational("2/-1")));
     Assertions.assertEquals("2/3", BigRationalUtil.toStringNormalized(new BigRational("2", "3")));
@@ -24,7 +24,7 @@ public class BigRationalUtilTest {
   }
 
   @Test
-  public void testFactorial() {
+  void testFactorial() {
     {
       final BigRational result = new BigRational("1");
       Assertions.assertEquals(result, BigRationalUtil.factorial(new BigRational("0")));
@@ -41,7 +41,7 @@ public class BigRationalUtilTest {
   }
 
   @Test
-  public void testFactorial_negative() {
+  void testFactorial_negative() {
     Assertions.assertThrows(
         CalculationException.class,
         () -> {
@@ -50,7 +50,7 @@ public class BigRationalUtilTest {
   }
 
   @Test
-  public void testFactorialBigInteger_null() {
+  void testFactorialBigInteger_null() {
     Assertions.assertThrows(
         NullPointerException.class,
         () -> {
@@ -59,7 +59,7 @@ public class BigRationalUtilTest {
   }
 
   @Test
-  public void testFactorialBigRational_null() {
+  void testFactorialBigRational_null() {
     Assertions.assertThrows(
         NullPointerException.class,
         () -> {
@@ -68,12 +68,12 @@ public class BigRationalUtilTest {
   }
 
   @Test
-  public void testAsBigInteger() {
+  void testAsBigInteger() {
     Assertions.assertEquals(BigInteger.ONE, BigRationalUtil.asBigInteger(new BigRational("3/3")));
   }
 
   @Test
-  public void testBigTenToThe() {
+  void testBigTenToThe() {
     {
       final BigInteger result = new BigInteger("0");
       Assertions.assertEquals(result, BigRationalUtil.bigTenToThe(-1));

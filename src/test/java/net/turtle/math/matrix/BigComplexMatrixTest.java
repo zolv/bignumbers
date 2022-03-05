@@ -17,7 +17,7 @@ import net.turtle.math.vector.BigComplexVector;
 public class BigComplexMatrixTest {
 
   @Test
-  public void testBigComplexMatrix() {
+  void testBigComplexMatrix() {
     {
       final BigComplexMatrix emptyMatrix = new BigComplexMatrix();
       Assertions.assertEquals(0, emptyMatrix.getRowsCount());
@@ -26,7 +26,7 @@ public class BigComplexMatrixTest {
   }
 
   @Test
-  public void testBigComplexMatrix_String() {
+  void testBigComplexMatrix_String() {
     {
       final BigComplexMatrix emptyMatrix = new BigComplexMatrix("[]");
       Assertions.assertEquals(0, emptyMatrix.getRowsCount());
@@ -45,7 +45,7 @@ public class BigComplexMatrixTest {
   }
 
   @Test
-  public void testBigComplexMatrix_String_Dimentions() {
+  void testBigComplexMatrix_String_Dimentions() {
     Assertions.assertThrows(
         DifferentDimensionsException.class,
         () -> {
@@ -54,7 +54,7 @@ public class BigComplexMatrixTest {
   }
 
   @Test
-  public void testBigComplexMatrix_String_MatrixParsing() {
+  void testBigComplexMatrix_String_MatrixParsing() {
     Assertions.assertThrows(
         ParsingException.class,
         () -> {
@@ -63,7 +63,7 @@ public class BigComplexMatrixTest {
   }
 
   @Test
-  public void testBigComplexMatrix_String_MatrixParsing2() {
+  void testBigComplexMatrix_String_MatrixParsing2() {
     Assertions.assertThrows(
         ParsingException.class,
         () -> {
@@ -72,7 +72,7 @@ public class BigComplexMatrixTest {
   }
 
   @Test
-  public void testTranspose() {
+  void testTranspose() {
     {
       final BigComplexMatrix input = new BigComplexMatrix("[]");
       final BigComplexMatrix output = input.transpose();
@@ -103,7 +103,7 @@ public class BigComplexMatrixTest {
   }
 
   @Test
-  public void testAddMatrix() {
+  void testAddMatrix() {
     {
       final BigComplexMatrix input = new BigComplexMatrix("[]");
       final BigComplexMatrix output = input.add(input);
@@ -132,7 +132,7 @@ public class BigComplexMatrixTest {
   }
 
   @Test
-  public void testSubtractMatrix() {
+  void testSubtractMatrix() {
     {
       final BigComplexMatrix input = new BigComplexMatrix("[]");
       final BigComplexMatrix output = input.substract(input);
@@ -161,7 +161,7 @@ public class BigComplexMatrixTest {
   }
 
   @Test
-  public void multiplyByMatrix() {
+  void multiplyByMatrix() {
     {
       final BigComplexMatrix input = new BigComplexMatrix("[]");
       final BigComplexMatrix output = input.multiply(input);
@@ -200,7 +200,7 @@ public class BigComplexMatrixTest {
   }
 
   @Test
-  public void multiplyByWrongMatrix() {
+  void multiplyByWrongMatrix() {
     Assertions.assertThrows(
         CalculationException.class,
         () -> {
@@ -211,7 +211,7 @@ public class BigComplexMatrixTest {
   }
 
   @Test
-  public void multiplyByBigComplex() {
+  void multiplyByBigComplex() {
     {
       final BigComplexMatrix input = new BigComplexMatrix("[]");
       final BigComplexMatrix result = new BigComplexMatrix("[]");
@@ -233,7 +233,7 @@ public class BigComplexMatrixTest {
   }
 
   @Test
-  public void multiplyByNullBigComplex() {
+  void multiplyByNullBigComplex() {
     Assertions.assertThrows(
         NullPointerException.class,
         () -> {
@@ -243,7 +243,7 @@ public class BigComplexMatrixTest {
   }
 
   @Test
-  public void isSquare() {
+  void isSquare() {
     {
       final BigComplexMatrix input = new BigComplexMatrix("[]");
       Assertions.assertTrue(input.isSquare());
@@ -263,7 +263,7 @@ public class BigComplexMatrixTest {
   }
 
   @Test
-  public void isSimetric() {
+  void isSimetric() {
     {
       final BigComplexMatrix input = new BigComplexMatrix("[]");
       Assertions.assertTrue(input.isSimetric());
@@ -287,7 +287,7 @@ public class BigComplexMatrixTest {
   }
 
   @Test
-  public void detCalculation() {
+  void detCalculation() {
     {
       final BigComplexMatrix input = new BigComplexMatrix("[]");
       final BigComplex output = input.det();
@@ -344,7 +344,7 @@ public class BigComplexMatrixTest {
   }
 
   @Test
-  public void equalsHashContract() {
+  void equalsHashContract() {
     {
       final BigComplexMatrix input1 = new BigComplexMatrix("[]");
       final BigComplexMatrix input2 = new BigComplexMatrix("[]");
@@ -385,7 +385,7 @@ public class BigComplexMatrixTest {
   }
 
   @Test
-  public void testDet_NotSquare() {
+  void testDet_NotSquare() {
     Assertions.assertThrows(
         CalculationException.class,
         () -> {
@@ -397,7 +397,7 @@ public class BigComplexMatrixTest {
   }
 
   @Test
-  public void toStringResult() {
+  void toStringResult() {
     {
       final BigComplexMatrix input = new BigComplexMatrix("[]");
       Assertions.assertEquals("[]", input.toString());
@@ -409,7 +409,7 @@ public class BigComplexMatrixTest {
   }
 
   @Test
-  public void testConjugate() {
+  void testConjugate() {
     {
       final BigComplexMatrix input = new BigComplexMatrix("[]");
       Assertions.assertEquals(new BigComplexMatrix("[]"), input.conjugate());

@@ -35,8 +35,9 @@ It is so because `add` method creates new instance of result object and `rationa
 We assign the result of `add` method to another variable which contains the expected result.
 
 # BigRational
+
 Following Wikipedia: 
-> Rational number is any number that can be expressed as the quotient or fraction p/q of two integers, p and q, with the denominator q not equal to zero.
+> [Rational number](https://en.wikipedia.org/wiki/Rational_number) is any number that can be expressed as the quotient or fraction p/q of two integers, p and q, with the denominator q not equal to zero.
 `BigRational` class wrapps Rational number and uses numerator and denominator to express it.
 
 `BigRational` can be constructed just like regular `BigDecimal` class:
@@ -64,6 +65,14 @@ To normalize the fraction - which means both: normalizing sign and canceling the
     System.out.println(result.normalizeSignum().toString()); // Prints -3/6
     System.out.println(result.cancel().toString()); // Prints 1/-2
     System.out.println(result.normalize().toString()); // Does both and prints -1/2
+
 # BigComplex
-# BigVector
-# BigMatrix
+
+Following Wikipedia:
+
+> A [complex number](https://en.wikipedia.org/wiki/Complex_number) is an element of a number system that contains the real numbers and a specific element denoted *i*, called the imaginary unit, and satisfying the equation i<sup>2</sup> = −1.
+
+`BigComplex` can be constructed like `BigRational`. Additionally it can contain an imaginary part:
+
+    final BigComplex bc1 = new BigComplex("2.34+2i"); // real part: 234/100, imaginary part: 2
+    final BigComplex bc1 = new BigComplex(new BigRational("2"), new BigRational("3")); // real part = 2, imaginary part = 3

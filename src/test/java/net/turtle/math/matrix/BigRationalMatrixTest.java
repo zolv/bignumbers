@@ -17,7 +17,7 @@ import net.turtle.math.vector.BigRationalVector;
 public class BigRationalMatrixTest {
 
   @Test
-  public void testBigMatrix() {
+  void testBigMatrix() {
     {
       final BigRationalMatrix emptyMatrix = new BigRationalMatrix();
       Assertions.assertEquals(0, emptyMatrix.getRowsCount());
@@ -26,7 +26,7 @@ public class BigRationalMatrixTest {
   }
 
   @Test
-  public void testBigMatrix_String() {
+  void testBigMatrix_String() {
     {
       final BigRationalMatrix emptyMatrix = new BigRationalMatrix("[]");
       Assertions.assertEquals(0, emptyMatrix.getRowsCount());
@@ -45,7 +45,7 @@ public class BigRationalMatrixTest {
   }
 
   @Test
-  public void testBigMatrix_String_Dimentions() {
+  void testBigMatrix_String_Dimentions() {
     Assertions.assertThrows(
         DifferentDimensionsException.class,
         () -> {
@@ -54,7 +54,7 @@ public class BigRationalMatrixTest {
   }
 
   @Test
-  public void testBigMatrix_String_MatrixParsing() {
+  void testBigMatrix_String_MatrixParsing() {
     Assertions.assertThrows(
         ParsingException.class,
         () -> {
@@ -63,7 +63,7 @@ public class BigRationalMatrixTest {
   }
 
   @Test
-  public void testBigMatrix_String_MatrixParsing2() {
+  void testBigMatrix_String_MatrixParsing2() {
     Assertions.assertThrows(
         ParsingException.class,
         () -> {
@@ -72,7 +72,7 @@ public class BigRationalMatrixTest {
   }
 
   @Test
-  public void testTranspose() {
+  void testTranspose() {
     {
       final BigRationalMatrix input = new BigRationalMatrix("[]");
       final BigRationalMatrix output = input.transpose();
@@ -103,7 +103,7 @@ public class BigRationalMatrixTest {
   }
 
   @Test
-  public void testAddMatrix() {
+  void testAddMatrix() {
     {
       final BigRationalMatrix input = new BigRationalMatrix("[]");
       final BigRationalMatrix output = input.add(input);
@@ -132,7 +132,7 @@ public class BigRationalMatrixTest {
   }
 
   @Test
-  public void testSubtractMatrix() {
+  void testSubtractMatrix() {
     {
       final BigRationalMatrix input = new BigRationalMatrix("[]");
       final BigRationalMatrix output = input.substract(input);
@@ -161,7 +161,7 @@ public class BigRationalMatrixTest {
   }
 
   @Test
-  public void multiplyByMatrix() {
+  void multiplyByMatrix() {
     {
       final BigRationalMatrix input = new BigRationalMatrix("[]");
       final BigRationalMatrix output = input.multiply(input);
@@ -200,7 +200,7 @@ public class BigRationalMatrixTest {
   }
 
   @Test
-  public void multiplyByWrongMatrix() {
+  void multiplyByWrongMatrix() {
     Assertions.assertThrows(
         CalculationException.class,
         () -> {
@@ -211,7 +211,7 @@ public class BigRationalMatrixTest {
   }
 
   @Test
-  public void multiplyByBigRational() {
+  void multiplyByBigRational() {
     {
       final BigRationalMatrix input = new BigRationalMatrix("[]");
       final BigRationalMatrix result = new BigRationalMatrix("[]");
@@ -233,7 +233,7 @@ public class BigRationalMatrixTest {
   }
 
   @Test
-  public void multiplyByNullBigRational() {
+  void multiplyByNullBigRational() {
     Assertions.assertThrows(
         NullPointerException.class,
         () -> {
@@ -243,7 +243,7 @@ public class BigRationalMatrixTest {
   }
 
   @Test
-  public void isSquare() {
+  void isSquare() {
     {
       final BigRationalMatrix input = new BigRationalMatrix("[]");
       Assertions.assertTrue(input.isSquare());
@@ -263,7 +263,7 @@ public class BigRationalMatrixTest {
   }
 
   @Test
-  public void isSimetric() {
+  void isSimetric() {
     {
       final BigRationalMatrix input = new BigRationalMatrix("[]");
       Assertions.assertTrue(input.isSimetric());
@@ -287,7 +287,7 @@ public class BigRationalMatrixTest {
   }
 
   @Test
-  public void detCalculation() {
+  void detCalculation() {
     {
       final BigRationalMatrix input = new BigRationalMatrix("[]");
       final BigRational output = input.det();
@@ -344,7 +344,7 @@ public class BigRationalMatrixTest {
   }
 
   @Test
-  public void equalsHashContract() {
+  void equalsHashContract() {
     {
       final BigRationalMatrix input1 = new BigRationalMatrix("[]");
       final BigRationalMatrix input2 = new BigRationalMatrix("[]");
@@ -385,7 +385,7 @@ public class BigRationalMatrixTest {
   }
 
   @Test
-  public void testDet_NotSquare() {
+  void testDet_NotSquare() {
     Assertions.assertThrows(
         CalculationException.class,
         () -> {
@@ -397,7 +397,7 @@ public class BigRationalMatrixTest {
   }
 
   @Test
-  public void toStringResult() {
+  void toStringResult() {
     {
       final BigRationalMatrix input = new BigRationalMatrix("[]");
       Assertions.assertEquals("[]", input.toString());

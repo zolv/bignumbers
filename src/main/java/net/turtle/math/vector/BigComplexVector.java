@@ -1,10 +1,11 @@
-package net.turtle.math.core;
+package net.turtle.math.vector;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import net.turtle.math.core.BigComplex;
 import net.turtle.math.util.BigVectorUtil;
 
 public class BigComplexVector extends BigFieldElementVector<BigComplex, BigComplexVector> {
@@ -23,7 +24,7 @@ public class BigComplexVector extends BigFieldElementVector<BigComplex, BigCompl
     super(input);
   }
 
-  protected BigComplexVector(List<BigComplex> input, boolean trusted) {
+  public BigComplexVector(List<BigComplex> input, boolean trusted) {
     super(input, trusted);
   }
 

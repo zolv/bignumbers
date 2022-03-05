@@ -1,8 +1,9 @@
-package net.turtle.math.core;
+package net.turtle.math.vector;
 
 import java.util.Arrays;
 import java.util.List;
 
+import net.turtle.math.core.BigRational;
 import net.turtle.math.util.BigVectorUtil;
 
 public class BigRationalVector extends BigFieldElementVector<BigRational, BigRationalVector> {
@@ -21,7 +22,7 @@ public class BigRationalVector extends BigFieldElementVector<BigRational, BigRat
     super(input);
   }
 
-  protected BigRationalVector(List<BigRational> input, boolean trusted) {
+  public BigRationalVector(List<BigRational> input, boolean trusted) {
     super(input, trusted);
   }
 

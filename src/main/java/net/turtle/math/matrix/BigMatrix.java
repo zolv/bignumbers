@@ -1,4 +1,7 @@
-package net.turtle.math.core;
+package net.turtle.math.matrix;
+
+import net.turtle.math.core.BigFieldElement;
+import net.turtle.math.vector.BigVector;
 
 public interface BigMatrix<
     F extends BigFieldElement<F>, V extends BigVector<F, V>, M extends BigMatrix<F, V, M>> {

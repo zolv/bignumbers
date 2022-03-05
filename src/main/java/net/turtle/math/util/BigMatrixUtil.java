@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.turtle.math.core.BigComplexVector;
-import net.turtle.math.core.BigRationalVector;
 import net.turtle.math.exception.DifferentDimensionsException;
 import net.turtle.math.exception.ParsingException;
+import net.turtle.math.vector.BigComplexVector;
+import net.turtle.math.vector.BigRationalVector;
 
 public class BigMatrixUtil {
 

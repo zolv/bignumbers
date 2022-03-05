@@ -2,78 +2,89 @@ package net.turtle.math.util;
 
 import java.math.BigInteger;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import net.turtle.math.core.BigRational;
 import net.turtle.math.exception.CalculationException;
+import net.turtle.math.exception.ParsingException;
 
 public class BigRationalUtilTest {
 
   @Test
-  public void testToStringNormalized() {
-    Assert.assertEquals("2", BigRationalUtil.toStringNormalized(new BigRational("2/1")));
-    Assert.assertEquals("-2", BigRationalUtil.toStringNormalized(new BigRational("2/-1")));
-    Assert.assertEquals("2/3", BigRationalUtil.toStringNormalized(new BigRational("2", "3")));
-    Assert.assertEquals("-2/3", BigRationalUtil.toStringNormalized(new BigRational("-2", "3")));
-    Assert.assertEquals("-2/3", BigRationalUtil.toStringNormalized(new BigRational("2", "-3")));
-    Assert.assertEquals("2/3", BigRationalUtil.toStringNormalized(new BigRational("-2", "-3")));
-    Assert.assertEquals("-2/3", BigRationalUtil.toStringNormalized(new BigRational("+2", "-3")));
+  void testToStringNormalized() {
+    Assertions.assertEquals("2", BigRationalUtil.toStringNormalized(new BigRational("2/1")));
+    Assertions.assertEquals("-2", BigRationalUtil.toStringNormalized(new BigRational("2/-1")));
+    Assertions.assertEquals("2/3", BigRationalUtil.toStringNormalized(new BigRational("2", "3")));
+    Assertions.assertEquals("-2/3", BigRationalUtil.toStringNormalized(new BigRational("-2", "3")));
+    Assertions.assertEquals("-2/3", BigRationalUtil.toStringNormalized(new BigRational("2", "-3")));
+    Assertions.assertEquals("2/3", BigRationalUtil.toStringNormalized(new BigRational("-2", "-3")));
+    Assertions.assertEquals(
+        "-2/3", BigRationalUtil.toStringNormalized(new BigRational("+2", "-3")));
   }
 
   @Test
-  public void testFactorial() {
+  void testFactorial() {
     {
       final BigRational result = new BigRational("1");
-      Assert.assertEquals(result, BigRationalUtil.factorial(new BigRational("0")));
-      Assert.assertEquals(result, BigRationalUtil.factorial(new BigRational("1")));
+      Assertions.assertEquals(result, BigRationalUtil.factorial(new BigRational("0")));
+      Assertions.assertEquals(result, BigRationalUtil.factorial(new BigRational("1")));
     }
     {
       final BigRational result = new BigRational("120");
-      Assert.assertEquals(result, BigRationalUtil.factorial(new BigRational("5")));
+      Assertions.assertEquals(result, BigRationalUtil.factorial(new BigRational("5")));
     }
     {
       final BigRational result = new BigRational("2432902008176640000");
-      Assert.assertEquals(result, BigRationalUtil.factorial(new BigRational("20")));
+      Assertions.assertEquals(result, BigRationalUtil.factorial(new BigRational("20")));
     }
   }
 
-  @Test(expected = CalculationException.class)
-  public void testFactorial_negative() {
-    BigRationalUtil.factorial(new BigRational("-1"));
-    Assert.fail();
-  }
-
-  @Test(expected = NullPointerException.class)
-  public void testFactorialBigInteger_null() {
-    BigRationalUtil.factorial((BigInteger) null);
-    Assert.fail();
-  }
-
-  @Test(expected = NullPointerException.class)
-  public void testFactorialBigRational_null() {
-    BigRationalUtil.factorial((BigRational) null);
-    Assert.fail();
+  @Test
+  void testFactorial_negative() {
+    Assertions.assertThrows(
+        CalculationException.class,
+        () -> {
+          BigRationalUtil.factorial(new BigRational("-1"));
+        });
   }
 
   @Test
-  public void testAsBigInteger() {
-    Assert.assertEquals(BigInteger.ONE, BigRationalUtil.asBigInteger(new BigRational("3/3")));
+  void testFactorialBigInteger_null() {
+    Assertions.assertThrows(
+        NullPointerException.class,
+        () -> {
+          BigRationalUtil.factorial((BigInteger) null);
+        });
   }
 
   @Test
-  public void testBigTenToThe() {
+  void testFactorialBigRational_null() {
+    Assertions.assertThrows(
+        NullPointerException.class,
+        () -> {
+          BigRationalUtil.factorial((BigRational) null);
+        });
+  }
+
+  @Test
+  void testAsBigInteger() {
+    Assertions.assertEquals(BigInteger.ONE, BigRationalUtil.asBigInteger(new BigRational("3/3")));
+  }
+
+  @Test
+  void testBigTenToThe() {
     {
       final BigInteger result = new BigInteger("0");
-      Assert.assertEquals(result, BigRationalUtil.bigTenToThe(-1));
+      Assertions.assertEquals(result, BigRationalUtil.bigTenToThe(-1));
     }
     {
       final BigInteger result = new BigInteger("1");
-      Assert.assertEquals(result, BigRationalUtil.bigTenToThe(0));
+      Assertions.assertEquals(result, BigRationalUtil.bigTenToThe(0));
     }
     {
       final BigInteger result = new BigInteger("1000");
-      Assert.assertEquals(result, BigRationalUtil.bigTenToThe(3));
+      Assertions.assertEquals(result, BigRationalUtil.bigTenToThe(3));
     }
   }
 }

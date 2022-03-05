@@ -1,9 +1,12 @@
-package net.turtle.math.core;
+package net.turtle.math.matrix;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import net.turtle.math.core.BigRational;
+import net.turtle.math.core.BigRationalValues;
 import net.turtle.math.util.BigMatrixUtil;
+import net.turtle.math.vector.BigRationalVector;
 
 public class BigRationalMatrix
     extends BigFieldElementMatrix<BigRational, BigRationalVector, BigRationalMatrix> {

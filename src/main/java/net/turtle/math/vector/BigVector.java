@@ -1,7 +1,8 @@
-package net.turtle.math.core;
+package net.turtle.math.vector;
 
 import java.util.List;
 
+import net.turtle.math.core.BigFieldElement;
 import net.turtle.math.exception.CalculationException;
 
 public interface BigVector<F extends BigFieldElement<F>, V extends BigVector<F, V>> {

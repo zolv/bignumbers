@@ -4,9 +4,9 @@ import java.math.BigInteger;
 
 public class BigRationalValues {
 
-  public static final BigRational ZERO = BigRational.ZERO;
+  public static final BigRational ZERO = new BigRationalZero();
 
-  public static final BigRational ONE = BigRational.ONE;
+  public static final BigRational ONE = new BigRationalOne();
 
   public static final BigRational TWO = new BigRational(BigInteger.valueOf(2));
 

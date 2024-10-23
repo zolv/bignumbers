@@ -18,11 +18,9 @@ public class BigRationalTest {
 
   @Test
   void testBigRational() {
-    {
       final BigRational br = new BigRational();
       Assertions.assertEquals(new BigInteger("0"), br.getNumerator());
       Assertions.assertEquals(new BigInteger("1"), br.getDenominator());
-    }
   }
 
   @Test

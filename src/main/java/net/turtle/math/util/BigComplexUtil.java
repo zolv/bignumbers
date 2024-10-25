@@ -2,7 +2,6 @@ package net.turtle.math.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import net.turtle.math.core.BigComplex;
 import net.turtle.math.core.BigRational;
 
@@ -13,6 +12,13 @@ public class BigComplexUtil {
   }
 
   public static final BigRational MINUS_ONE = BigRational.ONE.negate();
+
+  private static final String REAL_PATTERN_STRING =
+      "^([-+]?([0-9]+|[0-9]+\\.[0-9]+|[0-9]+\\/[0-9]+))[+-]";
+  private static final Pattern REAL_PATTERN = Pattern.compile(REAL_PATTERN_STRING);
+  private static final String IMAGINARY_PATTERN_STRING =
+      "([-+]?([0-9]+|[0-9]+\\.[0-9]+|[0-9]+\\/[0-9]+|))i";
+  private static final Pattern IMAGINARY_PATTERN = Pattern.compile(IMAGINARY_PATTERN_STRING);
 
   public static String toStringShort(BigComplex complex) {
     final StringBuilder result = new StringBuilder();
@@ -51,13 +57,9 @@ public class BigComplexUtil {
     final String text = text2.trim();
     final String realString;
     if (text.endsWith("i")) {
-
-      final String realPattern = "^([-+]?([0-9]+|[0-9]+\\.[0-9]+|[0-9]+\\/[0-9]+))[+-]";
-
-      final Pattern matrixPattern = Pattern.compile(realPattern);
-      final Matcher matrixMatcher = matrixPattern.matcher(text);
-      if (matrixMatcher.find()) {
-        realString = matrixMatcher.group(1);
+      final Matcher realMatcher = REAL_PATTERN.matcher(text);
+      if (realMatcher.find()) {
+        realString = realMatcher.group(1);
       } else {
         realString = "0";
       }
@@ -74,14 +76,9 @@ public class BigComplexUtil {
     if (text.endsWith("i")) {
       if (!text.equals("i") && !text.endsWith("+i")) {
         if (!text.equals("-i") && !text.endsWith("-i")) {
-
-          final String realPattern = "([-+]?([0-9]+|[0-9]+\\.[0-9]+|[0-9]+\\/[0-9]+|))i";
-          // final String realPattern = "([-+]?[0-9\\.\\/]+)i$";
-
-          final Pattern matrixPattern = Pattern.compile(realPattern);
-          final Matcher matrixMatcher = matrixPattern.matcher(text);
-          if (matrixMatcher.find()) {
-            imaginaryString = matrixMatcher.group(1);
+          final Matcher imaginaryMatcher = IMAGINARY_PATTERN.matcher(text);
+          if (imaginaryMatcher.find()) {
+            imaginaryString = imaginaryMatcher.group(1);
           } else {
             imaginaryString = "0";
           }

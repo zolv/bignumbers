@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
-import org.apache.commons.lang3.NotImplementedException;
-
 import net.turtle.math.core.BigFieldElement;
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.exception.DifferentDimensionsException;
+import org.apache.commons.lang3.NotImplementedException;
 
 public abstract class BigFieldElementVector<
         F extends BigFieldElement<F>, V extends BigFieldElementVector<F, V>>

@@ -1,11 +1,10 @@
 package net.turtle.math.util;
 
+import net.turtle.math.core.BigComplex;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import net.turtle.math.core.BigComplex;
-
-public class BigComplexUtilTest {
+class BigComplexUtilTest {
 
   @Test
   void testToStringShort() {

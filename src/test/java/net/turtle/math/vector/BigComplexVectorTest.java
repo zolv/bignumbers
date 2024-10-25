@@ -1,14 +1,12 @@
 package net.turtle.math.vector;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import net.turtle.math.core.BigComplex;
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.exception.ParsingException;
-import net.turtle.math.vector.BigComplexVector;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-public class BigComplexVectorTest {
+class BigComplexVectorTest {
 
   @Test
   void testBigVector() {

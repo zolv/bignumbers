@@ -3,21 +3,19 @@ package net.turtle.math.core;
 import java.lang.reflect.Constructor;
 import java.math.BigInteger;
 import java.util.Set;
-
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class BigRationalValidationTest {
+class BigRationalValidationTest {
 
   private static Validator validator;
 
   @BeforeAll
-  public static void beforeClass() {
+  static void beforeClass() {
     validator = Validation.buildDefaultValidatorFactory().getValidator();
   }
 

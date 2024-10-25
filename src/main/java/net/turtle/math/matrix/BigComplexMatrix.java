@@ -2,7 +2,6 @@ package net.turtle.math.matrix;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import net.turtle.math.core.BigComplex;
 import net.turtle.math.core.BigComplexValues;
 import net.turtle.math.util.BigMatrixUtil;

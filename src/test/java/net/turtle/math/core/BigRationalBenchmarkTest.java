@@ -3,13 +3,11 @@ package net.turtle.math.core;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.stream.IntStream;
-
+import net.turtle.math.util.BigRationalUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import net.turtle.math.util.BigRationalUtil;
-
-public class BigRationalBenchmarkTest {
+class BigRationalBenchmarkTest {
 
   /** Note: Converges very slowly. */
   @Test

@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.stream.Stream;
-
 import net.turtle.math.core.BigRational;
 import net.turtle.math.exception.CalculationException;
 

@@ -3,7 +3,7 @@ package net.turtle.math.core;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class BigRationalFieldElementTest {
+class BigRationalFieldElementTest {
 
   /** a + ( b + c ) = (a + b ) + c */
   @Test

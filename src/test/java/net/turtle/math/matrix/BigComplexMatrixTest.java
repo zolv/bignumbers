@@ -2,19 +2,16 @@ package net.turtle.math.matrix;
 
 import java.math.BigInteger;
 import java.util.List;
-
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import net.turtle.math.core.BigComplex;
 import net.turtle.math.core.BigComplexValues;
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.exception.DifferentDimensionsException;
 import net.turtle.math.exception.ParsingException;
-import net.turtle.math.matrix.BigComplexMatrix;
 import net.turtle.math.vector.BigComplexVector;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-public class BigComplexMatrixTest {
+class BigComplexMatrixTest {
 
   @Test
   void testBigComplexMatrix() {
@@ -323,7 +320,8 @@ public class BigComplexMatrixTest {
     {
       final BigComplexMatrix input =
           new BigComplexMatrix(
-              "[[2, 3, 5, 7, 11],[13, 17, 19, 23, 29],[31, 37, 41, 43, 47],[53, 59, 61, 67, 71],[73, 79, 83, 89, 97]]");
+              "[[2, 3, 5, 7, 11],[13, 17, 19, 23, 29],[31, 37, 41, 43, 47],[53, 59,"
+                  + " 61, 67, 71],[73, 79, 83, 89, 97]]");
       final BigComplex output = input.det();
       Assertions.assertEquals(new BigComplex("-4656"), output);
     }

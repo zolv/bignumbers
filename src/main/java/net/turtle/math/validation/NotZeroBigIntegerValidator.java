@@ -1,7 +1,6 @@
 package net.turtle.math.validation;
 
 import java.math.BigInteger;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 

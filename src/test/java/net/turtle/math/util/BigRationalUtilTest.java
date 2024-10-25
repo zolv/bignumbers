@@ -1,15 +1,12 @@
 package net.turtle.math.util;
 
 import java.math.BigInteger;
-
+import net.turtle.math.core.BigRational;
+import net.turtle.math.exception.CalculationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import net.turtle.math.core.BigRational;
-import net.turtle.math.exception.CalculationException;
-import net.turtle.math.exception.ParsingException;
-
-public class BigRationalUtilTest {
+class BigRationalUtilTest {
 
   @Test
   void testToStringNormalized() {

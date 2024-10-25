@@ -4,22 +4,19 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
-
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-
-import org.apache.commons.lang3.NotImplementedException;
-
 import net.turtle.math.context.BigMathContext;
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.util.BigRationalUtil;
 import net.turtle.math.validation.NotZero;
+import org.apache.commons.lang3.NotImplementedException;
 
-public class BigRational implements BigFieldElement<BigRational>, Comparable<BigRational> {
+public class BigRational
+    implements BigFieldElement<BigRational>, Comparable<BigRational>, BigNumber {
 
-  @Valid @NotNull public static final BigRational ZERO = new BigRational(BigInteger.ZERO);
+  public static final BigRational ZERO = new BigRationalZero();
 
-  @Valid @NotNull public static final BigRational ONE = new BigRational(BigInteger.ONE);
+  public static final BigRational ONE = new BigRationalOne();
 
   @NotNull private final BigInteger numerator;
 
@@ -166,42 +163,42 @@ public class BigRational implements BigFieldElement<BigRational>, Comparable<Big
     }
     final BigRational result;
     if (!multiplicand.equals(BigRational.ONE)) {
-      if (!multiplicand.equals(BigRational.ZERO) && !this.equals(BigRational.ZERO)) {
-        if (!this.equals(BigRational.ONE)) {
-          final FutureTask<BigInteger> numeratorComputation =
-              new FutureTask<>(
-                  () ->
-                      BigRational.this.multiply(
-                          BigRational.this.numerator, multiplicand.numerator));
-
-          BigMathContext.get().submit(numeratorComputation);
-
-          /*
-           * Reuse current thread for calculation.
-           */
-          final BigInteger denominatorComputed =
-              this.multiply(this.denominator, multiplicand.denominator);
-
-          try {
-
-            result = new BigRational(numeratorComputation.get(), denominatorComputed);
-
-          } catch (ArithmeticException
-              | NullPointerException
-              | InterruptedException
-              | ExecutionException e) {
-            throw new RuntimeException(e);
-          }
+      if (!this.equals(BigRational.ONE)) {
+        if (!multiplicand.equals(BigRational.ZERO) && !this.equals(BigRational.ZERO)) {
+          result = this.doMultiply(multiplicand);
         } else {
-          result = multiplicand;
+          result = BigRational.ZERO;
         }
       } else {
-        result = BigRational.ZERO;
+        result = multiplicand;
       }
     } else {
       result = this;
     }
     return result;
+  }
+
+  private BigRational doMultiply(final BigRational multiplicand) {
+    final FutureTask<BigInteger> numeratorComputation =
+        new FutureTask<>(
+            () -> BigRational.this.multiply(BigRational.this.numerator, multiplicand.numerator));
+
+    BigMathContext.get().submit(numeratorComputation);
+
+    /*
+     * Reuse current thread for calculation.
+     */
+    final BigInteger denominatorComputed =
+        this.multiply(this.denominator, multiplicand.denominator);
+
+    try {
+      return new BigRational(numeratorComputation.get(), denominatorComputed);
+    } catch (ArithmeticException
+        | NullPointerException
+        | InterruptedException
+        | ExecutionException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private BigInteger multiply(@NotNull BigInteger multiplicandA, BigInteger multiplicandB) {
@@ -320,14 +317,7 @@ public class BigRational implements BigFieldElement<BigRational>, Comparable<Big
    */
   @Override
   public BigRational negate() {
-    final BigRational result;
-    /** "Silent" harmless signum normalization. */
-    if (this.denominator.signum() < 0) {
-      result = new BigRational(this.numerator, this.denominator.negate());
-    } else {
-      result = new BigRational(this.numerator.negate(), this.denominator);
-    }
-    return result;
+    return new BigRational(this.numerator.negate(), this.denominator);
   }
 
   /**
@@ -452,11 +442,16 @@ public class BigRational implements BigFieldElement<BigRational>, Comparable<Big
   }
 
   public BigRational min(BigRational val) {
-    return (this.compareTo(val) <= 0 ? this : val);
+    return (this.compareTo(val) < 0 ? this : val);
   }
 
   public BigRational max(BigRational val) {
     return (this.compareTo(val) > 0 ? this : val);
+  }
+
+  @Override
+  public BigComplex toComplex() {
+    return new BigComplex(this, BigRationalValues.ZERO);
   }
 
   @Override

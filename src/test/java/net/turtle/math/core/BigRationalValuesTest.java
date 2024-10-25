@@ -3,7 +3,7 @@ package net.turtle.math.core;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class BigRationalValuesTest {
+class BigRationalValuesTest {
 
   @Test
   void initialize() throws Exception {

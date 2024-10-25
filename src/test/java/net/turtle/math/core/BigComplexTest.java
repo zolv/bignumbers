@@ -1,19 +1,23 @@
 package net.turtle.math.core;
 
 import java.math.BigInteger;
-
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import net.turtle.math.context.BigMathContext;
-import net.turtle.math.exception.ParsingException;
-
-public class BigComplexTest {
+class BigComplexTest {
 
   @Test
   void testBigComplex() {
-    Assertions.assertEquals(new BigRational("0", "1"), new BigComplex().getA());
-    Assertions.assertEquals(new BigRational("0", "1"), new BigComplex().getB());
+    // when
+    final BigComplex got = new BigComplex();
+
+    // then
+    Assertions.assertEquals(BigRational.ZERO, got.getA());
+    Assertions.assertEquals(BigRational.ZERO, got.getB());
   }
 
   @Test
@@ -24,751 +28,517 @@ public class BigComplexTest {
 
   @Test
   void testBigComplexBigRationalBigRational() {
-    {
-      final BigComplex c1 = new BigComplex(new BigRational("2"), new BigRational("3"));
-      Assertions.assertEquals(new BigRational("2"), c1.getA());
-      Assertions.assertEquals(new BigRational("3"), c1.getB());
-    }
+    // given
+    final BigRational givenA = new BigRational("2");
+    final BigRational givenB = new BigRational("3");
+
+    // when
+    final var c1 = new BigComplex(givenA, givenB);
+
+    // then
+    Assertions.assertEquals(givenA, c1.getA());
+    Assertions.assertEquals(givenB, c1.getB());
   }
 
-  // @Test
-  // void testBigComplexString() {
-  // {
-  // final BigComplex c1 = new BigComplex("2");
-  // Assertions.assertEquals(new BigRational("2"), c1.getA());
-  // Assertions.assertEquals(BigRational.ZERO, c1.getB());
-  // }
-  // {
-  // final BigComplex c1 = new BigComplex("3i");
-  // Assertions.assertEquals(BigRational.ZERO, c1.getA());
-  // Assertions.assertEquals(new BigRational("3"), c1.getB());
-  // }
-  // {
-  // final BigComplex c1 = new BigComplex("2");
-  // Assertions.assertEquals(new BigRational("2"), c1.getA());
-  // Assertions.assertEquals(BigRational.ZERO, c1.getB());
-  // }
-  // {
-  // final BigComplex c1 = new BigComplex("2+3i");
-  // Assertions.assertEquals(new BigRational("2"), c1.getA());
-  // Assertions.assertEquals(new BigRational("3"), c1.getB());
-  // }
-  // {
-  // final BigComplex c1 = new BigComplex("-2-3i");
-  // Assertions.assertEquals(new BigRational("-2"), c1.getA());
-  // Assertions.assertEquals(new BigRational("-3"), c1.getB());
-  // }
-  // {
-  // final BigComplex c1 = new BigComplex("-2/3-5/7i");
-  // Assertions.assertEquals(new BigRational("-2/3"), c1.getA());
-  // Assertions.assertEquals(new BigRational("-5/7"), c1.getB());
-  // }
-  // }
-
-  @Test
-  void testBigComplexString() {
-    /*
-     * a
-     */
-    {
-      final BigComplex c1 = new BigComplex("2");
-      Assertions.assertEquals(new BigRational("2"), c1.getA());
-      Assertions.assertEquals(new BigRational("0"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("-2");
-      Assertions.assertEquals(new BigRational("-2"), c1.getA());
-      Assertions.assertEquals(new BigRational("0"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("+2");
-      Assertions.assertEquals(new BigRational("2"), c1.getA());
-      Assertions.assertEquals(new BigRational("0"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("2.3");
-      Assertions.assertEquals(new BigRational("2.3"), c1.getA());
-      Assertions.assertEquals(new BigRational("0"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("-2.3");
-      Assertions.assertEquals(new BigRational("-2.3"), c1.getA());
-      Assertions.assertEquals(new BigRational("0"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("+2.3");
-      Assertions.assertEquals(new BigRational("2.3"), c1.getA());
-      Assertions.assertEquals(new BigRational("0"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("2/3");
-      Assertions.assertEquals(new BigRational("2/3"), c1.getA());
-      Assertions.assertEquals(new BigRational("0"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("-2/3");
-      Assertions.assertEquals(new BigRational("-2/3"), c1.getA());
-      Assertions.assertEquals(new BigRational("0"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("+2/3");
-      Assertions.assertEquals(new BigRational("2/3"), c1.getA());
-      Assertions.assertEquals(new BigRational("0"), c1.getB());
-    }
-
-    /*
-     * a+bi
-     */
-    {
-      final BigComplex c1 = new BigComplex("2+3i");
-      Assertions.assertEquals(new BigRational("2"), c1.getA());
-      Assertions.assertEquals(new BigRational("3"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("-2-3i");
-      Assertions.assertEquals(new BigRational("-2"), c1.getA());
-      Assertions.assertEquals(new BigRational("-3"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("+2+3i");
-      Assertions.assertEquals(new BigRational("2"), c1.getA());
-      Assertions.assertEquals(new BigRational("3"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("2.3+2.3i");
-      Assertions.assertEquals(new BigRational("2.3"), c1.getA());
-      Assertions.assertEquals(new BigRational("2.3"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("-2.3-2.3i");
-      Assertions.assertEquals(new BigRational("-2.3"), c1.getA());
-      Assertions.assertEquals(new BigRational("-2.3"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("+2.3+2.3i");
-      Assertions.assertEquals(new BigRational("2.3"), c1.getA());
-      Assertions.assertEquals(new BigRational("2.3"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("2/3+2/3i");
-      Assertions.assertEquals(new BigRational("2/3"), c1.getA());
-      Assertions.assertEquals(new BigRational("2/3"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("-2/3-2/3i");
-      Assertions.assertEquals(new BigRational("-2/3"), c1.getA());
-      Assertions.assertEquals(new BigRational("-2/3"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("+2/3+2/3i");
-      Assertions.assertEquals(new BigRational("2/3"), c1.getA());
-      Assertions.assertEquals(new BigRational("2/3"), c1.getB());
-    }
-
-    /*
-     * bi
-     */
-    {
-      final BigComplex c1 = new BigComplex("2i");
-      Assertions.assertEquals(new BigRational("0"), c1.getA());
-      Assertions.assertEquals(new BigRational("2"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("-2i");
-      Assertions.assertEquals(new BigRational("0"), c1.getA());
-      Assertions.assertEquals(new BigRational("-2"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("+2i");
-      Assertions.assertEquals(new BigRational("0"), c1.getA());
-      Assertions.assertEquals(new BigRational("2"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("2.3i");
-      Assertions.assertEquals(new BigRational("0"), c1.getA());
-      Assertions.assertEquals(new BigRational("2.3"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("-2.3i");
-      Assertions.assertEquals(new BigRational("0"), c1.getA());
-      Assertions.assertEquals(new BigRational("-2.3"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("+2.3i");
-      Assertions.assertEquals(new BigRational("0"), c1.getA());
-      Assertions.assertEquals(new BigRational("2.3"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("2/3i");
-      Assertions.assertEquals(new BigRational("0"), c1.getA());
-      Assertions.assertEquals(new BigRational("2/3"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("-2/3i");
-      Assertions.assertEquals(new BigRational("0"), c1.getA());
-      Assertions.assertEquals(new BigRational("-2/3"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("+2/3i");
-      Assertions.assertEquals(new BigRational("0"), c1.getA());
-      Assertions.assertEquals(new BigRational("2/3"), c1.getB());
-    }
-
-    /*
-     * i
-     */
-    {
-      final BigComplex c1 = new BigComplex("i");
-      Assertions.assertEquals(new BigRational("0"), c1.getA());
-      Assertions.assertEquals(new BigRational("1"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("-i");
-      Assertions.assertEquals(new BigRational("0"), c1.getA());
-      Assertions.assertEquals(new BigRational("-1"), c1.getB());
-    }
-
-    /*
-     * a+i
-     */
-    {
-      final BigComplex c1 = new BigComplex("2+i");
-      Assertions.assertEquals(new BigRational("2"), c1.getA());
-      Assertions.assertEquals(new BigRational("1"), c1.getB());
-    }
-    {
-      final BigComplex c1 = new BigComplex("2-i");
-      Assertions.assertEquals(new BigRational("2"), c1.getA());
-      Assertions.assertEquals(new BigRational("-1"), c1.getB());
-    }
+  static Stream<Arguments> testBigComplexBigRationalBigRational_null() {
+    return Stream.of(
+        Arguments.of(null, null),
+        Arguments.of(new BigRational("2"), null),
+        Arguments.of(null, new BigRational("3")));
   }
 
-  @Test
-  void testBigComplexBigRationalBigRational_nullA() {
+  @ParameterizedTest
+  @MethodSource
+  void testBigComplexBigRationalBigRational_null(BigRational givenA, BigRational givenB) {
+    // when, then
     Assertions.assertThrows(
         NullPointerException.class,
         () -> {
-          new BigComplex(null, new BigRational("3"));
+          new BigComplex(givenA, givenB);
         });
   }
 
-  @Test
-  void testBigComplexBigRationalBigRational_nullB() {
-    Assertions.assertThrows(
-        NullPointerException.class,
-        () -> {
-          new BigComplex(new BigRational("3"), null);
-        });
+  static Stream<Arguments> testBigComplexString() {
+    return Stream.of(
+        Arguments.of("2", new BigRational("2"), new BigRational("0")),
+        Arguments.of("-2", new BigRational("-2"), new BigRational("0")),
+        Arguments.of("+2", new BigRational("2"), new BigRational("0")),
+        Arguments.of("2.3", new BigRational("2.3"), new BigRational("0")),
+        Arguments.of("-2.3", new BigRational("-2.3"), new BigRational("0")),
+        Arguments.of("2/3", new BigRational("2/3"), new BigRational("0")),
+        Arguments.of("+2/3", new BigRational("2/3"), new BigRational("0")),
+        Arguments.of("-2/3", new BigRational("-2/3"), new BigRational("0")),
+        Arguments.of("2+3i", new BigRational("2"), new BigRational("3")),
+        Arguments.of("-2-3i", new BigRational("-2"), new BigRational("-3")),
+        Arguments.of("+2+3i", new BigRational("2"), new BigRational("3")),
+        Arguments.of("2.3-2.3i", new BigRational("2.3"), new BigRational("-2.3")),
+        Arguments.of("-2.3-2.3i", new BigRational("-2.3"), new BigRational("-2.3")),
+        Arguments.of("2/3+2/3i", new BigRational("2/3"), new BigRational("2/3")),
+        Arguments.of("+2/3-2/3i", new BigRational("2/3"), new BigRational("-2/3")),
+        Arguments.of("-2/3+2/3i", new BigRational("-2/3"), new BigRational("2/3")),
+        Arguments.of("2i", new BigRational("0"), new BigRational("2")),
+        Arguments.of("-2i", new BigRational("0"), new BigRational("-2")),
+        Arguments.of("+2i", new BigRational("0"), new BigRational("2")),
+        Arguments.of("2.3i", new BigRational("0"), new BigRational("2.3")),
+        Arguments.of("-2.3i", new BigRational("0"), new BigRational("-2.3")),
+        Arguments.of("2/3i", new BigRational("0"), new BigRational("2/3")),
+        Arguments.of("+2/3i", new BigRational("0"), new BigRational("2/3")),
+        Arguments.of("-2/3i", new BigRational("0"), new BigRational("-2/3")),
+        Arguments.of("2+i", new BigRational("2"), new BigRational("1")),
+        Arguments.of("2-i", new BigRational("2"), new BigRational("-1")),
+        Arguments.of("i", new BigRational("0"), new BigRational("1")),
+        Arguments.of("-i", new BigRational("0"), new BigRational("-1")));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void testBigComplexString(String given, BigRational expectedA, BigRational expectedB) {
+    // when
+    final BigComplex got = new BigComplex(given);
+
+    // then
+    Assertions.assertEquals(expectedA, got.getA());
+    Assertions.assertEquals(expectedB, got.getB());
   }
 
   @Test
   void testGetA() {
-    Assertions.assertEquals(
-        new BigRational("2"), new BigComplex(new BigRational("2"), new BigRational("3")).getA());
-    Assertions.assertEquals(
-        new BigRational("2"), new BigComplex(new BigRational("2"), new BigRational("3")).getReal());
-  }
+    // given
+    final BigRational expected = new BigRational("2");
+    final BigComplex given = new BigComplex(new BigRational("2"), new BigRational("3"));
 
-  @Test
-  void testGetA_null() {
-    Assertions.assertThrows(
-        NullPointerException.class,
-        () -> {
-          new BigComplex(null, new BigRational("3")).getA();
-        });
+    // when
+    final var gotA = given.getA();
+    final var gotReal = given.getReal();
+
+    // then
+    Assertions.assertEquals(expected, gotA);
+    Assertions.assertEquals(expected, gotReal);
   }
 
   @Test
   void testGetB() {
-    Assertions.assertEquals(
-        new BigRational("3"), new BigComplex(new BigRational("2"), new BigRational("3")).getB());
-    Assertions.assertEquals(
-        new BigRational("3"),
-        new BigComplex(new BigRational("2"), new BigRational("3")).getImaginary());
+    // given
+    final BigRational expected = new BigRational("3");
+    final BigComplex given = new BigComplex(new BigRational("2"), new BigRational("3"));
+
+    // when
+    final var gotB = given.getB();
+    final var gotImaginary = given.getImaginary();
+
+    // then
+    Assertions.assertEquals(expected, gotB);
+    Assertions.assertEquals(expected, gotImaginary);
   }
 
   @Test
-  void testGetB_null() {
-    Assertions.assertThrows(
-        NullPointerException.class,
-        () -> {
-          new BigComplex(new BigRational("2"), null).getB();
-        });
+  void testNormalize_needed() {
+    // given
+    final BigComplex given = new BigComplex(new BigRational("4/-6"), new BigRational("-12/-20"));
+
+    // when
+    final BigComplex got = given.normalize();
+
+    // then
+    Assertions.assertEquals(BigInteger.valueOf(-2), got.getA().getNumerator());
+    Assertions.assertEquals(BigInteger.valueOf(3), got.getA().getDenominator());
+    Assertions.assertEquals(BigInteger.valueOf(3), got.getB().getNumerator());
+    Assertions.assertEquals(BigInteger.valueOf(5), got.getB().getDenominator());
+    Assertions.assertNotSame(given, got);
   }
 
   @Test
-  void testNormalize() {
-    {
-      final BigRational a1 = new BigRational("4", "-6");
-      final BigRational b1 = new BigRational("-12", "-20");
-      final BigComplex c1 = new BigComplex(a1, b1);
+  void testNormalize_notNeeded() {
+    // given
+    final BigComplex given = new BigComplex(new BigRational("-2", "3"), new BigRational("-3", "5"));
 
-      final BigComplex reduced = c1.normalize();
-      Assertions.assertEquals(BigInteger.valueOf(-2), reduced.getA().getNumerator());
-      Assertions.assertEquals(BigInteger.valueOf(3), reduced.getA().getDenominator());
-      Assertions.assertEquals(BigInteger.valueOf(3), reduced.getB().getNumerator());
-      Assertions.assertEquals(BigInteger.valueOf(5), reduced.getB().getDenominator());
-      Assertions.assertNotSame(c1, reduced);
-    }
+    // when
+    final BigComplex got = given.normalize();
 
-    {
-      final BigRational a1 = new BigRational("-2", "3");
-      final BigRational b1 = new BigRational("-3", "5");
-      final BigComplex c1 = new BigComplex(a1, b1);
-
-      final BigComplex reduced = c1.normalize();
-      Assertions.assertSame(c1, reduced);
-    }
+    // then
+    Assertions.assertSame(given, got);
   }
 
   @Test
-  void testNormalizeSignum() {
-    {
-      final BigRational a1 = new BigRational("2", "-3");
-      final BigRational b1 = new BigRational("-3", "-5");
-      final BigComplex c1 = new BigComplex(a1, b1);
+  void testNormalizeSignum_needed() {
+    // given
+    final BigComplex given =
+        new BigComplex(new BigRational("2", "-3"), new BigRational("-3", "-5"));
 
-      final BigComplex reduced = c1.normalizeSignum();
-      Assertions.assertEquals(BigInteger.valueOf(-2), reduced.getA().getNumerator());
-      Assertions.assertEquals(BigInteger.valueOf(3), reduced.getA().getDenominator());
-      Assertions.assertEquals(BigInteger.valueOf(3), reduced.getB().getNumerator());
-      Assertions.assertEquals(BigInteger.valueOf(5), reduced.getB().getDenominator());
-      Assertions.assertNotSame(c1, reduced);
-    }
+    // when
+    final BigComplex got = given.normalizeSignum();
 
-    {
-      final BigRational a1 = new BigRational("-2", "3");
-      final BigRational b1 = new BigRational("-3", "5");
-      final BigComplex c1 = new BigComplex(a1, b1);
-
-      final BigComplex reduced = c1.normalizeSignum();
-      Assertions.assertSame(c1, reduced);
-    }
-
-    {
-      final BigRational a1 = new BigRational("-2", "3");
-      final BigRational b1 = new BigRational("3", "-5");
-      final BigComplex c1 = new BigComplex(a1, b1);
-
-      final BigComplex reduced = c1.normalizeSignum();
-      Assertions.assertEquals(BigInteger.valueOf(-2), reduced.getA().getNumerator());
-      Assertions.assertEquals(BigInteger.valueOf(3), reduced.getA().getDenominator());
-      Assertions.assertEquals(BigInteger.valueOf(-3), reduced.getB().getNumerator());
-      Assertions.assertEquals(BigInteger.valueOf(5), reduced.getB().getDenominator());
-      Assertions.assertNotSame(c1, reduced);
-    }
+    // then
+    Assertions.assertEquals(BigInteger.valueOf(-2), got.getA().getNumerator());
+    Assertions.assertEquals(BigInteger.valueOf(3), got.getA().getDenominator());
+    Assertions.assertEquals(BigInteger.valueOf(3), got.getB().getNumerator());
+    Assertions.assertEquals(BigInteger.valueOf(5), got.getB().getDenominator());
+    Assertions.assertNotSame(given, got);
   }
 
   @Test
-  void testCancelBigComplex() {
-    {
-      final String multiplyOfFirst1000PrimesString =
-          "678629608419755514953266004896957820972161078160377361970324401521111792080121479864721936071815069425907219215791646774510151130705671056416094404541167439287735488353736963531288441938981088407654256240451529081607242659988552012480001287133802278572298314458227654950008738955663072953766341488209509227159933381319371567666804963833249523370831655778314080604712246344649628072459805028063160913071005795183295590443375991860551286230065601580359306757988823124262933259305966372664091680948986620887898883461227980556352852601733860114246410887151983493540958775872577571329277597701163671587052591794386970584444752423596023268793021595936555282977008138833858707329536639661377014042325817639809356799596347944462538427778375525904007169834445567450156949173690701738594584875536885957881452438269676946038980597530032671949818526703398270502591574889228837327819994695664173214894557366363343168494592437205324652573516528943874382178600874878024643322031797588414862315122048846223291257900756812820806739795819803783834366449110996030165071920678407750230118672657378102915524688059208755108467225277065866103666795739208709483959119145497860116133180335757702319385020561042517429031288526721801002679092058170909635701703382390753126302005323612316630558515594616479515096004453718500060291836932140612551722161051067379805065002788004096547708243964735215852734827632098700684466036892770059458754742495711074949314613079781545359495019757827538184361308856825999513366660884541936335491466045305322353749545362962683762333460252556042583248154845846566948014188971651057314058851019340282646752239847232045463969939303431371658607220786663205842510175297602195433569758123945251755043878718459161595137019904240640962465899496512410906852088532419874383895656303779315512987369934711061777117329635461569528504994783413643047392160871963795694958724055597996525917454740621526108635321204763824742430011606570436994644169759611263012712375861911682673548369764923418748711813157811279361700331599397588282864147719911156923709896847720603482450047076226728760035577410722701184878333100234780537897462936378382079055966277885316116887834607362114802378706815302650083359076798475953780285866955566883261644281750278358349579977889429105626865087038835977930842352223971442123281019745568694318200865586150762549114357677130353514342849892002965601064686292493671204318349298134598116662388818407027989992498970986262856712232401426575229549744739851333516937170071337085705197690437625282926914858257689908846227286051735284322402597283976180484905838486513162987381659809287870592690902387482033879184700359561190209417618607868793293476867624464497838299321267571049753373623085351455438610076341961842557148160442782839736179329056237366708383637405663196770746783100179128651460773512143616414356080816160456447832856222804164147618891013658880373227849181446498052320436905124576367614898030410445386643656246089772967461562154147355201124738052009172637452710027640262529821855681129322547617443299372089380860873141895162966481252930360380537684913059090577224188204179681342669502124011214018434733385892140553307905100266308832521127607403573729242486985024795253305646999864066282626291530104297235324933472771821035277094700384260778312268190937365143307612108901729316774669077441981239149913617114331308200242717771235228048768133852203532299832810943137983635951570";
-      final BigRational multiplyOfFirst1000Primes =
-          new BigRational(multiplyOfFirst1000PrimesString + "/" + multiplyOfFirst1000PrimesString);
-      final BigComplex bc = new BigComplex(multiplyOfFirst1000Primes, multiplyOfFirst1000Primes);
+  void testNormalizeSignum_notNeeded() {
+    // given
+    final BigComplex given = new BigComplex(new BigRational("-2", "3"), new BigRational("-3", "5"));
 
-      final BigComplex reduced = bc.cancel();
-      Assertions.assertEquals(BigInteger.ONE, reduced.getA().getNumerator());
-      Assertions.assertEquals(BigInteger.ONE, reduced.getA().getDenominator());
-      Assertions.assertEquals(BigInteger.ONE, reduced.getB().getNumerator());
-      Assertions.assertEquals(BigInteger.ONE, reduced.getB().getDenominator());
-    }
-    {
-      final BigComplex bc = new BigComplex(new BigRational("2", "3"), new BigRational("5", "7"));
-      Assertions.assertSame(bc, bc.cancel());
-    }
-    {
-      final BigComplex bc = new BigComplex(new BigRational("2", "3"), new BigRational("5", "10"));
-      Assertions.assertNotSame(bc, bc.cancel());
-    }
+    // when
+    final BigComplex got = given.normalizeSignum();
+
+    // then
+    Assertions.assertSame(given, got);
   }
 
   @Test
-  void testAdd() {
-    {
-      final BigComplex c1 = new BigComplex(BigRational.ZERO, BigRational.ZERO);
-      final BigComplex c2 = new BigComplex(BigRational.ZERO, BigRational.ZERO);
-      final BigComplex cr = new BigComplex(BigRational.ZERO, BigRational.ZERO);
-      Assertions.assertEquals(cr, c1.add(c2));
-    }
-    {
-      final BigRational a1 = new BigRational("2");
-      final BigRational b1 = new BigRational("3");
-      final BigComplex c1 = new BigComplex(a1, b1);
+  void testCancelBigComplex_needed() {
+    // given
+    final var productOfFirst100PrimeNumbers =
+        Stream.of(
+                2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79,
+                83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167,
+                173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263,
+                269, 271, 277, 281, 283, 293, 307, 311, 313, 317, 331, 337, 347, 349, 353, 359, 367,
+                373, 379, 383, 389, 397, 401, 409, 419, 421, 431, 433, 439, 443, 449, 457, 461, 463,
+                467, 479, 487, 491, 499, 503, 509, 521, 523, 541)
+            .map(i -> new BigInteger("" + i))
+            .reduce(BigInteger.ONE, (a, b) -> a.multiply(b));
 
-      final BigRational a2 = new BigRational("4");
-      final BigRational b2 = new BigRational("5");
-      final BigComplex c2 = new BigComplex(a2, b2);
+    final BigInteger givenPrimeNumber101 = new BigInteger("547");
+    final BigInteger givenPrimeNumber102 = new BigInteger("557");
+    final BigInteger givenPrimeNumber103 = new BigInteger("563");
+    final BigInteger givenPrimeNumber104 = new BigInteger("569");
+    final BigRational givenARational =
+        new BigRational(
+            productOfFirst100PrimeNumbers.multiply(givenPrimeNumber101)
+                + "/"
+                + productOfFirst100PrimeNumbers.multiply(givenPrimeNumber102));
+    final BigRational givenBRational =
+        new BigRational(
+            productOfFirst100PrimeNumbers.multiply(givenPrimeNumber103)
+                + "/"
+                + productOfFirst100PrimeNumbers.multiply(givenPrimeNumber104));
+    final BigComplex given = new BigComplex(givenARational, givenBRational);
 
-      final BigRational ar = new BigRational("6");
-      final BigRational br = new BigRational("8");
-      final BigComplex cr = new BigComplex(ar, br);
+    // when
+    final BigComplex reduced = given.cancel();
 
-      Assertions.assertEquals(cr, c1.add(c2));
-    }
+    // then
+    Assertions.assertEquals(givenPrimeNumber101, reduced.getA().getNumerator());
+    Assertions.assertEquals(givenPrimeNumber102, reduced.getA().getDenominator());
+    Assertions.assertEquals(givenPrimeNumber103, reduced.getB().getNumerator());
+    Assertions.assertEquals(givenPrimeNumber104, reduced.getB().getDenominator());
   }
 
   @Test
-  void testSubtract() {
-    {
-      final BigComplex c1 = new BigComplex(BigRational.ZERO, BigRational.ZERO);
-      final BigComplex c2 = new BigComplex(BigRational.ZERO, BigRational.ZERO);
-      final BigComplex cr = new BigComplex(BigRational.ZERO, BigRational.ZERO);
-      Assertions.assertEquals(cr, c1.subtract(c2));
-    }
-    {
-      final BigRational a1 = new BigRational("2");
-      final BigRational b1 = new BigRational("3");
-      final BigComplex c1 = new BigComplex(a1, b1);
+  void testCancelBigComplex_notNeeded() {
+    // given
+    final BigComplex bc = new BigComplex(new BigRational("2", "3"), new BigRational("5", "7"));
 
-      final BigRational a2 = new BigRational("4");
-      final BigRational b2 = new BigRational("6");
-      final BigComplex c2 = new BigComplex(a2, b2);
+    // when
+    final BigComplex got = bc.cancel();
 
-      final BigRational ar = new BigRational("-2");
-      final BigRational br = new BigRational("-3");
-      final BigComplex cr = new BigComplex(ar, br);
-
-      Assertions.assertEquals(cr, c1.subtract(c2));
-    }
+    // then
+    Assertions.assertSame(bc, got);
   }
 
-  @Test
-  void testMultiply() {
-    {
-      final BigComplex c1 = new BigComplex(BigRational.ZERO, BigRational.ZERO);
-      final BigComplex c2 = new BigComplex(BigRational.ZERO, BigRational.ZERO);
-      final BigComplex cr = new BigComplex(BigRational.ZERO, BigRational.ZERO);
-      Assertions.assertEquals(cr, c1.multiply(c2));
-    }
-    {
-      final BigRational a1 = new BigRational("2");
-      final BigRational b1 = new BigRational("3");
-      final BigComplex c1 = new BigComplex(a1, b1);
-
-      final BigRational a2 = new BigRational("5");
-      final BigRational b2 = new BigRational("7");
-      final BigComplex c2 = new BigComplex(a2, b2);
-
-      final BigRational ar = new BigRational("-11");
-      final BigRational br = new BigRational("29");
-      final BigComplex cr = new BigComplex(ar, br);
-
-      Assertions.assertEquals(cr, c1.multiply(c2));
-    }
+  static Stream<Arguments> testAdd() {
+    return Stream.of(
+        Arguments.of(
+            new BigComplex(BigRational.ZERO, BigRational.ZERO),
+            new BigComplex(BigRational.ZERO, BigRational.ZERO),
+            new BigComplex(BigRational.ZERO, BigRational.ZERO)),
+        Arguments.of(
+            new BigComplex(new BigRational("2"), new BigRational("3")),
+            new BigComplex(new BigRational("4"), new BigRational("5")),
+            new BigComplex(new BigRational("6"), new BigRational("8"))));
   }
 
-  @Test
-  void testDivide() throws ArithmeticException, NullPointerException {
-    {
-      final BigComplex c1 = new BigComplex(BigRational.ZERO, BigRational.ZERO);
-      final BigComplex c2 = new BigComplex(BigRational.ZERO, BigRational.ONE);
-      final BigComplex cr = new BigComplex(BigRational.ZERO, BigRational.ZERO);
-      Assertions.assertEquals(cr, c1.divide(c2));
-    }
-    {
-      final BigRational a1 = new BigRational("2");
-      final BigRational b1 = new BigRational("3");
-      final BigComplex c1 = new BigComplex(a1, b1);
+  @ParameterizedTest
+  @MethodSource
+  void testAdd(BigComplex given1, BigComplex given2, BigComplex expected) {
+    // when
+    final var got = given1.add(given2);
 
-      final BigRational a2 = new BigRational("5");
-      final BigRational b2 = new BigRational("7");
-      final BigComplex c2 = new BigComplex(a2, b2);
-
-      final BigRational ar = new BigRational("31/74");
-      final BigRational br = new BigRational("1/74");
-      final BigComplex cr = new BigComplex(ar, br);
-
-      Assertions.assertEquals(cr, c1.divide(c2));
-    }
+    // then
+    Assertions.assertEquals(expected, got);
   }
 
-  @Test
-  void testModuleSquared() {
-    {
-      final BigComplex c1 = new BigComplex(BigRational.ZERO, BigRational.ZERO);
-      final BigRational r = BigRational.ZERO;
-      Assertions.assertEquals(r, c1.absSquared());
-    }
-    {
-      final BigComplex c1 = new BigComplex(new BigRational("-2"), new BigRational("-3"));
-      final BigRational r = new BigRational("13");
-      Assertions.assertEquals(r, c1.absSquared());
-    }
+  static Stream<Arguments> testSubtract() {
+    return Stream.of(
+        Arguments.of(
+            new BigComplex(BigRational.ZERO, BigRational.ZERO),
+            new BigComplex(BigRational.ZERO, BigRational.ZERO),
+            new BigComplex(BigRational.ZERO, BigRational.ZERO)),
+        Arguments.of(
+            new BigComplex(new BigRational("2"), new BigRational("3")),
+            new BigComplex(new BigRational("4"), new BigRational("6")),
+            new BigComplex(new BigRational("-2"), new BigRational("-3"))));
   }
 
-  @Test
-  void testNegate() {
-    {
-      final BigComplex c1 = new BigComplex(BigRational.ZERO, BigRational.ZERO);
-      final BigComplex cr = new BigComplex(BigRational.ZERO, BigRational.ZERO);
-      Assertions.assertEquals(cr, c1.negate());
-    }
-    {
-      final BigRational a1 = new BigRational("2");
-      final BigRational b1 = new BigRational("3");
-      final BigComplex c1 = new BigComplex(a1, b1);
+  @ParameterizedTest
+  @MethodSource
+  void testSubtract(BigComplex given1, BigComplex given2, BigComplex expected) {
+    // when
+    final var got = given1.subtract(given2);
 
-      final BigRational ar = new BigRational("-2");
-      final BigRational br = new BigRational("-3");
-      final BigComplex cr = new BigComplex(ar, br);
+    // then
+    Assertions.assertEquals(expected, got);
+  }
 
-      Assertions.assertEquals(cr, c1.negate());
-    }
+  static Stream<Arguments> testMultiply() {
+    return Stream.of(
+        Arguments.of(
+            new BigComplex(BigRational.ZERO, BigRational.ZERO),
+            new BigComplex(BigRational.ZERO, BigRational.ZERO),
+            new BigComplex(BigRational.ZERO, BigRational.ZERO)),
+        Arguments.of(
+            new BigComplex(BigRational.ONE, BigRational.ONE),
+            new BigComplex(BigRational.ONE, BigRational.ONE),
+            new BigComplex(BigRational.ZERO, new BigRational("2"))),
+        Arguments.of(
+            new BigComplex(new BigRational("2"), new BigRational("3")),
+            new BigComplex(new BigRational("5"), new BigRational("7")),
+            new BigComplex(new BigRational("-11"), new BigRational("29"))));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void testMultiply(BigComplex given1, BigComplex given2, BigComplex expected) {
+    // when
+    final var got = given1.multiply(given2);
+
+    // then
+    Assertions.assertEquals(expected, got);
+  }
+
+  static Stream<Arguments> testDivide() {
+    return Stream.of(
+        Arguments.of(
+            new BigComplex(BigRational.ZERO, BigRational.ZERO),
+            new BigComplex(BigRational.ZERO, BigRational.ONE),
+            new BigComplex(BigRational.ZERO, BigRational.ZERO)),
+        Arguments.of(
+            new BigComplex("2+3i"), new BigComplex("5+7i"), new BigComplex("31/74+1/74i")));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void testDivide(final BigComplex given1, final BigComplex given2, final BigComplex expected) {
+    // when
+    final BigComplex got = given1.divide(given2);
+
+    // then
+    Assertions.assertEquals(expected, got);
+  }
+
+  static Stream<Arguments> testModuleSquared() {
+    return Stream.of(
+        Arguments.of(new BigComplex(BigRational.ZERO, BigRational.ZERO), BigRational.ZERO),
+        Arguments.of(
+            new BigComplex(new BigRational("-2"), new BigRational("-3")), new BigRational("13")));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void testModuleSquared(BigComplex c1, BigRational r) {
+    // when
+    final BigRational got = c1.absSquared();
+
+    // then
+    Assertions.assertEquals(r, got);
+  }
+
+  static Stream<Arguments> testNegate() {
+    return Stream.of(
+        Arguments.of(
+            new BigComplex(BigRational.ZERO, BigRational.ZERO),
+            new BigComplex(BigRational.ZERO, BigRational.ZERO)),
+        Arguments.of(
+            new BigComplex(new BigRational("2"), new BigRational("-3")),
+            new BigComplex(new BigRational("-2"), new BigRational("3"))));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void testNegate(BigComplex given, BigComplex expected) {
+    // when
+    final BigComplex got = given.negate();
+
+    // then
+    Assertions.assertEquals(expected, got);
   }
 
   @Test
   void testInverse() {
-    {
-      final BigComplex c1 = new BigComplex(new BigRational("2"), new BigRational("3"));
-      final BigComplex cr = new BigComplex(new BigRational("2/13"), new BigRational("-3/13"));
-      Assertions.assertEquals(cr, c1.inverse());
-      Assertions.assertEquals(c1, c1.inverse().inverse());
-      Assertions.assertEquals(cr, c1.inverse().inverse().inverse());
+    // given
+    final BigComplex given = new BigComplex(new BigRational("2"), new BigRational("3"));
+    final BigComplex expected = new BigComplex(new BigRational("2/13"), new BigRational("-3/13"));
 
-      Assertions.assertEquals(BigComplex.ONE, c1.inverse().multiply(c1));
-    }
+    // when
+    final BigComplex got1 = given.inverse();
+    final BigComplex got2 = got1.inverse();
+    final BigComplex got3 = got2.inverse();
+    final BigComplex gotMultiplyContract = got1.multiply(given);
+
+    // then
+    Assertions.assertEquals(expected, got1);
+    Assertions.assertEquals(given, got2);
+    Assertions.assertEquals(expected, got3);
+
+    Assertions.assertEquals(BigComplex.ONE, gotMultiplyContract);
   }
 
   @Test
   void testInverse_ZeroDivision() {
-    Assertions.assertThrows(
-        ArithmeticException.class,
-        () -> {
-          final BigComplex c1 = new BigComplex(new BigRational("0"), new BigRational("0"));
-          c1.inverse();
-        });
+    // given
+    final BigComplex given = new BigComplex(new BigRational("0"), new BigRational("0"));
+
+    // when, then
+    Assertions.assertThrows(ArithmeticException.class, () -> given.inverse());
   }
 
   @Test
   void testConjugate() {
-    {
-      final BigComplex c1 = new BigComplex(new BigRational("2"), new BigRational("-3"));
-      final BigComplex c2 = new BigComplex(new BigRational("2"), new BigRational("3"));
-      Assertions.assertEquals(c2, c1.conjugate());
-      Assertions.assertEquals(c1, c2.conjugate());
-    }
-    {
-      final BigComplex c1 = new BigComplex(new BigRational("0"), new BigRational("0"));
-      final BigComplex cr = new BigComplex(new BigRational("0"), new BigRational("0"));
-      Assertions.assertEquals(cr, c1.conjugate());
-    }
+    // given
+    final BigComplex c1 = new BigComplex(new BigRational("2"), new BigRational("-3"));
+    final BigComplex c2 = new BigComplex(new BigRational("2"), new BigRational("3"));
+
+    // when
+    final BigComplex got1 = c1.conjugate();
+    final BigComplex got2 = c2.conjugate();
+
+    // then
+    Assertions.assertEquals(c2, got1);
+    Assertions.assertEquals(c1, got2);
   }
 
-  @Test
-  void testCompareTo() {
-    {
-      final BigRational br11 = new BigRational("6", "2");
-      final BigRational br12 = new BigRational("6", "3");
-      final BigComplex bc1 = new BigComplex(br11, br12);
-
-      final BigRational br21 = new BigRational("6", "3");
-      final BigRational br22 = new BigRational("10", "5");
-      final BigComplex bc2 = new BigComplex(br21, br22);
-
-      Assertions.assertEquals(1, bc1.compareTo(bc2));
-      Assertions.assertEquals(-1, bc2.compareTo(bc1));
-    }
-
-    {
-      final BigRational br11 = new BigRational("1", "2");
-      final BigRational br12 = new BigRational("3", "5");
-      final BigComplex bc1 = new BigComplex(br11, br12);
-
-      final BigRational br21 = new BigRational("5", "10");
-      final BigRational br22 = new BigRational("6", "10");
-      final BigComplex bc2 = new BigComplex(br21, br22);
-
-      Assertions.assertEquals(0, bc1.compareTo(bc2));
-      Assertions.assertEquals(0, bc2.compareTo(bc1));
-    }
+  static Stream<Arguments> testCompareTo() {
+    return Stream.of(
+        Arguments.of(new BigComplex("6/2+6/3i"), new BigComplex("6/3+10/5i"), 1),
+        Arguments.of(new BigComplex("6/3+10/5i"), new BigComplex("6/2+6/3i"), -1),
+        Arguments.of(new BigComplex("6/3+10/5i"), new BigComplex("6/3+10/5i"), 0));
   }
 
-  @Test
-  void equalsByValue() {
-    {
-      /*
-       * Equals null
-       */
-      final BigRational br1 = new BigRational("2", "3");
-      final BigRational br2 = new BigRational("3", "5");
-      final BigComplex bc1 = new BigComplex(br1, br2);
-      Assertions.assertFalse(bc1.equals(null));
-    }
-    {
-      /*
-       * Same instance
-       */
-      final BigRational br1 = new BigRational("2", "3");
-      final BigRational br2 = new BigRational("3", "5");
-      final BigComplex bc1 = new BigComplex(br1, br2);
-      Assertions.assertTrue(bc1.equals(bc1));
-    }
+  @ParameterizedTest
+  @MethodSource
+  void testCompareTo(BigComplex given1, BigComplex given2, int expected) {
+    // when
+    final int got = given1.compareTo(given2);
 
-    {
-      /*
-       * Equal by value
-       */
-      final BigRational br11 = new BigRational("2", "3");
-      final BigRational br12 = new BigRational("3", "5");
-      final BigComplex bc1 = new BigComplex(br11, br12);
-
-      final BigRational br21 = new BigRational("4", "6");
-      final BigRational br22 = new BigRational("9", "15");
-      final BigComplex bc2 = new BigComplex(br21, br22);
-
-      final BigRational br31 = new BigRational("4", "6");
-      final BigRational br32 = new BigRational("10", "15");
-      final BigComplex bc3 = new BigComplex(br31, br32);
-
-      final BigRational br41 = new BigRational("5", "6");
-      final BigRational br42 = new BigRational("10", "15");
-      final BigComplex bc4 = new BigComplex(br41, br42);
-
-      Assertions.assertTrue(bc1.equals(bc2));
-      Assertions.assertTrue(bc2.equals(bc1));
-      Assertions.assertFalse(bc2.equals(bc3));
-      Assertions.assertFalse(bc2.equals(bc4));
-    }
-    {
-      /*
-       * Zero
-       */
-      final BigRational br11 = new BigRational("0", "3");
-      final BigRational br12 = new BigRational("0", "-5");
-      final BigComplex bc1 = new BigComplex(br11, br12);
-
-      final BigRational br21 = new BigRational("0", "-6");
-      final BigRational br22 = new BigRational("0", "15");
-      final BigComplex bc2 = new BigComplex(br21, br22);
-
-      Assertions.assertTrue(bc1.equals(bc2));
-      Assertions.assertTrue(bc2.equals(bc1));
-    }
-
-    {
-      final BigRational br1 = new BigRational("2", "3");
-      final BigRational br2 = new BigRational("3", "5");
-      final BigComplex bc1 = new BigComplex(br1, br2);
-      Assertions.assertFalse(bc1.equals(new Object()));
-    }
+    // then
+    Assertions.assertEquals(expected, got);
   }
 
-  @Test
-  void equalsStrict() {
-    BigMathContext.get().setStrictEqualsAndHashContract(true);
-    {
-      /*
-       * Equals null
-       */
-      final BigRational br1 = new BigRational("2", "3");
-      final BigRational br2 = new BigRational("3", "5");
-      final BigComplex bc1 = new BigComplex(br1, br2);
-      Assertions.assertFalse(bc1.equals(null));
-    }
-    {
-      /*
-       * Same instance
-       */
-      final BigRational br1 = new BigRational("2", "3");
-      final BigRational br2 = new BigRational("3", "5");
-      final BigComplex bc1 = new BigComplex(br1, br2);
-      Assertions.assertTrue(bc1.equals(bc1));
-    }
-
-    {
-      final BigRational br11 = new BigRational("2", "3");
-      final BigRational br12 = new BigRational("3", "5");
-      final BigComplex bc1 = new BigComplex(br11, br12);
-
-      final BigRational br11copy = new BigRational("2", "3");
-      final BigRational br12copy = new BigRational("3", "5");
-      final BigComplex bc1copy = new BigComplex(br11copy, br12copy);
-
-      Assertions.assertTrue(bc1.equals(bc1copy));
-      Assertions.assertTrue(bc1copy.equals(bc1));
-
-      final BigRational br21 = new BigRational("4", "6");
-      final BigRational br22 = new BigRational("9", "15");
-      final BigComplex bc2 = new BigComplex(br21, br22);
-
-      Assertions.assertFalse(bc1.equals(bc2));
-      Assertions.assertFalse(bc2.equals(bc1));
-
-      final BigRational br31 = new BigRational("4", "6");
-      final BigRational br32 = new BigRational("10", "15");
-      final BigComplex bc3 = new BigComplex(br31, br32);
-
-      Assertions.assertFalse(bc2.equals(bc3));
-
-      final BigRational br41 = new BigRational("5", "6");
-      final BigRational br42 = new BigRational("10", "15");
-      final BigComplex bc4 = new BigComplex(br41, br42);
-
-      Assertions.assertFalse(bc2.equals(bc4));
-    }
-    {
-      /*
-       * Zero
-       */
-      final BigRational br11 = new BigRational("0", "3");
-      final BigRational br12 = new BigRational("0", "-5");
-      final BigComplex bc1 = new BigComplex(br11, br12);
-
-      final BigRational br21 = new BigRational("0", "-6");
-      final BigRational br22 = new BigRational("0", "15");
-      final BigComplex bc2 = new BigComplex(br21, br22);
-
-      Assertions.assertFalse(bc1.equals(bc2));
-      Assertions.assertFalse(bc2.equals(bc1));
-    }
-
-    {
-      final BigRational br1 = new BigRational("2", "3");
-      final BigRational br2 = new BigRational("3", "5");
-      final BigComplex bc1 = new BigComplex(br1, br2);
-      Assertions.assertFalse(bc1.equals(new Object()));
-    }
-
-    BigMathContext.get().setStrictEqualsAndHashContract(false);
+  static Stream<Arguments> equalsByValue_true() {
+    final BigComplex given1 = new BigComplex("2/3+3/5i");
+    return Stream.of(
+        Arguments.of(given1, given1),
+        Arguments.of(new BigComplex("2/3+3/5i"), new BigComplex("2/3+3/5i")),
+        Arguments.of(new BigComplex("2/3+3/5i"), new BigComplex("4/6+9/15i")));
   }
 
-  @Test
-  void testHashCode() {
-    {
-      final BigRational a1 = new BigRational("2/3");
-      final BigRational b1 = new BigRational("4/5");
-      final BigComplex c1 = new BigComplex(a1, b1);
-      final BigRational a2 = new BigRational("2/3");
-      final BigRational b2 = new BigRational("4/5");
-      final BigComplex c2 = new BigComplex(a2, b2);
-      Assertions.assertTrue(c1.hashCode() == c2.hashCode());
-    }
-    {
-      final BigRational a1 = new BigRational("2/3");
-      final BigRational b1 = new BigRational("4/5");
-      final BigComplex c1 = new BigComplex(a1, b1);
-      final BigRational a2 = new BigRational("4/6");
-      final BigRational b2 = new BigRational("8/10");
-      final BigComplex c2 = new BigComplex(a2, b2);
-      Assertions.assertTrue(c1.hashCode() == c2.hashCode());
-    }
+  @ParameterizedTest
+  @MethodSource
+  void equalsByValue_true(BigComplex given1, BigComplex given2) {
+    // when
+    final boolean got1 = given1.equals(given2);
+    final boolean got2 = given2.equals(given1);
+
+    // then
+    Assertions.assertTrue(got1);
+    Assertions.assertTrue(got2);
   }
 
-  @Test
-  void testToString() {
-    Assertions.assertEquals(
-        "2/1+3/1i", new BigComplex(new BigRational("2"), new BigRational("3")).toString());
-    Assertions.assertEquals(
-        "-2/1+3/1i", new BigComplex(new BigRational("-2"), new BigRational("3")).toString());
-    Assertions.assertEquals(
-        "2/1-3/1i", new BigComplex(new BigRational("2"), new BigRational("-3")).toString());
-    Assertions.assertEquals(
-        "-2/1-3/1i", new BigComplex(new BigRational("-2"), new BigRational("-3")).toString());
-    Assertions.assertEquals(
-        "0/1+3/1i", new BigComplex(new BigRational("0"), new BigRational("3")).toString());
-    Assertions.assertEquals(
-        "0/1+0/1i", new BigComplex(new BigRational("0"), new BigRational("0")).toString());
+  static Stream<Arguments> equalsByValue_false() {
+    final BigComplex given1 = new BigComplex("2/3+3/5i");
+    return Stream.of(
+        Arguments.of(given1, null),
+        Arguments.of(new BigComplex("2/3+3/5i"), new BigComplex("4/6+10/15i")),
+        Arguments.of(new BigComplex("2/3+3/5i"), new Object()));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void equalsByValue_false(BigComplex given1, Object given2) {
+    // when
+    final boolean got = given1.equals(given2);
+
+    // then
+    Assertions.assertFalse(got);
+  }
+
+  static Stream<Arguments> testEqualsStrict_true() {
+    final BigComplex given1 = new BigComplex("2/3+3/5i");
+    return Stream.of(
+        Arguments.of(given1, given1),
+        Arguments.of(new BigComplex("2/3+3/5i"), new BigComplex("2/3+3/5i")));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void testEqualsStrict_true(BigComplex given1, BigComplex given2) {
+    // when
+    final boolean got1 = given1.equalsStrict(given2);
+    final boolean got2 = given2.equalsStrict(given1);
+
+    // then
+    Assertions.assertTrue(got1);
+    Assertions.assertTrue(got2);
+  }
+
+  static Stream<Arguments> testEqualsStrict_false() {
+    final BigComplex given1 = new BigComplex(new BigRational("2", "3"), new BigRational("3", "5"));
+    return Stream.of(
+        Arguments.of(given1, null),
+        Arguments.of(new BigComplex("2/3+3/5i"), new BigComplex("4/6+10/15i")),
+        Arguments.of(new BigComplex("2/3+3/5i"), new BigComplex("4/6+9/15i")));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void testEqualsStrict_false(BigComplex given1, BigComplex given2) {
+    // when
+    final boolean got = given1.equalsStrict(given2);
+
+    // then
+    Assertions.assertFalse(got);
+  }
+
+  static Stream<Arguments> testHashCode() {
+    return Stream.of(
+        Arguments.of(new BigComplex("2/3+4/5i"), new BigComplex("2/3+4/5i")),
+        Arguments.of(new BigComplex("2/3+4/5i"), new BigComplex("4/6+8/10i")));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void testHashCode(BigComplex c1, BigComplex c2) {
+    // when
+    final var got1 = c1.hashCode();
+    final var got2 = c2.hashCode();
+
+    // then
+    Assertions.assertNotEquals(0, got1);
+    Assertions.assertNotEquals(0, got2);
+    Assertions.assertTrue(got1 == got2);
+  }
+
+  static Stream<Arguments> testToString() {
+    return Stream.of(
+        Arguments.of(new BigComplex("2+3i").toString(), "2/1+3/1i"),
+        Arguments.of(new BigComplex("-2+3i").toString(), "-2/1+3/1i"),
+        Arguments.of(new BigComplex("2-3i").toString(), "2/1-3/1i"),
+        Arguments.of(new BigComplex("-2-3i").toString(), "-2/1-3/1i"),
+        Arguments.of(new BigComplex("3i").toString(), "0/1+3/1i"),
+        Arguments.of(new BigComplex().toString(), "0/1+0/1i"));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void testToString(BigComplex given, String expected) {
+    // when
+    final var got = given.toString();
+
+    // then
+    Assertions.assertEquals(expected, got);
   }
 }

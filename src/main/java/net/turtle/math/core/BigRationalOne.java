@@ -31,9 +31,10 @@ public class BigRationalOne extends BigRational {
 
   @Override
   public BigRational subtract(BigRational subtrahend) throws NullPointerException {
-	    return new BigRational(
-	    		subtrahend.getNumerator().subtract(subtrahend.getDenominator()).negate(), subtrahend.getDenominator());
-	      }
+    return new BigRational(
+        subtrahend.getNumerator().subtract(subtrahend.getDenominator()).negate(),
+        subtrahend.getDenominator());
+  }
 
   @Override
   public BigRational multiply(BigRational multiplicand) {

@@ -3,7 +3,6 @@ package net.turtle.math.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import net.turtle.math.core.BigComplex;
 import net.turtle.math.core.BigRational;
 import net.turtle.math.core.BigRationalValues;

@@ -2,7 +2,6 @@ package net.turtle.math.vector;
 
 import java.util.Arrays;
 import java.util.List;
-
 import net.turtle.math.core.BigRational;
 import net.turtle.math.util.BigVectorUtil;
 

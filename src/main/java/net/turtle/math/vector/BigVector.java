@@ -1,7 +1,6 @@
 package net.turtle.math.vector;
 
 import java.util.List;
-
 import net.turtle.math.core.BigFieldElement;
 import net.turtle.math.exception.CalculationException;
 

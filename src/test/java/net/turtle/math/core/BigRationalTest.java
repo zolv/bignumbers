@@ -6,21 +6,18 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
-
+import net.turtle.math.context.BigMathContext;
+import net.turtle.math.exception.CalculationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import net.turtle.math.context.BigMathContext;
-import net.turtle.math.exception.CalculationException;
-import net.turtle.math.exception.ParsingException;
-
-public class BigRationalTest {
+class BigRationalTest {
 
   @Test
   void testBigRational() {
-      final BigRational br = new BigRational();
-      Assertions.assertEquals(new BigInteger("0"), br.getNumerator());
-      Assertions.assertEquals(new BigInteger("1"), br.getDenominator());
+    final BigRational br = new BigRational();
+    Assertions.assertEquals(new BigInteger("0"), br.getNumerator());
+    Assertions.assertEquals(new BigInteger("1"), br.getDenominator());
   }
 
   @Test
@@ -699,14 +696,14 @@ public class BigRationalTest {
     {
       final BigRational br1 = new BigRational("2", "3");
       final BigRational br2 = new BigRational("4", "6");
-      Assertions.assertSame(br1, br1.min(br2));
-      Assertions.assertSame(br2, br2.min(br1));
+      Assertions.assertSame(br2, br1.min(br2));
+      Assertions.assertSame(br1, br2.min(br1));
     }
     {
       final BigRational br1 = new BigRational("0", "3");
       final BigRational br2 = new BigRational("0", "5");
-      Assertions.assertSame(br1, br1.min(br2));
-      Assertions.assertSame(br2, br2.min(br1));
+      Assertions.assertSame(br2, br1.min(br2));
+      Assertions.assertSame(br1, br2.min(br1));
     }
   }
 

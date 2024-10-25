@@ -3,7 +3,7 @@ package net.turtle.math.core;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class BigComplexValuesTest {
+class BigComplexValuesTest {
 
   @Test
   void initialize() throws Exception {

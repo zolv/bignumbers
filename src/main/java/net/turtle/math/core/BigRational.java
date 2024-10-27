@@ -7,6 +7,8 @@ import java.util.concurrent.FutureTask;
 import javax.validation.constraints.NotNull;
 import net.turtle.math.context.BigMathContext;
 import net.turtle.math.exception.CalculationException;
+import net.turtle.math.numbers.BigRationalOne;
+import net.turtle.math.numbers.BigRationalZero;
 import net.turtle.math.util.BigRationalUtil;
 import net.turtle.math.validation.NotZero;
 import org.apache.commons.lang3.NotImplementedException;
@@ -66,10 +68,10 @@ public class BigRational
         if (!denominator.equals(BigInteger.ZERO)) {
           if (normalize) {
             /*
-             * If numerator and denominator are already normalized, the only
-             * loss of memory is just the BigRational instance (2 references to
-             * numerator and denominator) because after normalization same
-             * instances of numerator and denominator are used.
+             * If numerator and denominator are already normalized, the only loss of memory
+             * is just the BigRational instance (2 references to numerator and denominator)
+             * because after normalization same instances of numerator and denominator are
+             * used.
              */
             final BigRational normalized =
                 new BigRational(numerator, denominator, false).normalize();
@@ -126,11 +128,15 @@ public class BigRational
   public BigRational cancel() {
     final BigRational result;
     if (!this.denominator.equals(BigInteger.ONE)) {
-      final BigInteger gcd = this.numerator.gcd(this.denominator);
-      if (!gcd.equals(BigInteger.ONE)) {
-        result = new BigRational(this.numerator.divide(gcd), this.denominator.divide(gcd));
+      if (!this.numerator.equals(BigInteger.ZERO)) {
+        final BigInteger gcd = this.numerator.gcd(this.denominator);
+        if (!gcd.equals(BigInteger.ONE)) {
+          result = new BigRational(this.numerator.divide(gcd), this.denominator.divide(gcd));
+        } else {
+          result = this;
+        }
       } else {
-        result = this;
+        result = BigRational.ZERO;
       }
     } else {
       result = this;
@@ -246,8 +252,7 @@ public class BigRational
     return result;
   }
 
-  public BigRational pow(BigInteger power)
-      throws NullPointerException, ArithmeticException, CalculationException {
+  public BigRational pow(BigInteger power) throws ArithmeticException, CalculationException {
     final BigRational result;
     if (!power.equals(BigInteger.ZERO)) {
       final BigInteger powerAbs = power.abs();
@@ -311,7 +316,7 @@ public class BigRational
   }
 
   /**
-   * Negates value. Includes silent signum normalization.
+   * Negates value.
    *
    * @return
    */
@@ -442,11 +447,47 @@ public class BigRational
   }
 
   public BigRational min(BigRational val) {
-    return (this.compareTo(val) < 0 ? this : val);
+    final BigRational result;
+    final int compareValue = this.compareTo(val);
+    if (compareValue < 0) {
+      result = this;
+    } else {
+      if (compareValue > 0) {
+        result = val;
+      } else {
+        /*
+         * If equal, pick the one with lower denominator
+         */
+        if (this.denominator.compareTo(val.denominator) <= 0) {
+          result = this;
+        } else {
+          result = val;
+        }
+      }
+    }
+    return result;
   }
 
   public BigRational max(BigRational val) {
-    return (this.compareTo(val) > 0 ? this : val);
+    final BigRational result;
+    final int compareValue = this.compareTo(val);
+    if (compareValue > 0) {
+      result = this;
+    } else {
+      if (compareValue < 0) {
+        result = val;
+      } else {
+        /*
+         * If equal, pick the one with lower denominator
+         */
+        if (this.denominator.compareTo(val.denominator) <= 0) {
+          result = this;
+        } else {
+          result = val;
+        }
+      }
+    }
+    return result;
   }
 
   @Override
@@ -523,5 +564,21 @@ public class BigRational
         .append("/")
         .append(this.denominator.toString())
         .toString();
+  }
+
+  public String toStringPretty() {
+    final String result;
+    final var normalized = this.normalize();
+    if (normalized.denominator.equals(BigInteger.ONE)) {
+      result = normalized.numerator.toString();
+    } else {
+      result =
+          new StringBuilder()
+              .append(normalized.numerator.toString())
+              .append("/")
+              .append(normalized.denominator.toString())
+              .toString();
+    }
+    return result;
   }
 }

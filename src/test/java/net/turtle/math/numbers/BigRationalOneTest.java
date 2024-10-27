@@ -1,61 +1,61 @@
-package net.turtle.math.core;
+package net.turtle.math.numbers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigInteger;
 import java.util.stream.Stream;
+import net.turtle.math.core.BigRational;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class BigRationalZeroTest {
+class BigRationalOneTest {
 
-  private final BigRationalZero sut = new BigRationalZero();
+  private final BigRationalOne sut = new BigRationalOne();
 
   @Test
   void testNormalize() {
     // when
-    var got = sut.normalize();
+    final var got = this.sut.normalize();
 
     // then
-    assertSame(sut, got);
+    assertSame(this.sut, got);
   }
 
   @Test
   void testNormalizeSignum() {
     // when
-    var got = sut.normalizeSignum();
+    final var got = this.sut.normalizeSignum();
 
     // then
-    assertSame(sut, got);
+    assertSame(this.sut, got);
   }
 
   @Test
   void testCancel() {
     // when
-    var got = sut.cancel();
+    final var got = this.sut.cancel();
 
     // then
-    assertSame(sut, got);
+    assertSame(this.sut, got);
   }
 
   static Stream<Arguments> testAdd() {
     return Stream.of(
-        Arguments.of(new BigRational("-2"), new BigRational("-2")),
-        Arguments.of(new BigRational("-1"), new BigRational("-1")),
-        Arguments.of(new BigRational("0"), new BigRational("0")),
-        Arguments.of(new BigRational("1"), new BigRational("1")),
-        Arguments.of(new BigRational("2"), new BigRational("2")));
+        Arguments.of(new BigRational("-2/3"), new BigRational("1/3")),
+        Arguments.of(new BigRational("-1/3"), new BigRational("2/3")),
+        Arguments.of(new BigRational("0/3"), new BigRational("3/3")),
+        Arguments.of(new BigRational("1/3"), new BigRational("4/3")),
+        Arguments.of(new BigRational("2/3"), new BigRational("5/3")));
   }
 
   @ParameterizedTest
   @MethodSource
   void testAdd(BigRational givenAugend, BigRational expected) {
     // when
-    var got = sut.add(givenAugend);
+    final var got = this.sut.add(givenAugend);
 
     // then
     assertEquals(expected, got);
@@ -63,18 +63,18 @@ class BigRationalZeroTest {
 
   static Stream<Arguments> testSubtract() {
     return Stream.of(
-        Arguments.of(new BigRational("-2"), new BigRational("2")),
-        Arguments.of(new BigRational("-1"), new BigRational("1")),
-        Arguments.of(new BigRational("0"), new BigRational("0")),
-        Arguments.of(new BigRational("1"), new BigRational("-1")),
-        Arguments.of(new BigRational("2"), new BigRational("-2")));
+        Arguments.of(new BigRational("-2/3"), new BigRational("5/3")),
+        Arguments.of(new BigRational("-1/3"), new BigRational("4/3")),
+        Arguments.of(new BigRational("0/3"), new BigRational("3/3")),
+        Arguments.of(new BigRational("1/3"), new BigRational("2/3")),
+        Arguments.of(new BigRational("2/3"), new BigRational("1/3")));
   }
 
   @ParameterizedTest
   @MethodSource
   void testSubtract(BigRational givenSubtrahend, BigRational expected) {
     // when
-    var got = sut.subtract(givenSubtrahend);
+    final var got = this.sut.subtract(givenSubtrahend);
 
     // then
     assertEquals(expected, got);
@@ -93,57 +93,61 @@ class BigRationalZeroTest {
   @MethodSource
   void testMultiply(BigRational givenMultiplier) {
     // when
-    var got = sut.multiply(givenMultiplier);
+    final var got = this.sut.multiply(givenMultiplier);
 
     // then
-    assertEquals(BigRationalValues.ZERO, got);
+    assertEquals(givenMultiplier, got);
   }
 
   @Test
   void testAbs() {
     // when
-    var got = sut.abs();
+    final var got = this.sut.abs();
 
     // then
-    assertSame(sut, got);
+    assertSame(this.sut, got);
   }
 
   @Test
   void testInverse() {
-    assertThrows(ArithmeticException.class, () -> sut.inverse());
+    // when
+    final var got = this.sut.inverse();
+
+    // then
+    assertSame(this.sut, got);
   }
 
   @Test
   void testSignum() {
     // when
-    var got = sut.signum();
+    final var got = this.sut.signum();
 
     // then
-    assertEquals(0, got);
+    assertEquals(1, got);
   }
 
   @Test
   void testSquare() {
     // when
-    var got = sut.square();
+    final var got = this.sut.square();
 
     // then
-    assertSame(sut, got);
+    assertSame(this.sut, got);
   }
 
   @Test
   void testCube() {
     // when
-    var got = sut.cube();
+    final var got = this.sut.cube();
 
     // then
-    assertSame(sut, got);
+    assertSame(this.sut, got);
   }
 
   @Test
   void testBigRationalZero() {
     // then
-    assertEquals(BigInteger.ZERO, sut.getNumerator());
-    assertEquals(BigInteger.ONE, sut.getDenominator());
+    assertSame(BigInteger.ONE, this.sut.getNumerator());
+    assertSame(BigInteger.ONE, this.sut.getDenominator());
   }
 }

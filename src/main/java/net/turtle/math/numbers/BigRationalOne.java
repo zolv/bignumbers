@@ -1,8 +1,13 @@
-package net.turtle.math.core;
+package net.turtle.math.numbers;
 
-public class BigRationalZero extends BigRational {
+import java.math.BigInteger;
+import net.turtle.math.core.BigRational;
 
-  BigRationalZero() {}
+public class BigRationalOne extends BigRational {
+
+  public BigRationalOne() {
+    super(BigInteger.ONE);
+  }
 
   @Override
   public BigRational normalize() {
@@ -21,17 +26,20 @@ public class BigRationalZero extends BigRational {
 
   @Override
   public BigRational add(BigRational augend) {
-    return augend;
+    return new BigRational(
+        augend.getNumerator().add(augend.getDenominator()), augend.getDenominator());
   }
 
   @Override
   public BigRational subtract(BigRational subtrahend) throws NullPointerException {
-    return subtrahend.negate();
+    return new BigRational(
+        subtrahend.getDenominator().subtract(subtrahend.getNumerator()),
+        subtrahend.getDenominator());
   }
 
   @Override
   public BigRational multiply(BigRational multiplicand) {
-    return this;
+    return multiplicand;
   }
 
   @Override
@@ -40,18 +48,13 @@ public class BigRationalZero extends BigRational {
   }
 
   @Override
-  public BigRational negate() {
+  public BigRational inverse() {
     return this;
   }
 
   @Override
-  public BigRational inverse() {
-    throw new ArithmeticException("Division by zero");
-  }
-
-  @Override
   public int signum() throws ArithmeticException {
-    return 0;
+    return 1;
   }
 
   @Override

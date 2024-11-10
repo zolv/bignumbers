@@ -28,8 +28,8 @@ public class BigRationalUtil {
   }
 
   public static String toStringNormalized(BigRational number) {
-    final BigRational signumNormalized = number.normalizeSignum();
-    final StringBuilder result = new StringBuilder();
+    final var signumNormalized = number.normalizeSignum();
+    final var result = new StringBuilder();
     result.append(signumNormalized.getNumerator());
     if (!signumNormalized.getDenominator().equals(BigInteger.ONE)) {
       result.append("/").append(signumNormalized.getDenominator().toString());
@@ -39,7 +39,7 @@ public class BigRationalUtil {
 
   public static String getNumerator(String value) {
     final String n;
-    final int slashIndex = value.indexOf("/");
+    final var slashIndex = value.indexOf("/");
     if (slashIndex > 0) {
       /*
        * 123/456
@@ -49,9 +49,9 @@ public class BigRationalUtil {
       /*
        * 123.456
        */
-      final int dotIndex = value.indexOf(".");
+      final var dotIndex = value.indexOf(".");
       if (dotIndex > 0) {
-        final String dString = value.substring(dotIndex + 1);
+        final var dString = value.substring(dotIndex + 1);
         n = value.substring(0, dotIndex) + dString;
       } else {
         /*
@@ -65,7 +65,7 @@ public class BigRationalUtil {
 
   public static String getDenominator(String value) {
     final String d;
-    final int slashIndex = value.indexOf("/");
+    final var slashIndex = value.indexOf("/");
     if (slashIndex > 0) {
       /*
        * 123/456
@@ -75,9 +75,9 @@ public class BigRationalUtil {
       /*
        * 123.456
        */
-      final int dotIndex = value.indexOf(".");
+      final var dotIndex = value.indexOf(".");
       if (dotIndex > 0) {
-        final String dString = value.substring(dotIndex + 1);
+        final var dString = value.substring(dotIndex + 1);
         d = bigTenToTheString(dString.length());
       } else {
         /*
@@ -102,7 +102,7 @@ public class BigRationalUtil {
   public static String bigTenToTheString(int n) {
     final char tenPower[] = new char[n + 1];
     tenPower[0] = ONE_CHAR;
-    for (int i = 1; i <= n; i++) {
+    for (var i = 1; i <= n; i++) {
       tenPower[i] = ZERO_CHAR;
     }
     return new String(tenPower);
@@ -110,7 +110,7 @@ public class BigRationalUtil {
 
   public static BigRational factorial(BigRational n) {
     final BigRational result;
-    final BigRational normalized = n.normalize();
+    final var normalized = n.normalize();
     if (normalized.getDenominator().equals(BigInteger.ONE)) {
       result = new BigRational(factorial(normalized.getNumerator()));
     } else {

@@ -2,7 +2,6 @@ package net.turtle.math.vector;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import net.turtle.math.core.BigComplex;
 import net.turtle.math.util.BigVectorUtil;
@@ -38,8 +37,8 @@ public class BigComplexVector extends BigFieldElementVector<BigComplex, BigCompl
   }
 
   public BigComplexVector conjugate() {
-    final ArrayList<BigComplex> resultCoordinates = new ArrayList<>(this.getDimension());
-    final Iterator<BigComplex> thisCoordinatesIt = this.coordinates.iterator();
+    final var resultCoordinates = new ArrayList<BigComplex>(this.getDimension());
+    final var thisCoordinatesIt = this.coordinates.iterator();
     while (thisCoordinatesIt.hasNext()) {
       resultCoordinates.add(thisCoordinatesIt.next().conjugate());
     }

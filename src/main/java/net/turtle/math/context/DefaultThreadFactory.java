@@ -24,13 +24,7 @@ final class DefaultThreadFactory implements ThreadFactory {
 
   @Override
   public Thread newThread(Runnable r) {
-    final Thread t =
-        new PooledBigMathContextThread(
-            this.bigMathContext,
-            this.group,
-            r,
-            this.namePrefix + this.threadNumber.getAndIncrement(),
-            0);
+    final Thread t = new PooledBigMathContextThread(this.bigMathContext);
     if (t.isDaemon()) {
       t.setDaemon(false);
     }

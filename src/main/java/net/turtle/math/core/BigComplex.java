@@ -14,7 +14,7 @@ import net.turtle.math.util.BigComplexUtil;
  * @see
  * @author Radosław Adamiak
  */
-public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigComplex>, BigNumber {
+public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigComplex> {
 
   /** z = 0 = 0 + 0i */
   @Valid public static final BigComplex ZERO = new BigComplex(BigRational.ZERO, BigRational.ZERO);
@@ -53,7 +53,8 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
   /**
    * Parses complex number provided as string.
    *
-   * <p>General format is:<br>
+   * <p>
+   * General format is:<br>
    * &lt;BigRational&gt;&ltBigRational with sign;&gti e.g.:<br>
    * "2", "2.3", "2/3", "-2/3", ...<br>
    * "2+3i", "-2.3+4.5i", "-2/3-4/5i", ...<br>
@@ -61,8 +62,9 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
    * And special cases:<br>
    * "i", "-i"
    *
-   * <p>Note: Parser is probably not 100% error prone. But as long as You stick to the supported
-   * format, You should be fine ;)
+   * <p>
+   * Note: Parser is probably not 100% error prone. But as long as You stick to
+   * the supported format, You should be fine ;)
    *
    * @param text
    */
@@ -91,9 +93,9 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
   }
 
   public BigComplex normalizeSignum() {
-    final BigRational aNormalizedSignum = this.a.normalizeSignum();
-    final BigRational bNormalizedSignum = this.b.normalizeSignum();
-    final BigComplex result = this.reuse(aNormalizedSignum, bNormalizedSignum);
+    final var aNormalizedSignum = this.a.normalizeSignum();
+    final var bNormalizedSignum = this.b.normalizeSignum();
+    final var result = this.reuse(aNormalizedSignum, bNormalizedSignum);
     return result;
   }
 
@@ -121,8 +123,7 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
   @Override
   public BigComplex divide(@NotNull BigComplex divisor) throws CalculationException {
 
-    final BigRational denominator =
-        divisor.a.multiply(divisor.a).add(divisor.b.multiply(divisor.b));
+    final var denominator = divisor.a.multiply(divisor.a).add(divisor.b.multiply(divisor.b));
     return new BigComplex(
         this.a.multiply(divisor.a).add(this.b.multiply(divisor.b)).divide(denominator),
         this.b.multiply(divisor.a).subtract(this.a.multiply(divisor.b)).divide(denominator));
@@ -139,7 +140,7 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
 
   @Override
   public BigComplex inverse() throws ArithmeticException, CalculationException {
-    final BigRational abs = this.absSquared();
+    final var abs = this.absSquared();
     return new BigComplex(this.a.divide(abs), this.b.divide(abs).negate());
   }
 
@@ -161,15 +162,20 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
   /**
    * Note that:
    *
-   * <p>"Because complex numbers are naturally thought of as existing on a two-dimensional plane,
-   * there is no natural linear ordering on the set of complex numbers.
+   * <p>
+   * "Because complex numbers are naturally thought of as existing on a
+   * two-dimensional plane, there is no natural linear ordering on the set of
+   * complex numbers.
    *
-   * <p>There is no linear ordering on the complex numbers that is compatible with addition and
-   * multiplication. Formally, we say that the complex numbers cannot have the structure of an
-   * ordered field. This is because any square in an ordered field is at least 0, but i2 = -1."
+   * <p>
+   * There is no linear ordering on the complex numbers that is compatible with
+   * addition and multiplication. Formally, we say that the complex numbers cannot
+   * have the structure of an ordered field. This is because any square in an
+   * ordered field is at least 0, but i2 = -1."
    *
-   * <p>Current implementation of {@link #compareTo(BigComplex)} method uses {@link #absSquared()}
-   * method to compare.
+   * <p>
+   * Current implementation of {@link #compareTo(BigComplex)} method uses
+   * {@link #absSquared()} method to compare.
    */
   @Override
   public int compareTo(BigComplex val) {
@@ -195,10 +201,12 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
     return result;
   }
 
+  @Override
   public boolean equalsValue(@NotNull BigComplex obj) {
     return obj != null ? this.a.equalsValue(obj.a) && this.b.equalsValue(obj.b) : false;
   }
 
+  @Override
   public boolean equalsStrict(BigComplex obj) {
     return obj != null ? this.a.equalsStrict(obj.a) && this.b.equalsStrict(obj.b) : false;
   }
@@ -210,8 +218,8 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
 
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
+    final var prime = 31;
+    var result = 1;
     result = (prime * result) + this.b.hashCode();
     result = (prime * result) + this.a.hashCode();
     return result;

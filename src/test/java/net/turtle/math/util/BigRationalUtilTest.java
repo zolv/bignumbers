@@ -23,16 +23,16 @@ class BigRationalUtilTest {
   @Test
   void testFactorial() {
     {
-      final BigRational result = new BigRational("1");
+      final var result = new BigRational("1");
       Assertions.assertEquals(result, BigRationalUtil.factorial(new BigRational("0")));
       Assertions.assertEquals(result, BigRationalUtil.factorial(new BigRational("1")));
     }
     {
-      final BigRational result = new BigRational("120");
+      final var result = new BigRational("120");
       Assertions.assertEquals(result, BigRationalUtil.factorial(new BigRational("5")));
     }
     {
-      final BigRational result = new BigRational("2432902008176640000");
+      final var result = new BigRational("2432902008176640000");
       Assertions.assertEquals(result, BigRationalUtil.factorial(new BigRational("20")));
     }
   }
@@ -72,15 +72,15 @@ class BigRationalUtilTest {
   @Test
   void testBigTenToThe() {
     {
-      final BigInteger result = new BigInteger("0");
+      final var result = new BigInteger("0");
       Assertions.assertEquals(result, BigRationalUtil.bigTenToThe(-1));
     }
     {
-      final BigInteger result = new BigInteger("1");
+      final var result = new BigInteger("1");
       Assertions.assertEquals(result, BigRationalUtil.bigTenToThe(0));
     }
     {
-      final BigInteger result = new BigInteger("1000");
+      final var result = new BigInteger("1000");
       Assertions.assertEquals(result, BigRationalUtil.bigTenToThe(3));
     }
   }

@@ -8,12 +8,11 @@ public class BigMathContextDefault extends BigMathContext {
   private final Executor executor;
 
   public BigMathContextDefault() {
-    super();
     this.executor = Executors.newCachedThreadPool(new DefaultThreadFactory(this));
   }
 
   @Override
-  protected Executor getExecutor() {
+  public Executor getExecutor() {
     return this.executor;
   }
 }

@@ -15,9 +15,9 @@ public class BigVectorUtil {
 
   public static List<BigRational> parseBigRationalVector(String vectorInput) {
     final List<BigRational> coordinates;
-    final String vector = vectorInput.trim();
+    final var vector = vectorInput.trim();
     if (vector.startsWith("[") && vector.endsWith("]")) {
-      final String vectorValues = vector.substring(1, vector.length() - 1);
+      final var vectorValues = vector.substring(1, vector.length() - 1);
       coordinates = parseComaSeparatedBigRationalValues(vectorValues);
     } else {
       throw new ParsingException("Vector string does not start with '[' or does not ends with ']'");
@@ -26,10 +26,10 @@ public class BigVectorUtil {
   }
 
   public static List<BigRational> parseComaSeparatedBigRationalValues(final String vectorValues) {
-    final String valuesTrimmed = vectorValues.trim();
+    final var valuesTrimmed = vectorValues.trim();
     final List<BigRational> coordinates;
     if (!valuesTrimmed.isEmpty()) {
-      final String[] values = valuesTrimmed.split(",");
+      final var values = valuesTrimmed.split(",");
       coordinates = parseArrayBigRationalValues(values);
     } else {
       coordinates = new ArrayList<>(0);
@@ -40,7 +40,7 @@ public class BigVectorUtil {
   public static List<BigRational> parseArrayBigRationalValues(final String[] values) {
     final List<BigRational> coordinatesTemp = new ArrayList<>(values.length);
     for (final String value : values) {
-      final BigRational valueNumber = new BigRational(value.trim());
+      final var valueNumber = new BigRational(value.trim());
       coordinatesTemp.add(valueNumber);
     }
     return coordinatesTemp;
@@ -48,9 +48,9 @@ public class BigVectorUtil {
 
   public static List<BigComplex> parseBigComplexVector(String vectorInput) {
     final List<BigComplex> coordinates;
-    final String vector = vectorInput.trim();
+    final var vector = vectorInput.trim();
     if (vector.startsWith("[") && vector.endsWith("]")) {
-      final String vectorValues = vector.substring(1, vector.length() - 1);
+      final var vectorValues = vector.substring(1, vector.length() - 1);
       coordinates = parseComaSeparatedBigComplexValues(vectorValues);
     } else {
       throw new ParsingException("Vector string does not start with '[' or does not ends with ']'");
@@ -60,9 +60,9 @@ public class BigVectorUtil {
 
   public static List<BigComplex> parseComaSeparatedBigComplexValues(final String vectorValues) {
     final List<BigComplex> coordinates;
-    final String valuesTrimmed = vectorValues.trim();
+    final var valuesTrimmed = vectorValues.trim();
     if (!valuesTrimmed.isEmpty()) {
-      final String[] values = valuesTrimmed.split(",");
+      final var values = valuesTrimmed.split(",");
       coordinates = parseArrayBigComplexValues(values);
     } else {
       coordinates = new ArrayList<>(0);
@@ -73,7 +73,7 @@ public class BigVectorUtil {
   public static List<BigComplex> parseArrayBigComplexValues(final String[] values) {
     final List<BigComplex> coordinatesTemp = new ArrayList<>(values.length);
     for (final String value : values) {
-      final BigComplex valueNumber = new BigComplex(value);
+      final var valueNumber = new BigComplex(value);
       coordinatesTemp.add(valueNumber);
     }
     return coordinatesTemp;

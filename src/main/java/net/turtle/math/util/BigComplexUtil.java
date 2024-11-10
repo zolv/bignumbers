@@ -1,15 +1,13 @@
 package net.turtle.math.util;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.turtle.math.core.BigComplex;
+import net.turtle.math.core.BigFieldElement;
 import net.turtle.math.core.BigRational;
 
 public class BigComplexUtil {
 
-  private BigComplexUtil() {
-    super();
-  }
+  private BigComplexUtil() {}
 
   public static final BigRational MINUS_ONE = BigRational.ONE.negate();
 
@@ -21,7 +19,7 @@ public class BigComplexUtil {
   private static final Pattern IMAGINARY_PATTERN = Pattern.compile(IMAGINARY_PATTERN_STRING);
 
   public static String toStringShort(BigComplex complex) {
-    final StringBuilder result = new StringBuilder();
+    final var result = new StringBuilder();
     appendNonZeroA(result, complex.getA());
     appendNonZeroB(result, complex.getB());
     if (result.length() <= 0) {
@@ -30,7 +28,7 @@ public class BigComplexUtil {
     return result.toString();
   }
 
-  private static void appendNonZeroA(final StringBuilder result, final BigRational a) {
+  private static void appendNonZeroA(final StringBuilder result, final BigFieldElement<?> a) {
     if (!a.equals(BigRational.ZERO)) {
       result.append(BigRationalUtil.toStringNormalized(a.normalizeSignum()));
     }
@@ -54,10 +52,10 @@ public class BigComplexUtil {
   }
 
   public static BigRational getReal(String text2) {
-    final String text = text2.trim();
+    final var text = text2.trim();
     final String realString;
     if (text.endsWith("i")) {
-      final Matcher realMatcher = REAL_PATTERN.matcher(text);
+      final var realMatcher = REAL_PATTERN.matcher(text);
       if (realMatcher.find()) {
         realString = realMatcher.group(1);
       } else {
@@ -66,17 +64,17 @@ public class BigComplexUtil {
     } else {
       realString = text;
     }
-    final BigRational real = new BigRational(realString);
+    final var real = new BigRational(realString);
     return real;
   }
 
   public static BigRational getImaginary(String text2) {
-    final String text = text2.trim();
+    final var text = text2.trim();
     final String imaginaryString;
     if (text.endsWith("i")) {
       if (!text.equals("i") && !text.endsWith("+i")) {
         if (!text.equals("-i") && !text.endsWith("-i")) {
-          final Matcher imaginaryMatcher = IMAGINARY_PATTERN.matcher(text);
+          final var imaginaryMatcher = IMAGINARY_PATTERN.matcher(text);
           if (imaginaryMatcher.find()) {
             imaginaryString = imaginaryMatcher.group(1);
           } else {
@@ -91,7 +89,7 @@ public class BigComplexUtil {
     } else {
       imaginaryString = "0";
     }
-    final BigRational real = new BigRational(imaginaryString);
+    final var real = new BigRational(imaginaryString);
     return real;
   }
 }

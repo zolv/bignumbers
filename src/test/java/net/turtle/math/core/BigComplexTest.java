@@ -13,7 +13,7 @@ class BigComplexTest {
   @Test
   void testBigComplex() {
     // when
-    final BigComplex got = new BigComplex();
+    final var got = new BigComplex();
 
     // then
     Assertions.assertEquals(BigRational.ZERO, got.getA());
@@ -29,8 +29,8 @@ class BigComplexTest {
   @Test
   void testBigComplexBigRationalBigRational() {
     // given
-    final BigRational givenA = new BigRational("2");
-    final BigRational givenB = new BigRational("3");
+    final var givenA = new BigRational("2");
+    final var givenB = new BigRational("3");
 
     // when
     final var c1 = new BigComplex(givenA, givenB);
@@ -94,7 +94,7 @@ class BigComplexTest {
   @MethodSource
   void testBigComplexString(String given, BigRational expectedA, BigRational expectedB) {
     // when
-    final BigComplex got = new BigComplex(given);
+    final var got = new BigComplex<>(given);
 
     // then
     Assertions.assertEquals(expectedA, got.getA());
@@ -104,8 +104,8 @@ class BigComplexTest {
   @Test
   void testGetA() {
     // given
-    final BigRational expected = new BigRational("2");
-    final BigComplex given = new BigComplex(new BigRational("2"), new BigRational("3"));
+    final var expected = new BigRational("2");
+    final var given = new BigComplex<>(new BigRational("2"), new BigRational("3"));
 
     // when
     final var gotA = given.getA();
@@ -119,8 +119,8 @@ class BigComplexTest {
   @Test
   void testGetB() {
     // given
-    final BigRational expected = new BigRational("3");
-    final BigComplex given = new BigComplex(new BigRational("2"), new BigRational("3"));
+    final var expected = new BigRational("3");
+    final var given = new BigComplex<>(new BigRational("2"), new BigRational("3"));
 
     // when
     final var gotB = given.getB();
@@ -134,10 +134,10 @@ class BigComplexTest {
   @Test
   void testNormalize_needed() {
     // given
-    final BigComplex given = new BigComplex(new BigRational("4/-6"), new BigRational("-12/-20"));
+    final var given = new BigComplex<>(new BigRational("4/-6"), new BigRational("-12/-20"));
 
     // when
-    final BigComplex got = given.normalize();
+    final var got = given.normalize();
 
     // then
     Assertions.assertEquals(BigInteger.valueOf(-2), got.getA().getNumerator());
@@ -150,10 +150,10 @@ class BigComplexTest {
   @Test
   void testNormalize_notNeeded() {
     // given
-    final BigComplex given = new BigComplex(new BigRational("-2", "3"), new BigRational("-3", "5"));
+    final var given = new BigComplex<>(new BigRational("-2", "3"), new BigRational("-3", "5"));
 
     // when
-    final BigComplex got = given.normalize();
+    final var got = given.normalize();
 
     // then
     Assertions.assertSame(given, got);
@@ -162,11 +162,10 @@ class BigComplexTest {
   @Test
   void testNormalizeSignum_needed() {
     // given
-    final BigComplex given =
-        new BigComplex(new BigRational("2", "-3"), new BigRational("-3", "-5"));
+    final var given = new BigComplex<>(new BigRational("2", "-3"), new BigRational("-3", "-5"));
 
     // when
-    final BigComplex got = given.normalizeSignum();
+    final var got = given.normalizeSignum();
 
     // then
     Assertions.assertEquals(BigInteger.valueOf(-2), got.getA().getNumerator());
@@ -179,10 +178,10 @@ class BigComplexTest {
   @Test
   void testNormalizeSignum_notNeeded() {
     // given
-    final BigComplex given = new BigComplex(new BigRational("-2", "3"), new BigRational("-3", "5"));
+    final var given = new BigComplex(new BigRational("-2", "3"), new BigRational("-3", "5"));
 
     // when
-    final BigComplex got = given.normalizeSignum();
+    final var got = given.normalizeSignum();
 
     // then
     Assertions.assertSame(given, got);
@@ -202,24 +201,24 @@ class BigComplexTest {
             .map(i -> new BigInteger("" + i))
             .reduce(BigInteger.ONE, (a, b) -> a.multiply(b));
 
-    final BigInteger givenPrimeNumber101 = new BigInteger("547");
-    final BigInteger givenPrimeNumber102 = new BigInteger("557");
-    final BigInteger givenPrimeNumber103 = new BigInteger("563");
-    final BigInteger givenPrimeNumber104 = new BigInteger("569");
-    final BigRational givenARational =
+    final var givenPrimeNumber101 = new BigInteger("547");
+    final var givenPrimeNumber102 = new BigInteger("557");
+    final var givenPrimeNumber103 = new BigInteger("563");
+    final var givenPrimeNumber104 = new BigInteger("569");
+    final var givenARational =
         new BigRational(
             productOfFirst100PrimeNumbers.multiply(givenPrimeNumber101)
                 + "/"
                 + productOfFirst100PrimeNumbers.multiply(givenPrimeNumber102));
-    final BigRational givenBRational =
+    final var givenBRational =
         new BigRational(
             productOfFirst100PrimeNumbers.multiply(givenPrimeNumber103)
                 + "/"
                 + productOfFirst100PrimeNumbers.multiply(givenPrimeNumber104));
-    final BigComplex given = new BigComplex(givenARational, givenBRational);
+    final var given = new BigComplex<>(givenARational, givenBRational);
 
     // when
-    final BigComplex reduced = given.cancel();
+    final var reduced = given.cancel();
 
     // then
     Assertions.assertEquals(givenPrimeNumber101, reduced.getA().getNumerator());
@@ -231,10 +230,10 @@ class BigComplexTest {
   @Test
   void testCancelBigComplex_notNeeded() {
     // given
-    final BigComplex bc = new BigComplex(new BigRational("2", "3"), new BigRational("5", "7"));
+    final var bc = new BigComplex(new BigRational("2", "3"), new BigRational("5", "7"));
 
     // when
-    final BigComplex got = bc.cancel();
+    final var got = bc.cancel();
 
     // then
     Assertions.assertSame(bc, got);
@@ -324,7 +323,7 @@ class BigComplexTest {
   @MethodSource
   void testDivide(final BigComplex given1, final BigComplex given2, final BigComplex expected) {
     // when
-    final BigComplex got = given1.divide(given2);
+    final var got = given1.divide(given2);
 
     // then
     Assertions.assertEquals(expected, got);
@@ -341,7 +340,7 @@ class BigComplexTest {
   @MethodSource
   void testModuleSquared(BigComplex c1, BigRational r) {
     // when
-    final BigRational got = c1.absSquared();
+    final var got = c1.absSquared();
 
     // then
     Assertions.assertEquals(r, got);
@@ -361,7 +360,7 @@ class BigComplexTest {
   @MethodSource
   void testNegate(BigComplex given, BigComplex expected) {
     // when
-    final BigComplex got = given.negate();
+    final var got = given.negate();
 
     // then
     Assertions.assertEquals(expected, got);
@@ -370,14 +369,14 @@ class BigComplexTest {
   @Test
   void testInverse() {
     // given
-    final BigComplex given = new BigComplex(new BigRational("2"), new BigRational("3"));
-    final BigComplex expected = new BigComplex(new BigRational("2/13"), new BigRational("-3/13"));
+    final var given = new BigComplex(new BigRational("2"), new BigRational("3"));
+    final var expected = new BigComplex(new BigRational("2/13"), new BigRational("-3/13"));
 
     // when
-    final BigComplex got1 = given.inverse();
-    final BigComplex got2 = got1.inverse();
-    final BigComplex got3 = got2.inverse();
-    final BigComplex gotMultiplyContract = got1.multiply(given);
+    final var got1 = given.inverse();
+    final var got2 = got1.inverse();
+    final var got3 = got2.inverse();
+    final var gotMultiplyContract = got1.multiply(given);
 
     // then
     Assertions.assertEquals(expected, got1);
@@ -390,7 +389,7 @@ class BigComplexTest {
   @Test
   void testInverse_ZeroDivision() {
     // given
-    final BigComplex given = new BigComplex(new BigRational("0"), new BigRational("0"));
+    final var given = new BigComplex(new BigRational("0"), new BigRational("0"));
 
     // when, then
     Assertions.assertThrows(ArithmeticException.class, () -> given.inverse());
@@ -399,12 +398,12 @@ class BigComplexTest {
   @Test
   void testConjugate() {
     // given
-    final BigComplex c1 = new BigComplex(new BigRational("2"), new BigRational("-3"));
-    final BigComplex c2 = new BigComplex(new BigRational("2"), new BigRational("3"));
+    final var c1 = new BigComplex(new BigRational("2"), new BigRational("-3"));
+    final var c2 = new BigComplex(new BigRational("2"), new BigRational("3"));
 
     // when
-    final BigComplex got1 = c1.conjugate();
-    final BigComplex got2 = c2.conjugate();
+    final var got1 = c1.conjugate();
+    final var got2 = c2.conjugate();
 
     // then
     Assertions.assertEquals(c2, got1);
@@ -422,14 +421,14 @@ class BigComplexTest {
   @MethodSource
   void testCompareTo(BigComplex given1, BigComplex given2, int expected) {
     // when
-    final int got = given1.compareTo(given2);
+    final var got = given1.compareTo(given2);
 
     // then
     Assertions.assertEquals(expected, got);
   }
 
   static Stream<Arguments> equalsByValue_true() {
-    final BigComplex given1 = new BigComplex("2/3+3/5i");
+    final var given1 = new BigComplex("2/3+3/5i");
     return Stream.of(
         Arguments.of(given1, given1),
         Arguments.of(new BigComplex("2/3+3/5i"), new BigComplex("2/3+3/5i")),
@@ -440,8 +439,8 @@ class BigComplexTest {
   @MethodSource
   void equalsByValue_true(BigComplex given1, BigComplex given2) {
     // when
-    final boolean got1 = given1.equals(given2);
-    final boolean got2 = given2.equals(given1);
+    final var got1 = given1.equals(given2);
+    final var got2 = given2.equals(given1);
 
     // then
     Assertions.assertTrue(got1);
@@ -449,7 +448,7 @@ class BigComplexTest {
   }
 
   static Stream<Arguments> equalsByValue_false() {
-    final BigComplex given1 = new BigComplex("2/3+3/5i");
+    final var given1 = new BigComplex("2/3+3/5i");
     return Stream.of(
         Arguments.of(given1, null),
         Arguments.of(new BigComplex("2/3+3/5i"), new BigComplex("4/6+10/15i")),
@@ -460,14 +459,14 @@ class BigComplexTest {
   @MethodSource
   void equalsByValue_false(BigComplex given1, Object given2) {
     // when
-    final boolean got = given1.equals(given2);
+    final var got = given1.equals(given2);
 
     // then
     Assertions.assertFalse(got);
   }
 
   static Stream<Arguments> testEqualsStrict_true() {
-    final BigComplex given1 = new BigComplex("2/3+3/5i");
+    final var given1 = new BigComplex("2/3+3/5i");
     return Stream.of(
         Arguments.of(given1, given1),
         Arguments.of(new BigComplex("2/3+3/5i"), new BigComplex("2/3+3/5i")));
@@ -477,8 +476,8 @@ class BigComplexTest {
   @MethodSource
   void testEqualsStrict_true(BigComplex given1, BigComplex given2) {
     // when
-    final boolean got1 = given1.equalsStrict(given2);
-    final boolean got2 = given2.equalsStrict(given1);
+    final var got1 = given1.equalsStrict(given2);
+    final var got2 = given2.equalsStrict(given1);
 
     // then
     Assertions.assertTrue(got1);
@@ -486,7 +485,7 @@ class BigComplexTest {
   }
 
   static Stream<Arguments> testEqualsStrict_false() {
-    final BigComplex given1 = new BigComplex(new BigRational("2", "3"), new BigRational("3", "5"));
+    final var given1 = new BigComplex(new BigRational("2", "3"), new BigRational("3", "5"));
     return Stream.of(
         Arguments.of(given1, null),
         Arguments.of(new BigComplex("2/3+3/5i"), new BigComplex("4/6+10/15i")),
@@ -497,7 +496,7 @@ class BigComplexTest {
   @MethodSource
   void testEqualsStrict_false(BigComplex given1, BigComplex given2) {
     // when
-    final boolean got = given1.equalsStrict(given2);
+    final var got = given1.equalsStrict(given2);
 
     // then
     Assertions.assertFalse(got);

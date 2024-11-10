@@ -11,7 +11,7 @@ public class BigComplexMatrix
     extends BigFieldElementMatrix<BigComplex, BigComplexVector, BigComplexMatrix> {
 
   public BigComplexMatrix() {
-    this(new ArrayList<BigComplexVector>(0), false);
+    this(new ArrayList<>(0), false);
   }
 
   public BigComplexMatrix(String matrix) {
@@ -27,13 +27,13 @@ public class BigComplexMatrix
   }
 
   public BigComplexMatrix conjugate() {
-    final int rowCount = this.getRowsCount();
+    final var rowCount = this.getRowsCount();
     final List<BigComplexVector> resultEntries = new ArrayList<>(rowCount);
     for (final BigComplexVector vector : this.entries) {
-      final BigComplexVector resultVector = vector.conjugate();
+      final var resultVector = vector.conjugate();
       resultEntries.add(resultVector);
     }
-    final BigComplexMatrix result = this.createInstance(resultEntries);
+    final var result = this.createInstance(resultEntries);
     return result;
   }
 

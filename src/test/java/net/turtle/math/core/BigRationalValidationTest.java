@@ -1,6 +1,5 @@
 package net.turtle.math.core;
 
-import java.lang.reflect.Constructor;
 import java.math.BigInteger;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
@@ -22,7 +21,7 @@ class BigRationalValidationTest {
   @Test
   void validateNumeratorDenominatorConstructorParameters()
       throws NoSuchMethodException, SecurityException {
-    final Constructor<BigRational> constructor =
+    final var constructor =
         BigRational.class.getConstructor(
             new Class[] {BigInteger.class, BigInteger.class, boolean.class});
 

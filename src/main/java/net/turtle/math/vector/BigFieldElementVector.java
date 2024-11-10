@@ -2,7 +2,6 @@ package net.turtle.math.vector;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import net.turtle.math.core.BigFieldElement;
 import net.turtle.math.exception.CalculationException;
@@ -48,9 +47,9 @@ public abstract class BigFieldElementVector<
   @Override
   public V add(V augend) throws CalculationException {
     this.checkDimensions(augend);
-    final ArrayList<F> coordinatesSum = new ArrayList<>(this.getDimension());
-    final Iterator<F> thisCoordinatesIt = this.coordinates.iterator();
-    final Iterator<F> augendCoordinatesIt = augend.getCoordinates().iterator();
+    final var coordinatesSum = new ArrayList<F>(this.getDimension());
+    final var thisCoordinatesIt = this.coordinates.iterator();
+    final var augendCoordinatesIt = augend.getCoordinates().iterator();
     while (thisCoordinatesIt.hasNext() && augendCoordinatesIt.hasNext()) {
       coordinatesSum.add(thisCoordinatesIt.next().add(augendCoordinatesIt.next()));
     }
@@ -66,9 +65,9 @@ public abstract class BigFieldElementVector<
   @Override
   public V subtract(V subtrahend) throws CalculationException {
     this.checkDimensions(subtrahend);
-    final ArrayList<F> coordinatesSum = new ArrayList<>(this.getDimension());
-    final Iterator<F> thisCoordinatesIt = this.coordinates.iterator();
-    final Iterator<F> subtrahendCoordinatesIt = subtrahend.getCoordinates().iterator();
+    final var coordinatesSum = new ArrayList<F>(this.getDimension());
+    final var thisCoordinatesIt = this.coordinates.iterator();
+    final var subtrahendCoordinatesIt = subtrahend.getCoordinates().iterator();
     while (thisCoordinatesIt.hasNext() && subtrahendCoordinatesIt.hasNext()) {
       coordinatesSum.add(thisCoordinatesIt.next().subtract(subtrahendCoordinatesIt.next()));
     }
@@ -84,9 +83,9 @@ public abstract class BigFieldElementVector<
   @Override
   public F dotProduct(V multiplicand) throws CalculationException {
     this.checkDimensions(multiplicand);
-    F coordinatesSum = this.createZeroFieldElement();
-    final Iterator<F> thisCoordinatesIt = this.coordinates.iterator();
-    final Iterator<F> subtrahendCoordinatesIt = multiplicand.getCoordinates().iterator();
+    var coordinatesSum = this.createZeroFieldElement();
+    final var thisCoordinatesIt = this.coordinates.iterator();
+    final var subtrahendCoordinatesIt = multiplicand.getCoordinates().iterator();
     while (thisCoordinatesIt.hasNext() && subtrahendCoordinatesIt.hasNext()) {
       coordinatesSum =
           coordinatesSum.add(thisCoordinatesIt.next().multiply(subtrahendCoordinatesIt.next()));
@@ -97,8 +96,8 @@ public abstract class BigFieldElementVector<
 
   @Override
   public V multiply(F multiplicand) {
-    final ArrayList<F> coordinatesSum = new ArrayList<>(this.getDimension());
-    final Iterator<F> thisCoordinatesIt = this.coordinates.iterator();
+    final var coordinatesSum = new ArrayList<F>(this.getDimension());
+    final var thisCoordinatesIt = this.coordinates.iterator();
     while (thisCoordinatesIt.hasNext()) {
       coordinatesSum.add(thisCoordinatesIt.next().multiply(multiplicand));
     }
@@ -121,8 +120,8 @@ public abstract class BigFieldElementVector<
    */
   @Override
   public V inverse() {
-    final ArrayList<F> resultCoordinates = new ArrayList<>(this.getDimension());
-    final Iterator<F> thisCoordinatesIt = this.coordinates.iterator();
+    final var resultCoordinates = new ArrayList<F>(this.getDimension());
+    final var thisCoordinatesIt = this.coordinates.iterator();
     while (thisCoordinatesIt.hasNext()) {
       resultCoordinates.add(thisCoordinatesIt.next().inverse());
     }
@@ -131,8 +130,8 @@ public abstract class BigFieldElementVector<
 
   @Override
   public V negate() {
-    final ArrayList<F> resultCoordinates = new ArrayList<>(this.getDimension());
-    final Iterator<F> thisCoordinatesIt = this.coordinates.iterator();
+    final var resultCoordinates = new ArrayList<F>(this.getDimension());
+    final var thisCoordinatesIt = this.coordinates.iterator();
     while (thisCoordinatesIt.hasNext()) {
       resultCoordinates.add(thisCoordinatesIt.next().negate());
     }
@@ -151,15 +150,15 @@ public abstract class BigFieldElementVector<
 
   @Override
   public String toString() {
-    final StringBuilder builder = new StringBuilder();
+    final var builder = new StringBuilder();
     builder.append(this.coordinates);
     return builder.toString();
   }
 
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
+    final var prime = 31;
+    var result = 1;
     result = (prime * result) + this.coordinates.hashCode();
     return result;
   }
@@ -174,7 +173,7 @@ public abstract class BigFieldElementVector<
         result = false;
       } else {
         if (obj instanceof BigFieldElementVector) {
-          final BigFieldElementVector<F, V> other = (BigFieldElementVector<F, V>) obj;
+          final var other = (BigFieldElementVector<F, V>) obj;
           result = this.coordinates.equals(other.coordinates);
         } else {
           result = false;

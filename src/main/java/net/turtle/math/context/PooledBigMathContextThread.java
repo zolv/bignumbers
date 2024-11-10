@@ -4,26 +4,20 @@ public class PooledBigMathContextThread extends Thread {
 
   private final BigMathContext bigMathContext;
 
-  public PooledBigMathContextThread(
-      BigMathContext bigMathContext,
-      ThreadGroup group,
-      Runnable target,
-      String name,
-      long stackSize) {
-    super(group, target, name, stackSize);
+  public PooledBigMathContextThread(BigMathContext bigMathContext) {
     this.bigMathContext = bigMathContext;
   }
 
   @Override
   public synchronized void run() {
-    BigMathContext.getContextThreadLocal().set(this.bigMathContext);
+    BigMathContext.set(this.bigMathContext);
     super.run();
-    BigMathContext.getContextThreadLocal().remove();
+    BigMathContext.remove();
   }
 
   @Override
   public void interrupt() {
+    BigMathContext.remove();
     super.interrupt();
-    BigMathContext.getContextThreadLocal().remove();
   }
 }

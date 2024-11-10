@@ -3,7 +3,6 @@ package net.turtle.math.util;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.turtle.math.exception.DifferentDimensionsException;
 import net.turtle.math.exception.ParsingException;
@@ -15,23 +14,23 @@ public class BigMatrixUtil {
   private BigMatrixUtil() {}
 
   public static List<BigRationalVector> parseBigRationalMatrix(String matrix) {
-    final String matrixPatternString = "^\\[((\\[.*\\])+|)\\]$";
+    final var matrixPatternString = "^\\[((\\[.*\\])+|)\\]$";
 
-    final Pattern matrixPattern = Pattern.compile(matrixPatternString);
-    final Matcher matrixMatcher = matrixPattern.matcher(matrix);
+    final var matrixPattern = Pattern.compile(matrixPatternString);
+    final var matrixMatcher = matrixPattern.matcher(matrix);
     final List<BigRationalVector> entries;
     if (matrixMatcher.find()) {
-      final String matrixContent = matrixMatcher.group(1);
+      final var matrixContent = matrixMatcher.group(1);
 
-      final String vectorPatternString = "(\\[[^\\[\\]]*\\])";
-      final Pattern vectorPattern = Pattern.compile(vectorPatternString);
-      final Matcher vectorMatcher = vectorPattern.matcher(matrixContent);
+      final var vectorPatternString = "(\\[[^\\[\\]]*\\])";
+      final var vectorPattern = Pattern.compile(vectorPatternString);
+      final var vectorMatcher = vectorPattern.matcher(matrixContent);
 
-      int dimention = -1;
-      final LinkedList<BigRationalVector> vectorsTemp = new LinkedList<>();
+      var dimention = -1;
+      final var vectorsTemp = new LinkedList<BigRationalVector>();
       while (vectorMatcher.find()) {
-        final String vectorString = vectorMatcher.group(1);
-        final BigRationalVector vector = new BigRationalVector(vectorString);
+        final var vectorString = vectorMatcher.group(1);
+        final var vector = new BigRationalVector(vectorString);
         if (dimention >= 0) {
           if (vector.getDimension() != dimention) {
             throw new DifferentDimensionsException(
@@ -55,23 +54,23 @@ public class BigMatrixUtil {
   }
 
   public static List<BigComplexVector> parseBigComplexMatrix(String matrix) {
-    final String matrixPatternString = "^\\[((\\[.*\\])+|)\\]$";
+    final var matrixPatternString = "^\\[((\\[.*\\])+|)\\]$";
 
-    final Pattern matrixPattern = Pattern.compile(matrixPatternString);
-    final Matcher matrixMatcher = matrixPattern.matcher(matrix);
+    final var matrixPattern = Pattern.compile(matrixPatternString);
+    final var matrixMatcher = matrixPattern.matcher(matrix);
     final List<BigComplexVector> entries;
     if (matrixMatcher.find()) {
-      final String matrixContent = matrixMatcher.group(1);
+      final var matrixContent = matrixMatcher.group(1);
 
-      final String vectorPatternString = "(\\[[^\\[\\]]*\\])";
-      final Pattern vectorPattern = Pattern.compile(vectorPatternString);
-      final Matcher vectorMatcher = vectorPattern.matcher(matrixContent);
+      final var vectorPatternString = "(\\[[^\\[\\]]*\\])";
+      final var vectorPattern = Pattern.compile(vectorPatternString);
+      final var vectorMatcher = vectorPattern.matcher(matrixContent);
 
-      int dimention = -1;
-      final LinkedList<BigComplexVector> vectorsTemp = new LinkedList<>();
+      var dimention = -1;
+      final var vectorsTemp = new LinkedList<BigComplexVector>();
       while (vectorMatcher.find()) {
-        final String vectorString = vectorMatcher.group(1);
-        final BigComplexVector vector = new BigComplexVector(vectorString);
+        final var vectorString = vectorMatcher.group(1);
+        final var vector = new BigComplexVector(vectorString);
         if (dimention >= 0) {
           if (vector.getDimension() != dimention) {
             throw new DifferentDimensionsException(

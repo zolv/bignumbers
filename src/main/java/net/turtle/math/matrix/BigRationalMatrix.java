@@ -11,7 +11,7 @@ public class BigRationalMatrix
     extends BigFieldElementMatrix<BigRational, BigRationalVector, BigRationalMatrix> {
 
   public BigRationalMatrix() {
-    this(new ArrayList<BigRationalVector>(0), false);
+    this(new ArrayList<>(0), false);
   }
 
   public BigRationalMatrix(String matrix) {

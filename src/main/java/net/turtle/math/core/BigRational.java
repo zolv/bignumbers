@@ -2,8 +2,8 @@ package net.turtle.math.core;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
 import javax.validation.constraints.NotNull;
 import net.turtle.math.context.BigMathContext;
 import net.turtle.math.exception.CalculationException;
@@ -13,8 +13,7 @@ import net.turtle.math.util.BigRationalUtil;
 import net.turtle.math.validation.NotZero;
 import org.apache.commons.lang3.NotImplementedException;
 
-public class BigRational
-    implements BigFieldElement<BigRational>, Comparable<BigRational>, BigNumber {
+public class BigRational implements BigFieldElement<BigRational>, Comparable<BigRational> {
 
   public static final BigRational ZERO = new BigRationalZero();
 
@@ -73,8 +72,7 @@ public class BigRational
              * because after normalization same instances of numerator and denominator are
              * used.
              */
-            final BigRational normalized =
-                new BigRational(numerator, denominator, false).normalize();
+            final var normalized = new BigRational(numerator, denominator, false).normalize();
             this.numerator = normalized.getNumerator();
             this.denominator = normalized.getDenominator();
           } else {
@@ -129,7 +127,7 @@ public class BigRational
     final BigRational result;
     if (!this.denominator.equals(BigInteger.ONE)) {
       if (!this.numerator.equals(BigInteger.ZERO)) {
-        final BigInteger gcd = this.numerator.gcd(this.denominator);
+        final var gcd = this.numerator.gcd(this.denominator);
         if (!gcd.equals(BigInteger.ONE)) {
           result = new BigRational(this.numerator.divide(gcd), this.denominator.divide(gcd));
         } else {
@@ -146,27 +144,38 @@ public class BigRational
 
   @Override
   public BigRational add(BigRational augend) {
-    return new BigRational(
-        this.numerator
-            .multiply(augend.denominator)
-            .add(augend.numerator.multiply(this.denominator)),
-        this.denominator.multiply(augend.denominator));
+    final BigRational result;
+    if (!this.denominator.equals(augend.denominator)) {
+      result =
+          new BigRational(
+              this.numerator
+                  .multiply(augend.denominator)
+                  .add(augend.numerator.multiply(this.denominator)),
+              this.denominator.multiply(augend.denominator));
+    } else {
+      result = new BigRational(this.numerator.add(augend.numerator), this.denominator);
+    }
+    return result;
   }
 
   @Override
   public BigRational subtract(BigRational subtrahend) throws NullPointerException {
-    return new BigRational(
-        this.numerator
-            .multiply(subtrahend.denominator)
-            .subtract(subtrahend.numerator.multiply(this.denominator)),
-        this.denominator.multiply(subtrahend.denominator));
+    final BigRational result;
+    if (!this.denominator.equals(subtrahend.denominator)) {
+      result =
+          new BigRational(
+              this.numerator
+                  .multiply(subtrahend.denominator)
+                  .subtract(subtrahend.numerator.multiply(this.denominator)),
+              this.denominator.multiply(subtrahend.denominator));
+    } else {
+      result = new BigRational(this.numerator.subtract(subtrahend.numerator), this.denominator);
+    }
+    return result;
   }
 
   @Override
   public BigRational multiply(final BigRational multiplicand) {
-    if (multiplicand == null) {
-      throw new NullPointerException("Multiplicand cannot be null");
-    }
     final BigRational result;
     if (!multiplicand.equals(BigRational.ONE)) {
       if (!this.equals(BigRational.ONE)) {
@@ -185,17 +194,16 @@ public class BigRational
   }
 
   private BigRational doMultiply(final BigRational multiplicand) {
-    final FutureTask<BigInteger> numeratorComputation =
-        new FutureTask<>(
-            () -> BigRational.this.multiply(BigRational.this.numerator, multiplicand.numerator));
-
-    BigMathContext.get().submit(numeratorComputation);
+    final var numeratorComputation =
+        BigMathContext.get()
+            .submit(
+                () ->
+                    BigRational.this.multiply(BigRational.this.numerator, multiplicand.numerator));
 
     /*
      * Reuse current thread for calculation.
      */
-    final BigInteger denominatorComputed =
-        this.multiply(this.denominator, multiplicand.denominator);
+    final var denominatorComputed = this.multiply(this.denominator, multiplicand.denominator);
 
     try {
       return new BigRational(numeratorComputation.get(), denominatorComputed);
@@ -224,11 +232,9 @@ public class BigRational
   @Override
   public BigRational divide(@NotNull @NotZero final BigRational divisor)
       throws CalculationException {
-    final FutureTask<BigInteger> numeratorComputation =
-        new FutureTask<>(() -> BigRational.this.numerator.multiply(divisor.denominator));
-
-    BigMathContext.get().submit(numeratorComputation);
-    final BigInteger denominatorComputation = this.denominator.multiply(divisor.numerator);
+    final var numeratorComputation =
+        BigMathContext.get().submit(() -> BigRational.this.numerator.multiply(divisor.denominator));
+    final var denominatorComputation = this.denominator.multiply(divisor.numerator);
     try {
       return new BigRational(numeratorComputation.get(), denominatorComputation);
     } catch (InterruptedException | ExecutionException e) {
@@ -242,7 +248,7 @@ public class BigRational
     if (power.equals(BigRational.ONE)) {
       result = this;
     } else {
-      final BigRational normalizedPower = power.normalize();
+      final var normalizedPower = power.normalize();
       if (normalizedPower.denominator.equals(BigInteger.ONE)) {
         result = this.pow(normalizedPower.numerator);
       } else {
@@ -255,7 +261,7 @@ public class BigRational
   public BigRational pow(BigInteger power) throws ArithmeticException, CalculationException {
     final BigRational result;
     if (!power.equals(BigInteger.ZERO)) {
-      final BigInteger powerAbs = power.abs();
+      final var powerAbs = power.abs();
       if (!powerAbs.equals(BigInteger.ONE)) {
         final BigInteger newNumerator;
         final BigInteger newDenominator;
@@ -266,11 +272,9 @@ public class BigRational
           newNumerator = this.denominator;
           newDenominator = this.numerator;
         }
-        final FutureTask<BigInteger> numeratorComputation =
-            new FutureTask<>(() -> BigRational.this.pow(newNumerator, powerAbs));
-
-        BigMathContext.get().submit(numeratorComputation);
-        final BigInteger denominatorComputation = this.pow(newDenominator, powerAbs);
+        final var numeratorComputation =
+            BigMathContext.get().submit(() -> BigRational.this.pow(newNumerator, powerAbs));
+        final var denominatorComputation = this.pow(newDenominator, powerAbs);
 
         try {
           result = new BigRational(numeratorComputation.get(), denominatorComputation);
@@ -294,10 +298,10 @@ public class BigRational
   }
 
   protected BigInteger pow(BigInteger value, BigInteger power) {
-    BigInteger partialResult = BigInteger.ONE;
-    final BigInteger two = BigInteger.valueOf(2L);
-    BigInteger squaredValue = value;
-    BigInteger powerIteration = power;
+    var partialResult = BigInteger.ONE;
+    final var two = BigInteger.valueOf(2L);
+    var squaredValue = value;
+    var powerIteration = power;
     while (powerIteration.compareTo(BigInteger.ONE) >= 0) {
       if (powerIteration.testBit(0)) {
         partialResult = partialResult.multiply(squaredValue);
@@ -395,18 +399,18 @@ public class BigRational
   @Override
   public int compareTo(BigRational that) {
     final int result;
-    final int thisSignum = this.signum();
-    final int thatSignum = that.signum();
+    final var thisSignum = this.signum();
+    final var thatSignum = that.signum();
     if (thisSignum == thatSignum) {
       if (thisSignum != 0) {
-        final BigRational thisNormalized = this.normalize();
-        final BigRational thatNormalized = that.normalize();
-        final int denominatorComparison =
+        final var thisNormalized = this.normalize();
+        final var thatNormalized = that.normalize();
+        final var denominatorComparison =
             thisNormalized.denominator.compareTo(thatNormalized.denominator);
         if (denominatorComparison == 0) {
           result = thisNormalized.numerator.compareTo(thatNormalized.numerator);
         } else {
-          final int numeratorComparison =
+          final var numeratorComparison =
               thisNormalized.numerator.compareTo(thatNormalized.numerator);
           if ((denominatorComparison > 0) && (numeratorComparison <= 0)) {
             /*
@@ -420,7 +424,7 @@ public class BigRational
               /*
                * abs() of multiplication results are not needed due to normalization.
                */
-              final int absCompare =
+              final var absCompare =
                   thisNormalized
                       .numerator
                       .multiply(thatNormalized.denominator)
@@ -448,7 +452,7 @@ public class BigRational
 
   public BigRational min(BigRational val) {
     final BigRational result;
-    final int compareValue = this.compareTo(val);
+    final var compareValue = this.compareTo(val);
     if (compareValue < 0) {
       result = this;
     } else {
@@ -470,7 +474,7 @@ public class BigRational
 
   public BigRational max(BigRational val) {
     final BigRational result;
-    final int compareValue = this.compareTo(val);
+    final var compareValue = this.compareTo(val);
     if (compareValue > 0) {
       result = this;
     } else {
@@ -491,8 +495,18 @@ public class BigRational
   }
 
   @Override
-  public BigComplex toComplex() {
-    return new BigComplex(this, BigRationalValues.ZERO);
+  public BigRational toBigRational(BigInteger denominator, RoundingMode numeratorRoundingMode) {
+    return null;
+  }
+
+  @Override
+  public BigComplex toBigComplex(
+      BigInteger realDenominatorRoundingValue,
+      RoundingMode realNumeratorRoundingMode,
+      BigInteger imaginaryDenominatorRoundingValue,
+      RoundingMode imaginaryNumeratorRoundingMode) {
+    return new BigComplex(
+        this.toBigRational(imaginaryDenominatorRoundingValue, imaginaryNumeratorRoundingMode));
   }
 
   @Override
@@ -501,11 +515,11 @@ public class BigRational
     if (this == obj) {
       result = true;
     } else {
-      if (obj instanceof BigRational) {
+      if (obj instanceof final BigRational bigRational) {
         if (BigMathContext.get().getStrictEqualsAndHashContract()) {
-          result = this.equalsStrict((BigRational) obj);
+          result = this.equalsStrict(bigRational);
         } else {
-          result = this.equalsValue((BigRational) obj);
+          result = this.equalsValue(bigRational);
         }
       } else {
         result = false;
@@ -520,7 +534,7 @@ public class BigRational
 
   public boolean equalsValue(BigRational obj) {
     final boolean result;
-    final boolean numeratorsEqual = this.numerator.equals(obj.numerator);
+    final var numeratorsEqual = this.numerator.equals(obj.numerator);
     if (numeratorsEqual) {
       result = BigInteger.ZERO.equals(this.numerator) || this.denominator.equals(obj.denominator);
     } else {
@@ -548,8 +562,8 @@ public class BigRational
   }
 
   public int hashCodeStrict() {
-    final int prime = 31;
-    final int result = ((prime + this.denominator.intValue()) * prime) + this.numerator.intValue();
+    final var prime = 31;
+    final var result = ((prime + this.denominator.intValue()) * prime) + this.numerator.intValue();
     return result;
   }
 

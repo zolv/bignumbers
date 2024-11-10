@@ -37,13 +37,13 @@ public abstract class BigFieldElementMatrix<
    */
   @Override
   public M transpose() {
-    final int columnsCount = this.getColumnsCount();
+    final var columnsCount = this.getColumnsCount();
     final List<V> transposedEntries = new ArrayList<>(columnsCount);
-    for (int i = 0; i < columnsCount; i++) {
-      final V columnVector = this.getColumnVector(i);
+    for (var i = 0; i < columnsCount; i++) {
+      final var columnVector = this.getColumnVector(i);
       transposedEntries.add(columnVector);
     }
-    final M result = this.createInstance(transposedEntries);
+    final var result = this.createInstance(transposedEntries);
     return result;
   }
 
@@ -54,14 +54,14 @@ public abstract class BigFieldElementMatrix<
    */
   @Override
   public M add(M augend) {
-    final int rowCount = this.getRowsCount();
+    final var rowCount = this.getRowsCount();
     final List<V> transposedEntries = new ArrayList<>(rowCount);
-    for (int i = 0; i < rowCount; i++) {
-      final V rowVector = this.getRowVector(i);
-      final V rowVectorAugend = augend.getRowVector(i);
+    for (var i = 0; i < rowCount; i++) {
+      final var rowVector = this.getRowVector(i);
+      final var rowVectorAugend = augend.getRowVector(i);
       transposedEntries.add(rowVector.add(rowVectorAugend));
     }
-    final M result = this.createInstance(transposedEntries);
+    final var result = this.createInstance(transposedEntries);
     return result;
   }
 
@@ -73,44 +73,44 @@ public abstract class BigFieldElementMatrix<
    */
   @Override
   public M substract(M subtrahend) {
-    final int rowCount = this.getRowsCount();
+    final var rowCount = this.getRowsCount();
     final List<V> transposedEntries = new ArrayList<>(rowCount);
-    for (int i = 0; i < rowCount; i++) {
-      final V rowVector = this.getRowVector(i);
-      final V rowVectorAugend = subtrahend.getRowVector(i);
+    for (var i = 0; i < rowCount; i++) {
+      final var rowVector = this.getRowVector(i);
+      final var rowVectorAugend = subtrahend.getRowVector(i);
       transposedEntries.add(rowVector.subtract(rowVectorAugend));
     }
-    final M result = this.createInstance(transposedEntries);
+    final var result = this.createInstance(transposedEntries);
     return result;
   }
 
   @Override
   public M multiply(M multiplicand) {
-    final int thisColumnsCount = this.getColumnsCount();
-    final int thatRowsCount = multiplicand.getRowsCount();
+    final var thisColumnsCount = this.getColumnsCount();
+    final var thatRowsCount = multiplicand.getRowsCount();
     final M result;
     if (thisColumnsCount == thatRowsCount) {
-      final int thatColumnsCount = multiplicand.getColumnsCount();
+      final var thatColumnsCount = multiplicand.getColumnsCount();
 
       /*
        * Creating column vector cache.
        */
       final Map<Integer, V> columnVectorCache = new HashMap<>(this.getColumnsCount(), 1.01F);
-      for (int p = 0; p < thatColumnsCount; p++) {
-        final V thatColumnVector = multiplicand.getColumnVector(p);
+      for (var p = 0; p < thatColumnsCount; p++) {
+        final var thatColumnVector = multiplicand.getColumnVector(p);
         columnVectorCache.put(Integer.valueOf(p), thatColumnVector);
       }
 
-      final int thisRowsCount = this.getRowsCount();
+      final var thisRowsCount = this.getRowsCount();
       final List<V> resultEntries = new ArrayList<>(thisRowsCount);
 
-      for (int n = 0; n < thisRowsCount; n++) {
-        final V thisRowVector = this.getRowVector(n);
+      for (var n = 0; n < thisRowsCount; n++) {
+        final var thisRowVector = this.getRowVector(n);
         final List<F> resultCoordinates = new ArrayList<>(thatColumnsCount);
 
-        for (int p = 0; p < thatColumnsCount; p++) {
-          final V thatColumnVector = columnVectorCache.get(Integer.valueOf(p));
-          final F dotProduct = thisRowVector.dotProduct(thatColumnVector);
+        for (var p = 0; p < thatColumnsCount; p++) {
+          final var thatColumnVector = columnVectorCache.get(Integer.valueOf(p));
+          final var dotProduct = thisRowVector.dotProduct(thatColumnVector);
           resultCoordinates.add(dotProduct);
         }
         resultEntries.add(this.createRow(resultCoordinates));
@@ -132,19 +132,19 @@ public abstract class BigFieldElementMatrix<
   public M multiply(V multiplicand) {
     final List<V> vectors = new ArrayList<>(1);
     vectors.add(multiplicand);
-    final M converted = this.createInstance(vectors).transpose();
+    final var converted = this.createInstance(vectors).transpose();
     return this.multiply(converted);
   }
 
   @Override
   public M multiply(F multiplicand) {
-    final int rowCount = this.getRowsCount();
+    final var rowCount = this.getRowsCount();
     final List<V> resultEntries = new ArrayList<>(rowCount);
     for (final V vector : this.entries) {
-      final V resultVector = vector.multiply(multiplicand);
+      final var resultVector = vector.multiply(multiplicand);
       resultEntries.add(resultVector);
     }
-    final M result = this.createInstance(resultEntries);
+    final var result = this.createInstance(resultEntries);
     return result;
   }
 
@@ -176,9 +176,9 @@ public abstract class BigFieldElementMatrix<
   }
 
   protected F det2x2() {
-    final List<F> row0Coordinates = this.getRowVector(0).getCoordinates();
-    final List<F> row1Coordinates = this.getRowVector(1).getCoordinates();
-    final F result =
+    final var row0Coordinates = this.getRowVector(0).getCoordinates();
+    final var row1Coordinates = this.getRowVector(1).getCoordinates();
+    final var result =
         row0Coordinates
             .get(0)
             .multiply(row1Coordinates.get(1))
@@ -188,18 +188,18 @@ public abstract class BigFieldElementMatrix<
 
   protected F det3x3() {
     final F result;
-    final List<F> row0Coordinates = this.getRowVector(0).getCoordinates();
-    final List<F> row1Coordinates = this.getRowVector(1).getCoordinates();
-    final List<F> row2Coordinates = this.getRowVector(2).getCoordinates();
-    final F a = row0Coordinates.get(0);
-    final F b = row0Coordinates.get(1);
-    final F c = row0Coordinates.get(2);
-    final F d = row1Coordinates.get(0);
-    final F e = row1Coordinates.get(1);
-    final F f = row1Coordinates.get(2);
-    final F g = row2Coordinates.get(0);
-    final F h = row2Coordinates.get(1);
-    final F i = row2Coordinates.get(2);
+    final var row0Coordinates = this.getRowVector(0).getCoordinates();
+    final var row1Coordinates = this.getRowVector(1).getCoordinates();
+    final var row2Coordinates = this.getRowVector(2).getCoordinates();
+    final var a = row0Coordinates.get(0);
+    final var b = row0Coordinates.get(1);
+    final var c = row0Coordinates.get(2);
+    final var d = row1Coordinates.get(0);
+    final var e = row1Coordinates.get(1);
+    final var f = row1Coordinates.get(2);
+    final var g = row2Coordinates.get(0);
+    final var h = row2Coordinates.get(1);
+    final var i = row2Coordinates.get(2);
 
     /*
      * Alternative: result = a.multiply( e.multiply( i ).subtract( f.multiply( h
@@ -220,17 +220,17 @@ public abstract class BigFieldElementMatrix<
   protected F detLaplace() {
     final F result;
 
-    final int rowsCount = this.getRowsCount();
-    F determinant = this.createZeroFieldElement();
-    for (int i = 0; i < rowsCount; i++) {
-      final V rowVector = this.getRowVector(i);
-      final F cellValue = rowVector.getCoordinate(0);
+    final var rowsCount = this.getRowsCount();
+    var determinant = this.createZeroFieldElement();
+    for (var i = 0; i < rowsCount; i++) {
+      final var rowVector = this.getRowVector(i);
+      final var cellValue = rowVector.getCoordinate(0);
       /*
        * Zero check to speed up.
        */
       if (!this.createZeroFieldElement().equals(cellValue)) {
-        final F subDet2 = this.createMatrixWithoutRowAndColumn(i, 0).det();
-        final F subDet = cellValue.multiply(subDet2);
+        final var subDet2 = this.createMatrixWithoutRowAndColumn(i, 0).det();
+        final var subDet = cellValue.multiply(subDet2);
         if ((i % 2) != 0) {
           determinant = determinant.subtract(subDet);
         } else {
@@ -243,17 +243,17 @@ public abstract class BigFieldElementMatrix<
   }
 
   private M createMatrixWithoutRowAndColumn(int rowIndex, int columnIndex) {
-    final int rowsCount = this.getRowsCount();
+    final var rowsCount = this.getRowsCount();
 
     final List<V> rows = new ArrayList<>(Math.max(rowsCount - 1, 0));
 
-    final int columnsCount = this.getColumnsCount();
+    final var columnsCount = this.getColumnsCount();
 
-    for (int i = 0; i < rowsCount; i++) {
+    for (var i = 0; i < rowsCount; i++) {
       if (i != rowIndex) {
-        final V row = this.getRowVector(i);
+        final var row = this.getRowVector(i);
         final List<F> coordinates = new ArrayList<>(Math.max(columnsCount - 1, 0));
-        for (int j = 0; j < columnsCount; j++) {
+        for (var j = 0; j < columnsCount; j++) {
           if (j != columnIndex) {
             coordinates.add(row.getCoordinate(j));
           }
@@ -293,7 +293,7 @@ public abstract class BigFieldElementMatrix<
   public int getColumnsCount() {
     final int result;
     if (!this.entries.isEmpty()) {
-      final V firstRow = this.entries.iterator().next();
+      final var firstRow = this.entries.iterator().next();
       result = firstRow.getDimension();
     } else {
       result = 0;
@@ -327,15 +327,15 @@ public abstract class BigFieldElementMatrix<
 
   @Override
   public String toString() {
-    final StringBuilder builder = new StringBuilder();
+    final var builder = new StringBuilder();
     builder.append(this.entries);
     return builder.toString();
   }
 
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
+    final var prime = 31;
+    var result = 1;
     result = (prime * result) + this.entries.hashCode();
     return result;
   }
@@ -350,7 +350,7 @@ public abstract class BigFieldElementMatrix<
         result = false;
       } else {
         if (obj instanceof BigFieldElementMatrix) {
-          final BigFieldElementMatrix<F, V, M> other = (BigFieldElementMatrix<F, V, M>) obj;
+          final var other = (BigFieldElementMatrix<F, V, M>) obj;
           result = this.entries.equals(other.entries);
         } else {
           result = false;

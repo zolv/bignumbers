@@ -13,14 +13,14 @@ class BigComplexFieldElementTest {
   @Test
   void testAPlusBPlusC() {
     // given
-    final BigComplex br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
-    final BigComplex br2 = new BigComplex(new BigRational("2"), new BigRational("4"));
-    final BigComplex br3 = new BigComplex(new BigRational("3"), new BigRational("6"));
-    final BigComplex expected = new BigComplex(new BigRational("6"), new BigRational("12"));
+    final var br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
+    final var br2 = new BigComplex(new BigRational("2"), new BigRational("4"));
+    final var br3 = new BigComplex(new BigRational("3"), new BigRational("6"));
+    final var expected = new BigComplex(new BigRational("6"), new BigRational("12"));
 
     // when
-    final BigComplex gotResult1 = br1.add(br2.add(br3));
-    final BigComplex gotResult2 = br1.add(br2).add(br3);
+    final var gotResult1 = br1.add(br2.add(br3));
+    final var gotResult2 = br1.add(br2).add(br3);
 
     // then
     Assertions.assertEquals(expected, gotResult1);
@@ -38,8 +38,8 @@ class BigComplexFieldElementTest {
   @MethodSource
   void testAPlus0(BigComplex given) {
     // when
-    final BigComplex got1 = given.add(BigComplexValues.ZERO);
-    final BigComplex got2 = BigComplexValues.ZERO.add(given);
+    final var got1 = given.add(BigComplexValues.ZERO);
+    final var got2 = BigComplexValues.ZERO.add(given);
 
     // then
     Assertions.assertEquals(given, got1);
@@ -50,11 +50,11 @@ class BigComplexFieldElementTest {
   @Test
   void testAPlusMinusA() {
     // given
-    final BigComplex br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
-    final BigComplex br2 = new BigComplex(new BigRational("-1"), new BigRational("-2"));
+    final var br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
+    final var br2 = new BigComplex(new BigRational("-1"), new BigRational("-2"));
 
     // when
-    final BigComplex got = br1.add(br2);
+    final var got = br1.add(br2);
 
     // then
     Assertions.assertEquals(BigComplexValues.ZERO, got);
@@ -64,9 +64,9 @@ class BigComplexFieldElementTest {
   @Test
   void testAPlusBBPlusA() {
     // given
-    final BigComplex br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
-    final BigComplex br2 = new BigComplex(new BigRational("2"), new BigRational("4"));
-    final BigComplex r1 = new BigComplex(new BigRational("3"), new BigRational("6"));
+    final var br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
+    final var br2 = new BigComplex(new BigRational("2"), new BigRational("4"));
+    final var r1 = new BigComplex(new BigRational("3"), new BigRational("6"));
 
     // then
     Assertions.assertEquals(r1, br1.add(br2));
@@ -77,14 +77,14 @@ class BigComplexFieldElementTest {
   @Test
   void testATimesBTimesC() {
     // given
-    final BigComplex given1 = new BigComplex(new BigRational("1"), new BigRational("2"));
-    final BigComplex given2 = new BigComplex(new BigRational("2"), new BigRational("4"));
-    final BigComplex given3 = new BigComplex(new BigRational("3"), new BigRational("6"));
-    final BigComplex expected = new BigComplex(new BigRational("-66"), new BigRational("-12"));
+    final var given1 = new BigComplex(new BigRational("1"), new BigRational("2"));
+    final var given2 = new BigComplex(new BigRational("2"), new BigRational("4"));
+    final var given3 = new BigComplex(new BigRational("3"), new BigRational("6"));
+    final var expected = new BigComplex(new BigRational("-66"), new BigRational("-12"));
 
     // when
-    final BigComplex got1 = given1.multiply(given2.multiply(given3));
-    final BigComplex got2 = given1.multiply(given2).multiply(given3);
+    final var got1 = given1.multiply(given2.multiply(given3));
+    final var got2 = given1.multiply(given2).multiply(given3);
 
     // then
     Assertions.assertEquals(expected, got1);
@@ -95,11 +95,11 @@ class BigComplexFieldElementTest {
   @Test
   void testATimes1() {
     // given
-    final BigComplex given = new BigComplex(new BigRational("1"), new BigRational("2"));
+    final var given = new BigComplex(new BigRational("1"), new BigRational("2"));
 
     // when
-    final BigComplex got1 = given.multiply(BigComplexValues.ONE);
-    final BigComplex got2 = BigComplexValues.ONE.multiply(given);
+    final var got1 = given.multiply(BigComplexValues.ONE);
+    final var got2 = BigComplexValues.ONE.multiply(given);
 
     // then
     Assertions.assertEquals(given, got1);
@@ -110,10 +110,10 @@ class BigComplexFieldElementTest {
   @Test
   void testATimesInversedA() {
     // given
-    final BigComplex br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
+    final var br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
 
     // when
-    final BigComplex got = br1.multiply(br1.inverse());
+    final var got = br1.multiply(br1.inverse());
 
     // then
     Assertions.assertEquals(BigComplexValues.ONE, got);
@@ -123,13 +123,13 @@ class BigComplexFieldElementTest {
   @Test
   void testATimesBBTimesA() {
     // given
-    final BigComplex br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
-    final BigComplex br2 = new BigComplex(new BigRational("2"), new BigRational("4"));
-    final BigComplex r1 = new BigComplex(new BigRational("-6"), new BigRational("8"));
+    final var br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
+    final var br2 = new BigComplex(new BigRational("2"), new BigRational("4"));
+    final var r1 = new BigComplex(new BigRational("-6"), new BigRational("8"));
 
     // when
-    final BigComplex got1 = br1.multiply(br2);
-    final BigComplex got2 = br2.multiply(br1);
+    final var got1 = br1.multiply(br2);
+    final var got2 = br2.multiply(br1);
 
     // then
     Assertions.assertEquals(r1, got1);
@@ -140,14 +140,14 @@ class BigComplexFieldElementTest {
   @Test
   void testATimesBPlusC() {
     // given
-    final BigComplex br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
-    final BigComplex br2 = new BigComplex(new BigRational("2"), new BigRational("4"));
-    final BigComplex br3 = new BigComplex(new BigRational("3"), new BigRational("6"));
-    final BigComplex r1 = new BigComplex(new BigRational("-15"), new BigRational("20"));
+    final var br1 = new BigComplex(new BigRational("1"), new BigRational("2"));
+    final var br2 = new BigComplex(new BigRational("2"), new BigRational("4"));
+    final var br3 = new BigComplex(new BigRational("3"), new BigRational("6"));
+    final var r1 = new BigComplex(new BigRational("-15"), new BigRational("20"));
 
     // when
-    final BigComplex got1 = br1.multiply(br2.add(br3));
-    final BigComplex got2 = br1.multiply(br2).add(br1.multiply(br3));
+    final var got1 = br1.multiply(br2.add(br3));
+    final var got2 = br1.multiply(br2).add(br1.multiply(br3));
 
     // then
     Assertions.assertEquals(r1, got1);

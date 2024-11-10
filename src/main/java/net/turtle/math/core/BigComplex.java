@@ -14,30 +14,36 @@ import net.turtle.math.util.BigComplexUtil;
  * @see
  * @author Radosław Adamiak
  */
-public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigComplex> {
+public class BigComplex<T extends BigFieldElement<T>>
+    implements BigFieldElement<BigComplex<T>>, Comparable<BigComplex<T>> {
 
   /** z = 0 = 0 + 0i */
-  @Valid public static final BigComplex ZERO = new BigComplex(BigRational.ZERO, BigRational.ZERO);
+  @Valid
+  public static final BigComplex<T> ZERO = new BigComplex<>(BigRational.ZERO, BigRational.ZERO);
 
   /** z = 1 = 1 + 0i */
-  @Valid public static final BigComplex ONE = new BigComplex(BigRational.ONE, BigRational.ZERO);
+  @Valid
+  public static final BigComplex<BigRational> ONE =
+      new BigComplex<>(BigRational.ONE, BigRational.ZERO);
 
   /** z = i = 0 + i */
-  @Valid public static final BigComplex I = new BigComplex(BigRational.ZERO, BigRational.ONE);
+  @Valid
+  public static final BigComplex<BigRational> I =
+      new BigComplex<>(BigRational.ZERO, BigRational.ONE);
 
-  @Valid private final BigRational a;
+  @Valid private final T a;
 
-  @Valid private final BigRational b;
+  @Valid private final T b;
 
   public BigComplex() {
-    this(BigRational.ZERO, BigRational.ZERO);
+    this((T) BigRational.ZERO, (T) BigRational.ZERO);
   }
 
-  public BigComplex(@NotNull BigRational a) {
-    this(a, BigRational.ZERO);
+  public BigComplex(@NotNull T real) {
+    this(real, (T) BigRational.ZERO);
   }
 
-  public BigComplex(@NotNull BigRational a, @NotNull BigRational b) {
+  public BigComplex(@NotNull T a, @NotNull T b) {
     if (a != null) {
       this.a = a;
     } else {
@@ -53,8 +59,7 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
   /**
    * Parses complex number provided as string.
    *
-   * <p>
-   * General format is:<br>
+   * <p>General format is:<br>
    * &lt;BigRational&gt;&ltBigRational with sign;&gti e.g.:<br>
    * "2", "2.3", "2/3", "-2/3", ...<br>
    * "2+3i", "-2.3+4.5i", "-2/3-4/5i", ...<br>
@@ -62,99 +67,83 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
    * And special cases:<br>
    * "i", "-i"
    *
-   * <p>
-   * Note: Parser is probably not 100% error prone. But as long as You stick to
-   * the supported format, You should be fine ;)
+   * <p>Note: Parser is probably not 100% error prone. But as long as You stick to the supported
+   * format, You should be fine ;)
    *
    * @param text
    */
   public BigComplex(@NotNull @NotEmpty String text) {
-    this(BigComplexUtil.getReal(text), BigComplexUtil.getImaginary(text));
+    this((T) BigComplexUtil.getReal(text), (T) BigComplexUtil.getImaginary(text));
   }
 
-  public BigRational getA() {
+  public T getA() {
     return this.a;
   }
 
-  public BigRational getReal() {
+  public T getReal() {
     return this.a;
   }
 
-  public BigRational getB() {
+  public T getB() {
     return this.b;
   }
 
-  public BigRational getImaginary() {
+  public T getImaginary() {
     return this.b;
   }
 
-  public BigComplex normalize() {
-    return this.normalizeSignum().cancel();
-  }
-
-  public BigComplex normalizeSignum() {
-    final var aNormalizedSignum = this.a.normalizeSignum();
-    final var bNormalizedSignum = this.b.normalizeSignum();
-    final var result = this.reuse(aNormalizedSignum, bNormalizedSignum);
-    return result;
-  }
-
-  public BigComplex cancel() {
-    return this.reuse(this.a.cancel(), this.b.cancel());
+  @Override
+  public BigComplex<T> add(@NotNull BigComplex<T> augend) {
+    return new BigComplex<>(this.a.add(augend.a), this.b.add(augend.b));
   }
 
   @Override
-  public BigComplex add(@NotNull BigComplex augend) {
-    return new BigComplex(this.a.add(augend.a), this.b.add(augend.b));
+  public BigComplex<T> subtract(@NotNull BigComplex<T> subtrahend) {
+    return new BigComplex<>(this.a.subtract(subtrahend.a), this.b.subtract(subtrahend.b));
   }
 
   @Override
-  public BigComplex subtract(@NotNull BigComplex subtrahend) {
-    return new BigComplex(this.a.subtract(subtrahend.a), this.b.subtract(subtrahend.b));
-  }
-
-  @Override
-  public BigComplex multiply(@NotNull BigComplex multiplicand) throws ArithmeticException {
-    return new BigComplex(
+  public BigComplex<T> multiply(@NotNull BigComplex<T> multiplicand) throws ArithmeticException {
+    return new BigComplex<>(
         this.a.multiply(multiplicand.a).subtract(this.b.multiply(multiplicand.b)),
         this.b.multiply(multiplicand.a).add(this.a.multiply(multiplicand.b)));
   }
 
   @Override
-  public BigComplex divide(@NotNull BigComplex divisor) throws CalculationException {
+  public BigComplex<T> divide(@NotNull BigComplex<T> divisor) throws CalculationException {
 
     final var denominator = divisor.a.multiply(divisor.a).add(divisor.b.multiply(divisor.b));
-    return new BigComplex(
+    return new BigComplex<>(
         this.a.multiply(divisor.a).add(this.b.multiply(divisor.b)).divide(denominator),
         this.b.multiply(divisor.a).subtract(this.a.multiply(divisor.b)).divide(denominator));
   }
 
-  public BigRational absSquared() throws ArithmeticException {
+  public T absSquared() throws ArithmeticException {
     return this.a.multiply(this.a).add(this.b.multiply(this.b));
   }
 
   @Override
-  public BigComplex negate() {
-    return new BigComplex(this.a.negate(), this.b.negate());
+  public BigComplex<T> negate() {
+    return new BigComplex<>(this.a.negate(), this.b.negate());
   }
 
   @Override
-  public BigComplex inverse() throws ArithmeticException, CalculationException {
+  public BigComplex<T> inverse() throws ArithmeticException, CalculationException {
     final var abs = this.absSquared();
-    return new BigComplex(this.a.divide(abs), this.b.divide(abs).negate());
+    return new BigComplex<>(this.a.divide(abs), this.b.divide(abs).negate());
   }
 
-  public BigComplex conjugate() throws ArithmeticException, CalculationException {
-    return new BigComplex(this.a, this.b.negate());
+  public BigComplex<T> conjugate() throws ArithmeticException, CalculationException {
+    return new BigComplex<>(this.a, this.b.negate());
   }
 
-  public BigComplex reuse(
-      @NotNull final BigRational aNormalizedSignum, @NotNull final BigRational bNormalizedSignum) {
-    final BigComplex result;
+  public BigComplex<T> reuse(
+      @NotNull final T aNormalizedSignum, @NotNull final T bNormalizedSignum) {
+    final BigComplex<T> result;
     if ((this.a == aNormalizedSignum) && (this.b == bNormalizedSignum)) {
       result = this;
     } else {
-      result = new BigComplex(aNormalizedSignum, bNormalizedSignum);
+      result = new BigComplex<>(aNormalizedSignum, bNormalizedSignum);
     }
     return result;
   }
@@ -162,23 +151,18 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
   /**
    * Note that:
    *
-   * <p>
-   * "Because complex numbers are naturally thought of as existing on a
-   * two-dimensional plane, there is no natural linear ordering on the set of
-   * complex numbers.
+   * <p>"Because complex numbers are naturally thought of as existing on a two-dimensional plane,
+   * there is no natural linear ordering on the set of complex numbers.
    *
-   * <p>
-   * There is no linear ordering on the complex numbers that is compatible with
-   * addition and multiplication. Formally, we say that the complex numbers cannot
-   * have the structure of an ordered field. This is because any square in an
-   * ordered field is at least 0, but i2 = -1."
+   * <p>There is no linear ordering on the complex numbers that is compatible with addition and
+   * multiplication. Formally, we say that the complex numbers cannot have the structure of an
+   * ordered field. This is because any square in an ordered field is at least 0, but i2 = -1."
    *
-   * <p>
-   * Current implementation of {@link #compareTo(BigComplex)} method uses
-   * {@link #absSquared()} method to compare.
+   * <p>Current implementation of {@link #compareTo(BigComplex)} method uses {@link #absSquared()}
+   * method to compare.
    */
   @Override
-  public int compareTo(BigComplex val) {
+  public int compareTo(BigComplex<T> val) {
     return this.absSquared().compareTo(val.absSquared());
   }
 
@@ -202,18 +186,13 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
   }
 
   @Override
-  public boolean equalsValue(@NotNull BigComplex obj) {
+  public boolean equalsValue(@NotNull BigComplex<T> obj) {
     return obj != null ? this.a.equalsValue(obj.a) && this.b.equalsValue(obj.b) : false;
   }
 
   @Override
-  public boolean equalsStrict(BigComplex obj) {
+  public boolean equalsStrict(BigComplex<T> obj) {
     return obj != null ? this.a.equalsStrict(obj.a) && this.b.equalsStrict(obj.b) : false;
-  }
-
-  @Override
-  public BigComplex toComplex() {
-    return this;
   }
 
   @Override

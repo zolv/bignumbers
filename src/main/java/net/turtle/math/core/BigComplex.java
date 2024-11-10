@@ -14,12 +14,12 @@ import net.turtle.math.util.BigComplexUtil;
  * @see
  * @author Radosław Adamiak
  */
-public class BigComplex<T extends BigFieldElement<T>>
-    implements BigFieldElement<BigComplex<T>>, Comparable<BigComplex<T>> {
+public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigComplex> {
 
   /** z = 0 = 0 + 0i */
   @Valid
-  public static final BigComplex<T> ZERO = new BigComplex<>(BigRational.ZERO, BigRational.ZERO);
+  public static final BigComplex<BigReal> ZERO =
+      new BigComplex<>(BigRational.ZERO, BigRational.ZERO);
 
   /** z = 1 = 1 + 0i */
   @Valid

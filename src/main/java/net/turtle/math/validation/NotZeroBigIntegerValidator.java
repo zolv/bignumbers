@@ -1,8 +1,8 @@
 package net.turtle.math.validation;
 
 import java.math.BigInteger;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class NotZeroBigIntegerValidator implements ConstraintValidator<NotZero, BigInteger> {
 

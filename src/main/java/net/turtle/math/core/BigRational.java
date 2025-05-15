@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.concurrent.ExecutionException;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import net.turtle.math.context.BigMathContext;
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.numbers.BigRationalOne;

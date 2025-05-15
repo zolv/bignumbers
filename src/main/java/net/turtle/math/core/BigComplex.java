@@ -1,9 +1,9 @@
 /* (C)2024 */
 package net.turtle.math.core;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import net.turtle.math.context.BigMathContext;
 import net.turtle.math.exception.CalculationException;
 import net.turtle.math.util.BigComplexUtil;
@@ -211,7 +211,6 @@ public class BigComplex implements BigFieldElement<BigComplex>, Comparable<BigCo
     return obj != null ? this.a.equalsStrict(obj.a) && this.b.equalsStrict(obj.b) : false;
   }
 
-  @Override
   public BigComplex toComplex() {
     return this;
   }

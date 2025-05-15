@@ -125,13 +125,13 @@ class BigRationalTest {
 
   @Test
   void testBigRational_BigInteger_BigInteger_DivisionByZeroException() {
+    // given
+    final Random r = new Random(new Date().getTime());
+    var givenNumerator = new BigInteger(Long.valueOf(r.nextLong()).toString());
+
+    // when, then
     Assertions.assertThrows(
-        ArithmeticException.class,
-        () -> {
-          final var r = new Random(new Date().getTime());
-          final var randomNumerator = Long.valueOf(r.nextLong()).toString();
-          new BigRational(new BigInteger(randomNumerator), new BigInteger("0"));
-        });
+        ArithmeticException.class, () -> new BigRational(givenNumerator, BigInteger.ZERO));
   }
 
   static Stream<Arguments> testBigRational_BigInteger_BigInteger_null() {
@@ -215,7 +215,7 @@ class BigRationalTest {
   @MethodSource
   void testNormalizeSignum(BigRational given, BigRational expected) {
     // when
-    final var got = given.normalize();
+    final var got = given.normalizeSignum();
 
     // then
     Assertions.assertEquals(expected, got);
@@ -508,9 +508,9 @@ class BigRationalTest {
   void testPowBigInteger_ZeroMinusPow() throws NullPointerException, ArithmeticException {
     // given
     final var given = new BigRational("0");
-
+    final var givenNegativePower = new BigInteger("-1");
     // when, then
-    Assertions.assertThrows(ArithmeticException.class, () -> given.pow(BigInteger.valueOf(-2)));
+    Assertions.assertThrows(ArithmeticException.class, () -> given.pow(givenNegativePower));
   }
 
   @Test
@@ -655,12 +655,11 @@ class BigRationalTest {
 
   @Test
   void testMin_Null() {
-    Assertions.assertThrows(
-        NullPointerException.class,
-        () -> {
-          final var br1 = new BigRational("-2", "3");
-          br1.min(null);
-        });
+    // given
+    final var br1 = new BigRational("-2", "3");
+
+    // when, then
+    Assertions.assertThrows(NullPointerException.class, () -> br1.min(null));
   }
 
   static Stream<Arguments> testMax() {
@@ -689,7 +688,8 @@ class BigRationalTest {
         Arguments.of(given3, given2, given3),
         Arguments.of(given4, given2, given2),
         Arguments.of(given4, given3, given3),
-        Arguments.of(givenZero2, givenZero1, givenZero1) // lower denominator
+        Arguments.of(givenZero2, givenZero1, givenZero1) // lower
+        // denominator
         );
   }
 
@@ -753,13 +753,14 @@ class BigRationalTest {
   }
 
   static Stream<Arguments> testCompareTo() {
-    final var given1 = new BigRational("2", "3");
-    final var given2 = new BigRational("-2", "3");
-    final var given3 = new BigRational("5", "7");
-    final var given4 = new BigRational("-5", "7");
-    final var given11 = new BigRational("4", "6");
-    final var givenZero1 = new BigRational("0", "1");
-    final var givenZero2 = new BigRational("0", "2");
+
+    final BigRational given1 = new BigRational("2", "3");
+    final BigRational given2 = new BigRational("-2", "3");
+    final BigRational given3 = new BigRational("5", "7");
+    final BigRational given4 = new BigRational("-5", "7");
+    final BigRational given11 = new BigRational("4", "6");
+    final BigRational givenZero1 = new BigRational("0", "1");
+    final BigRational givenZero2 = new BigRational("0", "2");
 
     return Stream.of(
         Arguments.of(given1, given2, 1),
@@ -785,10 +786,12 @@ class BigRationalTest {
   @MethodSource
   void testCompareTo(BigRational given1, BigRational given2, int expected) {
     // when
-    final var got = given1.compareTo(given2);
+    final var got1 = given1.compareTo(given2);
+    final var got2 = given2.compareTo(given1);
 
     // then
-    Assertions.assertSame(expected, got);
+    Assertions.assertSame(expected, got1);
+    Assertions.assertSame(Math.negateExact(expected), got2);
   }
 
   static Stream<Arguments> testEqualsByValue() {
@@ -802,11 +805,6 @@ class BigRationalTest {
         Arguments.of(given1, given2, false),
         Arguments.of(given1, given3, true),
         Arguments.of(givenZero1, givenZero2, true),
-        // Swapped:
-        Arguments.of(given2, given1, false),
-        Arguments.of(given3, given1, true),
-        Arguments.of(givenZero2, givenZero1, true),
-        // Other:
         Arguments.of(given1, given1, true));
   }
 
@@ -815,10 +813,12 @@ class BigRationalTest {
   void testEqualsByValue(BigRational given1, BigRational given2, boolean expected) {
 
     // when
-    final var got = given1.equalsValue(given2);
+    final var got1 = given1.equalsValue(given2);
+    final var got2 = given2.equalsValue(given1);
 
     // then
-    Assertions.assertEquals(expected, got);
+    Assertions.assertEquals(expected, got1);
+    Assertions.assertEquals(expected, got2);
   }
 
   static Stream<Arguments> testEqualsStrict() {
@@ -865,9 +865,10 @@ class BigRationalTest {
     // when
     final var got1 = given1.hashCode();
     final var got2 = given2.hashCode();
+    final var gotEqualHashes = got1 == got2;
 
     // then
-    Assertions.assertTrue(got1 == got2);
+    Assertions.assertTrue(gotEqualHashes);
   }
 
   @Test
@@ -883,9 +884,10 @@ class BigRationalTest {
     // when
     final var got1 = given1.hashCodeStrict();
     final var got2 = given2.hashCodeStrict();
+    final var gotEqualHashes = got1 == got2;
 
     // then
-    Assertions.assertTrue(got1 == got2);
+    Assertions.assertTrue(gotEqualHashes);
   }
 
   static Stream<Arguments> testToString() {

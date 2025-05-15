@@ -1,10 +1,11 @@
 .gradle
 build/
-
-# Ignore Gradle GUI config
 gradle-app.setting
 /bin/
 /target/
 /.settings/
 /.classpath
 /.project
+
+# MacOS
+.DS_Store

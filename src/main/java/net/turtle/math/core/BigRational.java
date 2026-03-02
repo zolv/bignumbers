@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.concurrent.ExecutionException;
+
+import org.apache.commons.lang3.NotImplementedException;
+
 import jakarta.validation.constraints.NotNull;
 import net.turtle.math.context.BigMathContext;
 import net.turtle.math.exception.CalculationException;
@@ -11,9 +14,8 @@ import net.turtle.math.numbers.BigRationalOne;
 import net.turtle.math.numbers.BigRationalZero;
 import net.turtle.math.util.BigRationalUtil;
 import net.turtle.math.validation.NotZero;
-import org.apache.commons.lang3.NotImplementedException;
 
-public class BigRational implements BigFieldElement<BigRational>, Comparable<BigRational> {
+public class BigRational extends BigNumber implements  BigFieldElement<BigRational>, Comparable<BigRational> {
 
   public static final BigRational ZERO = new BigRationalZero();
 
